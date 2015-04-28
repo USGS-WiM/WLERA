@@ -1,0 +1,184 @@
+html, body {
+    height: 100%;
+    overflow:hidden;
+}
+
+body {
+    padding-top: 50px;
+    background-image: url("../images/wimlogoCompact.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-color:#474747;
+}
+
+@media (max-width: 767px) {
+    #geosearchButtonText {
+        display: none;
+    }
+
+    #legendButtonNavBar {
+        display: none;
+    }
+
+    /*.basemapThumb {*/
+    /*display: none;*/
+    /*}*/
+}
+
+@media (min-width: 768px) {
+    #legendButtonSidebar {
+        display: none;
+    }
+}
+
+.basemapThumb {
+    border:1px solid #ffffff;
+    border-radius: 5px;
+}
+
+/*basemapBtn elements manually set to width of widest - temp solution until dynamic solution is implemented */
+.basemapBtn {
+    width: 86px;
+    margin-bottom: 2px;
+    padding:2px;
+}
+
+.esriSimpleSliderTL {
+    top: 5px;
+    left: 5px;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+}
+
+#homeButton {
+    position: absolute;
+    top: 75px;
+    left: 5px;
+    z-index: 50;
+}
+
+.hover-content {
+    display:none;
+}
+
+.latLngScale {
+    position:absolute;
+    padding:4px;
+    bottom:1.6em;
+    right:50%;
+    /*width:250px*/
+    /*height:320px;*/
+    z-index:1;
+    color: black;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    border-radius: 4px;
+}
+
+.latLngScale:hover .hover-content {
+    display:inline-block;
+}
+
+.legend {
+    /*position:absolute;*/
+    padding:4px;
+    /*top:1em;*/
+    /*right:10px;*/
+    z-index:1;
+    color: black;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    /*min-width: 200px;*/
+    border-radius: 4px;
+}
+
+.legendToggle {
+    position:absolute;
+    top:5px;
+    right:5px;
+    z-index:1;
+    color: black;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    /*min-width: 150px;*/
+    border-radius: 4px;
+}
+
+.legendHeading {
+    color: black;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+    text-decoration: none !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+#legendButtonSidebar {
+    width: 100%;
+}
+
+.map {
+    overflow: auto;
+}
+
+#mapDiv {
+    min-height: 100%;
+    max-height: 100%;
+}
+
+.modal-dialog {
+    padding-top: 60px;
+}
+
+.navbar-brand {
+    padding:7px 4px;
+}
+
+.navbar-dark {
+    border-width:0;
+    background-color:#474747;
+    color:#ffffff;
+    font-family:arial,sans-serif;
+    top:0;
+    position:fixed;
+    width:inherit;
+}
+
+.no-col-padding {
+    padding: 0;
+}
+
+.panel-heading a:after {
+    font-family:'Glyphicons Halflings';
+    content:"\e114";
+    float: right;
+    color: gray;
+}
+.panel-heading a.collapsed:after {
+    content:"\e080";
+}
+
+.row-map {
+    background: #eee;
+}
+
+
+[class*="col-"] {
+    background-color: #eee;
+    border: 1px solid #E7E7E7;
+    text-align: center;
+}
+
+.wim-sidebar-panel {
+    margin-bottom: 2px;
+}
+
+input[type="checkbox"], input[type="radio"] {
+    float: left;
+}
