@@ -8,6 +8,8 @@
 
 var map;
 var allLayers;
+var maxLegendHeight;
+var maxLegendDivHeight;
 
 require([
     'esri/map',
@@ -38,12 +40,13 @@ require([
     on
 ) {
 
-    allLayers = mapLayers;
+    //bring this line back after experiment////////////////////////////
+    //allLayers = mapLayers;
 
     map = Map('mapDiv', {
-        basemap: 'national-geographic',
-        center: [-95.6, 38.6],
-        zoom: 4
+        basemap: 'gray',
+        center: [-82.745, 41.699],
+        zoom: 10
     });
     var home = new HomeButton({
         map: map
@@ -51,12 +54,17 @@ require([
     home.startup();
 
     //following block forces map size to override problems with default behavior
-    $('#mapDiv').height($('body').height());
-    map.resize();
-    var idealMapHeight = $(window).height() - $('#navbar').height();
-    $('#mapDiv, #mapDiv_root').height(idealMapHeight + 'px');
     $(window).resize(function () {
-        $('#mapDiv, #mapDiv_root').height(idealMapHeight + 'px');
+        if ($("#legendCollapse").hasClass('in')) {
+            maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
+            $('#legendElement').css('height', maxLegendHeight);
+            $('#legendElement').css('max-height', maxLegendHeight);
+            maxLegendDivHeight = ($('#legendElement').height()) - parseInt($('#legendHeading').css("height").replace('px',''));
+            $('#legendDiv').css('max-height', maxLegendDivHeight);
+        }
+        else {
+            $('#legendElement').css('height', 'initial');
+        }
     });
 
     //displays map scale on map load
@@ -242,7 +250,7 @@ require([
                 'width':xWidth, 'height': yHeight
             });
     }
-    // Show modal dialog
+    // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
         function showModal() {
             $('#geosearchModal').modal('show');
@@ -251,12 +259,30 @@ require([
         $('#geosearchNav').click(function(){
             showModal();
         });
-        $('#geosearchNav2').click(function(){
-            showModal();
-        });
-    });
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        $("#html").niceScroll();
+        $("#sidebar").niceScroll();
+        $("#sidebar").scroll(function () {
+            $("#sidebar").getNiceScroll().resize();
+        });
+
+        $("#legendDiv").niceScroll();
+
+        maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
+        $('#legendElement').css('max-height', maxLegendHeight);
+
+        $('#legendCollapse').on('shown.bs.collapse', function () {
+            maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
+            $('#legendElement').css('max-height', maxLegendHeight);
+            maxLegendDivHeight = ($('#legendElement').height()) - parseInt($('#legendHeading').css("height").replace('px',''));
+            $('#legendDiv').css('max-height', maxLegendDivHeight);
+        });
+
+        $('#legendCollapse').on('hide.bs.collapse', function () {
+            $('#legendElement').css('height', 'initial');
+        });
+
+    });
 
     require([
         'esri/dijit/Legend',
@@ -266,6 +292,8 @@ require([
         'esri/graphicsUtils',
         'esri/geometry/Point',
         'esri/geometry/Extent',
+        'esri/layers/ArcGISDynamicMapServiceLayer',
+        'esri/layers/FeatureLayer',
         'esri/layers/WMSLayer',
         'esri/layers/WMSLayerInfo',
         'dijit/form/CheckBox',
@@ -284,6 +312,8 @@ require([
         graphicsUtils,
         Point,
         Extent,
+        ArcGISDynamicMapServiceLayer,
+        FeatureLayer,
         WMSLayer,
         WMSLayerInfo,
         CheckBox,
@@ -304,233 +334,365 @@ require([
         var navToolbar;
         var locator;
 
-        //allLayers = layers;
+        var legendLayerInfos = [];
 
-        on(map, "layers-add-result", function() {
+        //create global layers lookup
+        var mapLayers = [];
+        //begin reference layers////////////////////////////////////
+        const hexRefLayer = new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        hexRefLayer.setVisibleLayers([0]);
+        mapLayers.push(hexRefLayer);
+        legendLayers.push({layer:hexRefLayer, title: "Hex Reference"});
 
-            var legend = new Legend({
-                map:map,
-                layerInfos:legendLayers
-            },"legendDiv");
-            legend.startup();
+        const studyAreaLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        studyAreaLayer.setVisibleLayers([1]);
+        mapLayers.push(studyAreaLayer);
+        legendLayers.push({layer:studyAreaLayer, title: "Study Area"});
 
-            //this counter to track first and last of items in legendLayers
-            var i = 0;
-            var lastItem = layersObject.length;
+        const parcelsLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        parcelsLayer.setVisibleLayers([2]);
+        mapLayers.push(parcelsLayer);
+        legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
+        //end reference layers////////////////////////////////////////
 
-            dojo.forEach(layersObject, function(layer){
+        const dikeBreaksLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        dikeBreaksLayer.setVisibleLayers([4]);
+        mapLayers.push(dikeBreaksLayer);
+        legendLayers.push ({layer:dikeBreaksLayer, title: "Dike Breaks"});
 
-                var layerName = layer.title;
+        const culvertsLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        culvertsLayer.setVisibleLayers([5]);
+        mapLayers.push(culvertsLayer);
+        legendLayers.push ({layer:culvertsLayer, title: "Culverts"});
 
-                if (layer.layer != "heading") {
+        const degFlowlinesLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        degFlowlinesLayer.setVisibleLayers([6]);
+        mapLayers.push(degFlowlinesLayer);
+        legendLayers.push ({layer:degFlowlinesLayer, title: "Degree flowlines"});
 
-                    if (layer.toggleType == "radioParent"){
+        const dikesLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        dikesLayer.setVisibleLayers([8]);
+        mapLayers.push(dikesLayer);
+        legendLayers.push ({layer:dikesLayer, title: "Dikes"});
 
-                        var radioParentCheck = new CheckBox({
-                            name:"radioParentCheck" + layer.group,
-                            id:"radioParentCheck_" + layer.group,
-                            params: {group: layer.group},
-                            onChange:function(){
-                                var radChildLayers = [];
-                                var grp = this.params.group;
-                                dojo.forEach (layersObject, function (layer){
-                                    if (grp == layer.group && layer.toggleType != "radioParent") {
-                                        radChildLayers.push(layer.layer);
-                                    }
-                                });
-                                if (!this.checked){
-                                    dojo.forEach (radChildLayers, function (layer){
-                                        layer.setVisibility(false);
-                                    });
-                                    var divs = query("." + grp);
-                                    for(var i = 0; i < divs.length; i++) {
-                                        divs[i].style.display= "none";
-                                    }
-                                }
-                                if (this.checked){
-                                    var divs = query("." + grp);
-                                    for(var i = 0; i < divs.length; i++) {
-                                        divs[i].style.display= "block";
-                                    }
-                                    dojo.forEach (radChildLayers, function (layer){
-                                        if (dojo.byId("radioButton"+layer.id).checked) {
-                                            layer.setVisibility(true);
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                        var toggleDiv = domConstruct.create("div");
-                        domConstruct.place(toggleDiv,dom.byId("toggle"), 0 );
-                        domConstruct.place(radioParentCheck.domNode,toggleDiv,"first");
-                        domStyle.set(toggleDiv, "paddingLeft", "15px");
-                        if (i === 0) {
-                            domStyle.set(toggleDiv, "paddingBottom", "10px");
-                        } else if (i == lastItem) {
-                            domStyle.set(toggleDiv, "paddingTop", "10px");
-                        }
-                        var radioParentCheckLabel = domConstruct.create('label',{'for':radioParentCheck.name,innerHTML:layerName},radioParentCheck.domNode,"after");
-                        domConstruct.place("<br/>",radioParentCheckLabel,"after");
+        const dikedAreasLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        dikedAreasLayer.setVisibleLayers([9]);
+        mapLayers.push(dikedAreasLayer);
+        legendLayers.push ({layer:dikedAreasLayer, title: "Diked Areas"});
 
-                    } else if (layer.toggleType == "checkbox"){
+        const waterMaskLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        waterMaskLayer.setVisibleLayers([12]);
+        mapLayers.push(waterMaskLayer);
+        legendLayers.push ({layer:waterMaskLayer, title: "P0 - Water Mask"});
 
-                        var checkBox = new CheckBox({
-                            name:"checkBox" + layer.layer.id,
-                            id:"checkBox" + layer.layer.id,
-                            value:layer.layer.id,
-                            checked:layer.layer.visible,
-                            onChange:function(){
-                                var checkLayer = map.getLayer(this.value);
-                                checkLayer.setVisibility(!checkLayer.visible);
-                                this.checked = checkLayer.visible;
-                            }
-                        });
-                        var toggleDiv = domConstruct.create("div");
-                        domConstruct.place(toggleDiv,dom.byId("toggle"), 0 );
-                        domConstruct.place(checkBox.domNode,toggleDiv,"first");
-                        domStyle.set(toggleDiv, "paddingLeft", "15px");
-                        if (i === 0) {
-                            domStyle.set(toggleDiv, "paddingBottom", "10px");
-                        } else if (i == lastItem) {
-                            domStyle.set(toggleDiv, "paddingTop", "10px");
-                        }
-                        var checkLabel = domConstruct.create('label',{'for':checkBox.name,innerHTML:layerName},checkBox.domNode,"after");
-                        domConstruct.place("<br/>",checkLabel,"after");
+        const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        hydroperiodLayer.setVisibleLayers([13]);
+        mapLayers.push(hydroperiodLayer);
+        legendLayers.push ({layer:hydroperiodLayer, title: "P1 - Hydroperiod"});
 
-                    } else if (layer.toggleType == "radio") {
+        const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        wetsoilsLayer.setVisibleLayers([14]);
+        mapLayers.push(wetsoilsLayer);
+        legendLayers.push ({layer:wetsoilsLayer, title: "P2 - Wetsoils"});
 
-                        var radioButton = new RadioButton({
-                            name: layer.group,
-                            id: "radioButton" + layer.layer.id,
-                            value:layer.layer.id,
-                            checked:layer.layer.visible,
-                            params: {group: layer.group},
-                            onChange:function() {
-                                var radioLayer = map.getLayer(this.value);
-                                var parentID = "radioParentCheck_" + layer.group;
+        const flowlineLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        flowlineLayer.setVisibleLayers([15]);
+        mapLayers.push(flowlineLayer);
+        legendLayers.push ({layer:flowlineLayer, title: "P3 - Flowline"});
 
-                                var checkedEval = (this.checked && dijit.byId(parentID).checked) ? true : false;
-                                radioLayer.setVisibility(checkedEval);
-                                //(this.checked && registry.byId(parentID).checked) ? radioLayer.setVisibility(true) : radioLayer.setVisibility(false);
-                            }
-                        });
-                        var toggleDiv = domConstruct.create("div");
-                        domConstruct.place(toggleDiv,dom.byId("toggle"), 0 );
-                        domConstruct.place(radioButton.domNode,toggleDiv,"first");
-                        domClass.add(toggleDiv, radioButton.params.group);
-                        domStyle.set(toggleDiv, "paddingLeft", "25px");
-                        domStyle.set(toggleDiv, "display", "none");
-                        if (i === 0) {
-                            domStyle.set(toggleDiv, "paddingBottom", "10px");
-                        } else if (i == lastItem) {
-                            domStyle.set(toggleDiv, "paddingTop", "10px");
-                        }
-                        var radioLabel = domConstruct.create('label',{'for':radioButton.name,innerHTML:layerName},radioButton.domNode,"after");
-                        domConstruct.place("<br/>",radioLabel,"after");
-                    }
-                    /////code below for headings w/out toggles
-                } else {
+        const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        conservedLandsLayer.setVisibleLayers([16]);
+        mapLayers.push(conservedLandsLayer);
+        legendLayers.push ({layer:conservedLandsLayer, title: "P4 - Conserved Lands"});
 
-                    var headingDiv = domConstruct.create("div");
-                    headingDiv.innerHTML = layer.title;
-                    domConstruct.place(headingDiv,dom.byId("toggle"),"first");
-                    domStyle.set(headingDiv, "paddingTop", "10px");
-                    domStyle.set(headingDiv, "color", "#D3CFBA");
-                    if (i === 0) {
-                        domStyle.set(headingDiv, "paddingBottom", "10px");
-                    } else if (i == lastItem) {
-                        domStyle.set(headingDiv, "paddingTop", "10px");
-                    }
+        const imperviousSurfacesLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        imperviousSurfacesLayer.setVisibleLayers([17]);
+        mapLayers.push(imperviousSurfacesLayer);
+        legendLayers.push ({layer:imperviousSurfacesLayer, title: "P5 - Impervious Surfaces"});
 
-                }
-                i++;
-                //don't miss this iterator!!!!!
-            });
-        });
+        const landuseLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        landuseLayer .setVisibleLayers([18]);
+        mapLayers.push(landuseLayer );
+        legendLayers.push ({layer:landuseLayer , title: "P6 - Landuse"});
 
-        addAllLayers();
+        const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        normRestorationIndexLayer.setVisibleLayers([19]);
+        mapLayers.push(normRestorationIndexLayer);
+        legendLayers.push ({layer:normRestorationIndexLayer, title: "Normalized Restoration Index"});
 
-        function addAllLayers() {
+        const highRestoreLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        highRestoreLayer.setVisibleLayers([21]);
+        mapLayers.push(highRestoreLayer);
+        legendLayers.push ({layer:highRestoreLayer, title: "High restorable"});
 
-            var radioGroup;
-            var radioGroupArray = [];
+        const mediumRestoreLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        mediumRestoreLayer.setVisibleLayers([22]);
+        mapLayers.push(mediumRestoreLayer);
+        legendLayers.push ({layer:mediumRestoreLayer, title: "Medium restorable"});
 
-            require([
-                "esri/layers/ArcGISDynamicMapServiceLayer"
-            ], function(
-                ArcGISDynamicMapServiceLayer) {
+        const lowRestoreLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        lowRestoreLayer.setVisibleLayers([23]);
+        mapLayers.push(lowRestoreLayer);
+        legendLayers.push ({layer:lowRestoreLayer, title: "Low restorable"});
 
-                for ( var layer in allLayers) {
-                    if (allLayers[layer].wimOptions.type == "layer") {
-                        console.log(layer);
-                        var newLayer;
-                        if (allLayers[layer].wimOptions.layerType == "agisFeature") {
-                            newLayer = new esri.layers.FeatureLayer(allLayers[layer].url, allLayers[layer].arcOptions);
-                        } else if (allLayers[layer].wimOptions.layerType == "agisWMS") {
-                            newLayer = new esri.layers.WMSLayer(allLayers[layer].url, allLayers[layer].arcOptions);
-                            if (allLayers[layer].wimOptions.includeLegend == true && allLayers[layer].wimOptions.staticLegendOptions.hasStaticLegend == true) {
-                                var staticLegendImage = dojo.doc.createElement("div");
-                                staticLegendImage.id = allLayers[layer].arcOptions.id + 'Legend';
-                                staticLegendImage.innerHTML = '<b style="">' + allLayers[layer].wimOptions.staticLegendOptions.legendTitle + '</b><br/><img style="padding-top: 10px; width: ' + (parseInt($("#explanation").width())-25).toString() + 'px" src="' + allLayers[layer].wimOptions.staticLegendOptions.legendUrl + '" />';
-                                dojo.place(staticLegendImage,dojo.byId("legendDiv"),"after");
-                                if (allLayers[layer].arcOptions.visible == false) {
-                                    $("#" + staticLegendImage.id).hide();
-                                }
-                            }
-                        } else {
-                            newLayer = new esri.layers.ArcGISDynamicMapServiceLayer(allLayers[layer].url, allLayers[layer].arcOptions);
-                            if (allLayers[layer].visibleLayers) {
-                                newLayer.setVisibleLayers(allLayers[layer].visibleLayers);
-                            }
-                        }
+        const notRestoreLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer");
+        notRestoreLayer.setVisibleLayers([24]);
+        mapLayers.push(notRestoreLayer);
+        legendLayers.push ({layer:notRestoreLayer, title: "Not restorable"});
 
-                        //set wim options
-                        if (allLayers[layer].wimOptions) {
-                            if (allLayers[layer].wimOptions.includeInLayerList == true) {
-                                if (allLayers[layer].wimOptions.layerOptions && allLayers[layer].wimOptions.layerOptions.selectorType == "radio" ) {
+        
 
-                                    radioGroup = allLayers[layer].wimOptions.layerOptions.radioGroup;
-                                    radioGroupArray.push({group: radioGroup, layer:newLayer});
 
-                                    addToObjects({layer: newLayer, type:"layer", title: layer, toggleType: "radio", group: radioGroup}, allLayers[layer].wimOptions)
+        map.addLayers(mapLayers);
 
-                                } else {
-                                    addToObjects({layer: newLayer, type:"layer", title: layer, toggleType: "checkbox", group: ""}, allLayers[layer].wimOptions)
-                                }
-                            }
-                        } else {
-                            addToObjects({layer: newLayer, title: layer}, allLayers[layer].wimOptions)
-                        }
-                        layerArray.push(newLayer);
-                    } else if (allLayers[layer].wimOptions.type == "radioParent") {
 
-                        radioGroup = allLayers[layer].wimOptions.layerOptions.radioGroup;
-                        radioGroupArray.push({group: radioGroup, layer: null});
+        //$.each(allLayers, function (index,group) {
+        //    console.log('processing: ', group.groupHeading)
+        //
+        //
+        //    //sub-loop over layers within this groupType
+        //    $.each(group.layers, function (layerName,layerDetails) {
+        //
+        //
+        //
+        //        //check for exclusiveGroup for this layer
+        //        var exclusiveGroupName = '';
+        //        if (layerDetails.wimOptions.exclusiveGroupName) {
+        //            exclusiveGroupName = layerDetails.wimOptions.exclusiveGroupName;
+        //        }
+        //
+        //        if (layerDetails.wimOptions.layerType === 'agisFeature') {
+        //            var layer = new FeatureLayer(layerDetails.url, layerDetails.options);
+        //            //check if include in legend is true
+        //            if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true){
+        //                legendLayers.push({layer:layer, title: layerName});
+        //            }
+        //            addLayer(group.groupHeading, group.showGroupHeading, layer, layerName, exclusiveGroupName, layerDetails.options, layerDetails.wimOptions);
+        //            //addMapServerLegend(layerName, layerDetails);
+        //        }
+        //
+        //        else if (layerDetails.wimOptions.layerType === 'agisWMS') {
+        //            var layer = new WMSLayer(layerDetails.url, {resourceInfo: layerDetails.options.resourceInfo, visibleLayers: layerDetails.options.visibleLayers }, layerDetails.options);
+        //            //check if include in legend is true
+        //            if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true){
+        //                legendLayers.push({layer:layer, title: layerName});
+        //            }
+        //            //map.addLayer(layer);
+        //            addLayer(group.groupHeading, group.showGroupHeading, layer, layerName, exclusiveGroupName, layerDetails.options, layerDetails.wimOptions);
+        //            //addMapServerLegend(layerName, layerDetails);
+        //        }
+        //
+        //        else if (layerDetails.wimOptions.layerType === 'agisDynamic') {
+        //            var layer = new ArcGISDynamicMapServiceLayer(layerDetails.url, layerDetails.options);
+        //            //check if include in legend is true
+        //            if (layerDetails.wimOptions && layerDetails.wimOptions.includeLegend == true){
+        //                legendLayers.push({layer:layer, title: layerName});
+        //            }
+        //            if (layerDetails.visibleLayers) {
+        //                layer.setVisibleLayers(layerDetails.visibleLayers);
+        //            }
+        //            //map.addLayer(layer);
+        //            addLayer(group.groupHeading, group.showGroupHeading, layer, layerName, exclusiveGroupName, layerDetails.options, layerDetails.wimOptions);
+        //            //addMapServerLegend(layerName, layerDetails);
+        //        }
+        //    });
+        //});
+        //
+        //function addLayer(groupHeading, showGroupHeading, layer, layerName, exclusiveGroupName, options, wimOptions) {
+        //
+        //    //add layer to map
+        //    //layer.addTo(map);
+        //    map.addLayer(layer);
+        //
+        //    //add layer to layer list
+        //    mapLayers.push([exclusiveGroupName,camelize(layerName),layer]);
+        //
+        //    //check if its an exclusiveGroup item
+        //    if (exclusiveGroupName) {
+        //
+        //        if (!$('#' + camelize(exclusiveGroupName)).length) {
+        //            var exGroupRoot = $('<div id="' + camelize(exclusiveGroupName +" Root") + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + exclusiveGroupName + '</button> </div>');
+        //
+        //            exGroupRoot.click(function(e) {
+        //                exGroupRoot.find('i.glyphspan').toggleClass('fa-check-square-o fa-square-o');
+        //
+        //                $.each(mapLayers, function (index, currentLayer) {
+        //
+        //                    var tempLayer = map.getLayer(currentLayer[2].id);
+        //
+        //                    if (currentLayer[0] == exclusiveGroupName) {
+        //                        if ($("#" + currentLayer[1]).find('i.glyphspan').hasClass('fa-dot-circle-o') && exGroupRoot.find('i.glyphspan').hasClass('fa-check-square-o')) {
+        //                            console.log('adding layer: ',currentLayer[1]);
+        //                            map.addLayer(currentLayer[2]);
+        //                            var tempLayer = map.getLayer(currentLayer[2].id);
+        //                            tempLayer.setVisibility(true);
+        //                        } else if (exGroupRoot.find('i.glyphspan').hasClass('fa-square-o')) {
+        //                            console.log('removing layer: ',currentLayer[1]);
+        //                            map.removeLayer(currentLayer[2]);
+        //                        }
+        //                    }
+        //
+        //                });
+        //            });
+        //
+        //            var exGroupDiv = $('<div id="' + camelize(exclusiveGroupName) + '" class="btn-group-vertical" data-toggle="buttons"></div');
+        //            $('#toggle').append(exGroupDiv);
+        //        }
+        //
+        //        //create radio button
+        //        //var button = $('<input type="radio" name="' + camelize(exclusiveGroupName) + '" value="' + camelize(layerName) + '"checked>' + layerName + '</input></br>');
+        //        if (layer.visible) {
+        //            var button = $('<div id="' + camelize(layerName) + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <label class="btn btn-default"  style="font-weight: bold;text-align: left"> <input type="radio" name="' + camelize(exclusiveGroupName) + '" autocomplete="off"><i class="glyphspan fa fa-dot-circle-o ' + camelize(exclusiveGroupName) + '"></i>&nbsp;&nbsp;' + layerName + '</label> </div>');
+        //        } else {
+        //            var button = $('<div id="' + camelize(layerName) + '" class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <label class="btn btn-default"  style="font-weight: bold;text-align: left"> <input type="radio" name="' + camelize(exclusiveGroupName) + '" autocomplete="off"><i class="glyphspan fa fa-circle-o ' + camelize(exclusiveGroupName) + '"></i>&nbsp;&nbsp;' + layerName + '</label> </div>');
+        //        }
+        //
+        //        $('#' + camelize(exclusiveGroupName)).append(button);
+        //
+        //        //click listener for radio button
+        //        button.click(function(e) {
+        //
+        //            if ($(this).find('i.glyphspan').hasClass('fa-circle-o')) {
+        //                $(this).find('i.glyphspan').toggleClass('fa-dot-circle-o fa-circle-o');
+        //
+        //                var newLayer = $(this)[0].id;
+        //
+        //                $.each(mapLayers, function (index, currentLayer) {
+        //
+        //                    if (currentLayer[0] == exclusiveGroupName) {
+        //                        if (currentLayer[1] == newLayer && $("#" + camelize(exclusiveGroupName + " Root")).find('i.glyphspan').hasClass('fa-check-square-o')) {
+        //                            console.log('adding layer: ',currentLayer[1]);
+        //                            map.addLayer(currentLayer[2]);
+        //                            var tempLayer = map.getLayer(currentLayer[2].id);
+        //                            tempLayer.setVisibility(true);
+        //                            //$('#' + camelize(currentLayer[1])).toggle();
+        //                        }
+        //                        else if (currentLayer[1] == newLayer && $("#" + camelize(exclusiveGroupName + " Root")).find('i.glyphspan').hasClass('fa-square-o')) {
+        //                            console.log('groud heading not checked');
+        //                        }
+        //                        else {
+        //                            console.log('removing layer: ',currentLayer[1]);
+        //                            map.removeLayer(currentLayer[2]);
+        //                            if ($("#" + currentLayer[1]).find('i.glyphspan').hasClass('fa-dot-circle-o')) {
+        //                                $("#" + currentLayer[1]).find('i.glyphspan').toggleClass('fa-dot-circle-o fa-circle-o');
+        //                            }
+        //                            //$('#' + camelize(this[1])).toggle();
+        //                        }
+        //                    }
+        //                });
+        //            }
+        //        });
+        //    }
+        //
+        //    //not an exclusive group item
+        //    else {
+        //
+        //        //create layer toggle
+        //        //var button = $('<div align="left" style="cursor: pointer;padding:5px;"><span class="glyphspan glyphicon glyphicon-check"></span>&nbsp;&nbsp;' + layerName + '</div>');
+        //        if (layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true) {
+        //            var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></span></div>');
+        //        } else if ((!layer.visible && wimOptions.hasOpacitySlider !== undefined && wimOptions.hasOpacitySlider == true)) {
+        //            var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + layerName + '<span id="opacity' + camelize(layerName) + '" class="glyphspan glyphicon glyphicon-adjust pull-right"></button></span></div>');
+        //        } else if (layer.visible) {
+        //            var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default active" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-check-square-o"></i>&nbsp;&nbsp;' + layerName + '</button></span></div>');
+        //        } else {
+        //            var button = $('<div class="btn-group-vertical lyrTog" style="cursor: pointer;" data-toggle="buttons"> <button type="button" class="btn btn-default" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="glyphspan fa fa-square-o"></i>&nbsp;&nbsp;' + layerName + '</button> </div>');
+        //        }
+        //
+        //        //click listener for regular
+        //        button.click(function(e) {
+        //
+        //            //toggle checkmark
+        //            $(this).find('i.glyphspan').toggleClass('fa-check-square-o fa-square-o');
+        //            $(this).find('button').button('toggle');
+        //
+        //            e.preventDefault();
+        //            e.stopPropagation();
+        //
+        //            $('#' + camelize(layerName)).toggle();
+        //
+        //            //layer toggle
+        //            if (layer.visible) {
+        //                layer.setVisibility(false);
+        //            } else {
+        //                layer.setVisibility(true);
+        //            }
+        //
+        //        });
+        //    }
+        //
+        //    //group heading logic
+        //    if (showGroupHeading) {
+        //
+        //        //camelize it for divID
+        //        var groupDivID = camelize(groupHeading);
+        //
+        //        //check to see if this group already exists
+        //        if (!$('#' + groupDivID).length) {
+        //            //if it doesn't add the header
+        //            var groupDiv = $('<div id="' + groupDivID + '"><div class="alert alert-info" role="alert"><strong>' + groupHeading + '</strong></div></div>');
+        //            $('#toggle').append(groupDiv);
+        //        }
+        //
+        //        //if it does already exist, append to it
+        //
+        //        if (exclusiveGroupName) {
+        //            //if (!exGroupRoot.length)$("#slider"+camelize(layerName))
+        //            $('#' + groupDivID).append(exGroupRoot);
+        //            $('#' + groupDivID).append(exGroupDiv);
+        //        } else {
+        //            $('#' + groupDivID).append(button);
+        //            if ($("#opacity"+camelize(layerName)).length > 0) {
+        //                $("#opacity"+camelize(layerName)).hover(function () {
+        //                    $(".opacitySlider").remove();
+        //                    var currOpacity = map.getLayer(options.id).opacity;
+        //                    var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');
+        //                    $("body").append(slider);[0]
+        //
+        //                    $("#slider")[0].value = currOpacity*100;
+        //                    $(".opacitySlider").css('left', event.clientX-180);
+        //                    $(".opacitySlider").css('top', event.clientY-5);
+        //
+        //                    $(".opacitySlider").mouseleave(function() {
+        //                        $(".opacitySlider").remove();
+        //                    });
+        //
+        //                    $(".opacityClose").click(function() {
+        //                        $(".opacitySlider").remove();
+        //                    });
+        //                    $('#slider').change(function(event) {
+        //                        //get the value of the slider with this call
+        //                        var o = ($('#slider')[0].value)/100;
+        //                        console.log("o: " + o);
+        //                        $("#opacityValue").html("Opacity: " + o)
+        //                        map.getLayer(options.id).setOpacity(o);
+        //                        //here I am just specifying the element to change with a "made up" attribute (but don't worry, this is in the HTML specs and supported by all browsers).
+        //                        //var e = '#' + $(this).attr('data-wjs-element');
+        //                        //$(e).css('opacity', o)
+        //                    });
+        //                });
+        //            }
+        //        }
+        //    }
+        //
+        //    else {
+        //        //otherwise append
+        //        $('#toggle').append(button);
+        //    }
+        //}
 
-                        layersObject.push({layer: null, type: "radioParent", title: layer, toggleType: "radioParent", group: radioGroup});
 
-                    } else {
 
-                        layersObject.push({layer: "heading", title: layer});
-                        console.log("heading: " + layer);
-                    }
-                }
+        var legend = new Legend({
+            map: map,
+            layerInfos: legendLayers
+        }, "legendDiv");
+        legend.startup();
 
-                map.addLayers(layerArray);
-
-                function addToObjects(fullObject, wimOptions) {
-                    layersObject.push(fullObject);
-                    if (wimOptions.includeLegend != false) {
-                        legendLayers.push(fullObject);
-                    }
-                }
-
-            });//end of require statement just for dynamic map service layer
-        }//end of addAllLayers
 
     });//end of require statement containing legend building code
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 });
 
 $(document).ready(function () {
