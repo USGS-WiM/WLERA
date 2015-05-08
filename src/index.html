@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WLERA 2</title>
+    <title>WLERA</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+
     
-        <link rel="stylesheet" href="bower_components/bootstrap-map-js/dist/css/bootstrapmap.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap-map-js/dist/css/bootstrapmap.min.css">
     
     <link rel="stylesheet" href="bower_components/bootstrap-sidebar/dist/css/sidebar.css">
        
@@ -40,6 +42,7 @@
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/jquery.nicescroll/dist/jquery.nicescroll.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/bootstrap-sidebar/dist/js/sidebar.js"></script>
     
@@ -67,7 +70,7 @@
               </button>
               <a class="navbar-brand" href="http://usgs.gov">
                   <img alt="USGS logo" src="images/usgs-logo.png">
-                  <span class='hidden-xs' style='font-size:20px;display:inline-block;'>&nbsp;&nbsp;generator-wim-dev</span>
+                  <span class='hidden-xs' style='font-size:20px;display:inline-block;'>&nbsp;&nbsp;WLERA</span>
               </a>
           </div>
 
@@ -88,7 +91,7 @@
   </div>
 
 
-  <div class="modal fade" id="geosearchModal" style="display: none;" aria-hidden="true">
+  <div class="modal fade overflow-y-hidden" id="geosearchModal" style="display: none;" aria-hidden="true">
       <div class="modal-dialog">
           <div class="modal-content">
               <div class="modal-header">
@@ -114,8 +117,8 @@
   </div>
 
   <!-- Begin page content -->
-  <div class="container-fluid">
-      <div class="row">
+  <div class="container-fluid keepit100">
+      <div class="row keepit100">
           <!--<div id="sidebar" class="col-xs-7 col-sm-3 col-md-3 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">-->
           <div id="sidebar" class="col-xs-11 col-sm-10 col-md-3 col-lg-2 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">
               <!-- # include line below to get accordion effect with panels - opening one closes the others. remember closing div tag at bottom -->
@@ -167,7 +170,7 @@
               <!-- # closing div tag for accordion style panels -->
               <!--</div>-->
           </div>
-          <div class="col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 no-col-padding">
+          <div class="col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 no-col-padding keepit100">
               <!-- legend, associated with legend buttons. to be removed if we stick with the in-map legend toggle -->
               <!--<div id="legend" class="legend" style="display: none" >-->
               <!--<button id="legendClose" type="button" class="close" data-dismiss="legend" aria-label="Close" aria-hidden="true">x</button>-->
@@ -175,23 +178,23 @@
               <!--<div id="legendDiv"></div>-->
               <!--</div>-->
 
-              <div id="legendElement" class="panel panel-default legendToggle">
-                  <div id="legendHeading" class=" legendHeading" role="tab" id="headingOne">
-                      <h4 class="panel-title">
-                          <a data-toggle="collapse" style="text-decoration: none"  href="#legendCollapse" aria-expanded="true" aria-controls="collapseOne">
-                              <span class="glyphicon glyphicon-list"></span>
-                              Legend
-                          </a>
-                      </h4>
-                  </div>
-                  <div id="legendCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                      <div class="panel-body">
-                          <div id="legendDiv"></div>
+              <div id="mapDiv">
+
+                  <div id="legendElement" class="panel panel-default legendClass">
+                      <div id="legendHeading" class=" legendHeading" role="tab">
+                          <h4 class="panel-title">
+                              <a data-toggle="collapse" style="text-decoration: none"  href="#legendCollapse" aria-expanded="true" aria-controls="collapseOne">
+                                  <span class="glyphicon glyphicon-list"></span>
+                                  Legend
+                              </a>
+                          </h4>
+                      </div>
+                      <div id="legendCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                          <div id="legendDiv" class="panel-body"></div>
                       </div>
                   </div>
+
               </div>
-              <!-- Map div -->
-              <div id="mapDiv"></div>
 
               <div id="homeButton"></div>
 
