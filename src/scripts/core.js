@@ -22,6 +22,7 @@ require([
     'esri/geometry/Multipoint',
     'esri/symbols/PictureMarkerSymbol',
     "esri/geometry/webMercatorUtils",
+    "esri/config",
     'dojo/dom',
     'dojo/on',
     'dojo/domReady!'
@@ -36,6 +37,7 @@ require([
     Multipoint,
     PictureMarkerSymbol,
     webMercatorUtils,
+    esriConfig,
     dom,
     on
 ) {
@@ -52,6 +54,8 @@ require([
         map: map
     }, "homeButton");
     home.startup();
+
+    esri.config.defaults.io.corsEnabledServers.push("http://52.0.108.106:6080/");
 
     //following block forces map size to override problems with default behavior
     $(window).resize(function () {
@@ -340,8 +344,10 @@ require([
 
         //create global layers lookup
         var mapLayers = [];
+
+        const mapServiceRoot= "http://52.0.108.106:6080/arcgis/rest/services/WLERA/";
         //begin reference layers////////////////////////////////////
-        const hexRefLayer = new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "hexRef", visible:false} );
+        const hexRefLayer = new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "hexRef", visible:true} );
         hexRefLayer.setVisibleLayers([0]);
         mapLayers.push(hexRefLayer);
         legendLayers.push({layer:hexRefLayer, title: "Hex Reference"});
@@ -358,127 +364,142 @@ require([
         //});
         //mapLayers.push(studyAreaLayer);
 
-        const studyAreaLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "studyArea", visible:false} );
+        const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "studyArea", visible:true} );
         studyAreaLayer.setVisibleLayers([1]);
         mapLayers.push(studyAreaLayer);
-        legendLayers.push({layer:studyAreaLayer, title: "Study Area"});
+        //legendLayers.push({layer:studyAreaLayer, title: "Study Area"});
 
-        const parcelsLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "parcels", visible:false} );
+        const parcelsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcels", visible:false} );
         parcelsLayer.setVisibleLayers([2]);
         mapLayers.push(parcelsLayer);
-        legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
+        //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
         ////end reference layers////////////////////////////////////////
 
-        const dikeBreaksLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "dikeBreaks", visible:false} );
-        dikeBreaksLayer.setVisibleLayers([4]);
+        const dikeBreaksLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikeBreaks", visible:false} );
+        dikeBreaksLayer.setVisibleLayers([1]);
         mapLayers.push(dikeBreaksLayer);
-        legendLayers.push ({layer:dikeBreaksLayer, title: "Dike Breaks"});
+        //legendLayers.push ({layer:dikeBreaksLayer, title: "Dike Breaks"});
 
-        const culvertsLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "culverts", visible:false} );
-        culvertsLayer.setVisibleLayers([5]);
+        const culvertsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "culverts", visible:false} );
+        culvertsLayer.setVisibleLayers([2]);
         mapLayers.push(culvertsLayer);
-        legendLayers.push ({layer:culvertsLayer, title: "Culverts"});
+        //legendLayers.push ({layer:culvertsLayer, title: "Culverts"});
 
-        const degFlowlinesLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "degFlowlines", visible:false} );
-        degFlowlinesLayer.setVisibleLayers([6]);
+        const degFlowlinesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "degFlowlines", visible:false} );
+        degFlowlinesLayer.setVisibleLayers([3]);
         mapLayers.push(degFlowlinesLayer);
-        legendLayers.push ({layer:degFlowlinesLayer, title: "Degree flowlines"});
+        //legendLayers.push ({layer:degFlowlinesLayer, title: "Degree flowlines"});
 
-        const dikesLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "dikes", visible:false} );
-        dikesLayer.setVisibleLayers([8]);
+        const dikesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikes", visible:false} );
+        dikesLayer.setVisibleLayers([5]);
         mapLayers.push(dikesLayer);
-        legendLayers.push ({layer:dikesLayer, title: "Dikes"});
+        //legendLayers.push ({layer:dikesLayer, title: "Dikes"});
 
-        const dikedAreasLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "dikedAreas", visible:false} );
-        dikedAreasLayer.setVisibleLayers([9]);
+        const dikedAreasLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikedAreas", visible:false} );
+        dikedAreasLayer.setVisibleLayers([6]);
         mapLayers.push(dikedAreasLayer);
-        legendLayers.push ({layer:dikedAreasLayer, title: "Diked Areas"});
+        //legendLayers.push ({layer:dikedAreasLayer, title: "Diked Areas"});
 
-        //const waterMaskLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "waterMask", visible:false} );
-        //waterMaskLayer.setVisibleLayers([12]);
+        ///parameters group
+        //const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "waterMask", visible:false} );
+        //waterMaskLayer.setVisibleLayers([2]);
         //mapLayers.push(waterMaskLayer);
         //legendLayers.push ({layer:waterMaskLayer, title: "P0 - Water Mask"});
         //
-        //const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "hydroperiod", visible:false} );
-        //hydroperiodLayer.setVisibleLayers([13]);
+        //const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "hydroperiod", visible:false} );
+        //hydroperiodLayer.setVisibleLayers([3]);
         //mapLayers.push(hydroperiodLayer);
         //legendLayers.push ({layer:hydroperiodLayer, title: "P1 - Hydroperiod"});
         //
-        //const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "wetsoils", visible:false} );
-        //wetsoilsLayer.setVisibleLayers([14]);
+        //const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "wetsoils", visible:false} );
+        //wetsoilsLayer.setVisibleLayers([4]);
         //mapLayers.push(wetsoilsLayer);
         //legendLayers.push ({layer:wetsoilsLayer, title: "P2 - Wetsoils"});
         //
-        //const flowlineLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "flowline", visible:false} );
-        //flowlineLayer.setVisibleLayers([15]);
+        //const flowlineLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "flowline", visible:false} );
+        //flowlineLayer.setVisibleLayers([5]);
         //mapLayers.push(flowlineLayer);
         //legendLayers.push ({layer:flowlineLayer, title: "P3 - Flowline"});
         //
-        //const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "conservedLands", visible:false} );
-        //conservedLandsLayer.setVisibleLayers([16]);
+        //const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "conservedLands", visible:false} );
+        //conservedLandsLayer.setVisibleLayers([6]);
         //mapLayers.push(conservedLandsLayer);
         //legendLayers.push ({layer:conservedLandsLayer, title: "P4 - Conserved Lands"});
         //
-        //const imperviousSurfacesLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "imperviousSurfaces", visible:false} );
-        //imperviousSurfacesLayer.setVisibleLayers([17]);
+        //const imperviousSurfacesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "imperviousSurfaces", visible:false} );
+        //imperviousSurfacesLayer.setVisibleLayers([7]);
         //mapLayers.push(imperviousSurfacesLayer);
         //legendLayers.push ({layer:imperviousSurfacesLayer, title: "P5 - Impervious Surfaces"});
         //
-        //const landuseLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "landuse", visible:false} );
-        //landuseLayer .setVisibleLayers([18]);
+        //const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "landuse", visible:false} );
+        //landuseLayer .setVisibleLayers([8]);
         //mapLayers.push(landuseLayer );
         //legendLayers.push ({layer:landuseLayer , title: "P6 - Landuse"});
-
-        const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "normRestorationIndex", visible:false} );
-        normRestorationIndexLayer.setVisibleLayers([19]);
+        /////end parameters group
+        //
+        const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "normalized", visible:true} );
+        normRestorationIndexLayer.setVisibleLayers([9]);
         mapLayers.push(normRestorationIndexLayer);
-        legendLayers.push ({layer:normRestorationIndexLayer, title: "Normalized Restoration Index"});
+        //legendLayers.push ({layer:normRestorationIndexLayer, title: "Normalized Restoration Index"});
 
-        //const highRestoreLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "highRestore", visible:false} );
-        //highRestoreLayer.setVisibleLayers([21]);
-        //mapLayers.push(highRestoreLayer);
+        //4 scale group
+        const highRestoreLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "highRestore", visible:false} );
+        highRestoreLayer.setVisibleLayers([11]);
+        mapLayers.push(highRestoreLayer);
         //legendLayers.push ({layer:highRestoreLayer, title: "High restorable"});
-        //
-        //const mediumRestoreLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "mediumRestore", visible:false} );
-        //mediumRestoreLayer.setVisibleLayers([22]);
-        //mapLayers.push(mediumRestoreLayer);
-        //legendLayers.push ({layer:mediumRestoreLayer, title: "Medium restorable"});
-        //
-        //const lowRestoreLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "lowRestore", visible:false} );
-        //lowRestoreLayer.setVisibleLayers([23]);
-        //mapLayers.push(lowRestoreLayer);
-        //legendLayers.push ({layer:lowRestoreLayer, title: "Low restorable"});
-        //
-        //const noRestoreLayer =  new ArcGISDynamicMapServiceLayer("http://wim.usgs.gov/arcgis/rest/services/WLEWetlands/WLERA/MapServer", {id: "noRestore", visible:false} );
-        //noRestoreLayer.setVisibleLayers([24]);
-        //mapLayers.push(noRestoreLayer);
-        //legendLayers.push ({layer:noRestoreLayer, title: "Not restorable"});
 
+        const mediumRestoreLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "mediumRestore", visible:false} );
+        mediumRestoreLayer.setVisibleLayers([12]);
+        mapLayers.push(mediumRestoreLayer);
+        //legendLayers.push ({layer:mediumRestoreLayer, title: "Medium restorable"});
+
+        const lowRestoreLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "lowRestore", visible:false} );
+        lowRestoreLayer.setVisibleLayers([13]);
+        mapLayers.push(lowRestoreLayer);
+        //legendLayers.push ({layer:lowRestoreLayer, title: "Low restorable"});
+
+        const noRestoreLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot +  "restorationModel/MapServer", {id: "noRestore", visible:false} );
+        noRestoreLayer.setVisibleLayers([14]);
+        mapLayers.push(noRestoreLayer);
+        //legendLayers.push ({layer:noRestoreLayer, title: "Not restorable"});
+        //end 4 scale group
 
         map.addLayers(mapLayers);
 
+        //checks to see which layers are visible on load, sets toggle to active
+        for(var j = 0; j < map.layerIds.length; j++) {
+            var layer = map.getLayer(map.layerIds[j]);
+            if (layer.visible) {
+                $("#" + layer.id).button('toggle');
+                $("#" + layer.id).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
+            }
+        }
+
+        //toggles the visibility of corresponding layer and status of toggle button on click.
         $("button.lyrTog").click(function(e) {
-            //toggle checkmark
+            //toggle checkmark and button state
             $(this).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
             $(this).button('toggle');
-
             e.preventDefault();
             e.stopPropagation();
-
-            //$('#' + camelize(layerName)).toggle();
-            //
+            var layer =   map.getLayer($(this).attr('id'));
             ////layer toggle
-            //if (layer.visible) {
-            //    layer.setVisibility(false);
-            //} else {
-            //    layer.setVisibility(true);
-            //}
+            if (layer.visible) {
+                layer.setVisibility(false);
+            } else {
+                layer.setVisibility(true);
+            }
         });
 
+        //toggles the icons of the group toggle buttons on click
         $('#hydroConditionGroup, #parametersGroup, #4scaleGroup').on('hide.bs.collapse', function () {
             var groupToggleID = $(this)[0].id.replace('Group', '');
             $(("#"+ groupToggleID)).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
             $(("#"+ groupToggleID)).find('i.chevron').toggleClass('fa-chevron-right fa-chevron-down');
+
+            var buttonGroupID = $(this).attr('id') + "Buttons";
+            $("#" + buttonGroupID).button('toggle');
+
         });
         $('#hydroConditionGroup, #parametersGroup, #4scaleGroup').on('show.bs.collapse', function () {
             var groupToggleID = $(this)[0].id.replace('Group', '');
