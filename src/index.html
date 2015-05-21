@@ -72,7 +72,7 @@
               </button>
               <a class="navbar-brand" href="http://usgs.gov">
                   <img alt="USGS logo" src="images/usgs-logo.png">
-                  <span class='hidden-xs' style='font-size:20px;display:inline-block;'>&nbsp;&nbsp;WLERA</span>
+                  <span class='hidden-xs' style='font-size:20px;display:inline-block;'>&nbsp;&nbsp;Western Lake Erie Restoration Assessment (WLERA)</span>
               </a>
           </div>
 
@@ -169,15 +169,15 @@
                       <div id="toggle" style="padding: 2px 2px;"></div>
 
                       <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                          <button id="hexRef" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Hex Reference<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
+                          <button id="hexRef" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Hex Reference<span id="opacityhexRef" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                       </div>
 
                       <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                          <button id="studyArea" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Study Area<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
+                          <button id="studyArea" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Study Area<span id="opacitystudyArea" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                       </div>
 
                       <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                          <button id="parcels" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Ottawa Parcels<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
+                          <button id="parcels" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Ottawa Parcels<span id="opacityparcels" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                       </div>
 
                       <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
@@ -186,19 +186,19 @@
 
                       <div class="collapse groupCollapse" id="hydroConditionGroup">
                           <div id="hydroConditionsGroupButtons" class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">
-                              <button id="dikeBreaks" type="button" class="btn btn-default lyrTog " aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Dike Breaks<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
+                              <button id="dikeBreaks" type="button" class="btn btn-default lyrTog " aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Dike Breaks<span id="opacitydikeBreaks" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                           <!--</div>-->
                           <!--<div class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">-->
-                              <button id="culverts" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Culverts<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
+                              <button id="culverts" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Culverts<span id="opacityculverts" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                           <!--</div>-->
                           <!--<div class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">-->
-                              <button id="degFlowlines" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Degree Flowlines<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
+                              <button id="degFlowlines" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Degree Flowlines<span id="opacitydegFlowlines" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                           <!--</div>-->
                           <!--<div class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">-->
-                              <button id="dikes" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Dikes<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
+                              <button id="dikes" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Dikes<span id="opacitydikes" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                           <!--</div>-->
                           <!--<div class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">-->
-                              <button id="dikedAreas" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Diked Areas<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
+                              <button id="dikedAreas" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Diked Areas<span id="opacitydikedAreas" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                           </div>
                       </div>
 
@@ -209,7 +209,7 @@
                       </div>
 
                       <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                          <button id="normalized" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Normalized Restoration Index<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
+                          <button id="normalized" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Normalized Restoration Index<span id="opacitynormalized" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                       </div>
 
                       <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
@@ -218,13 +218,13 @@
 
                       <div class="collapse" id="parametersGroup">
                           <div id="parametersGroupButtons" class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">
-                              <button id="waterMask" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Water Mask<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
-                              <button id="hydroperiod" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Hydroperiod<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
-                              <button id="wetsoils" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Wetsoils<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
-                              <button id="flowline" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Flowline<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
-                              <button id="conservedLands" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Conserved Lands<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
-                              <button id="imperviousSurfaces" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Impervious Surfaces<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
-                              <button id="landuse" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Landuse<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
+                              <button id="waterMask" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Water Mask<span id="opacitywaterMask" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
+                              <button id="hydroperiod" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Hydroperiod<span id="opacityhydroperiod" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
+                              <button id="wetsoils" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Wetsoils<span id="opacitywetsoils" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
+                              <button id="flowline" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Flowline<span id="opacityflowline" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
+                              <button id="conservedLands" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Conserved Lands<span id="opacityconservedLands" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
+                              <button id="imperviousSurfaces" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Impervious Surfaces<span id="opacityimperviousSurfaces" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
+                              <button id="landuse" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Landuse<span id="opacitylanduse" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                           </div>
                       </div>
 
@@ -234,10 +234,10 @@
 
                       <div class="collapse" id="4scaleGroup">
                           <div  id="4scaleGroupButtons" class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">
-                              <button id="highRestore" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;High Restorable<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
-                              <button id="mediumRestore" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Medium Restorable<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
-                              <button id="lowRestore" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Low Restorable<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
-                              <button id="noRestore" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Not Restorable<span id="opacity" class="glyphspan glyphicon glyphicon-adjust pull-right"></span></button>
+                              <button id="highRestore" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;High Restorable<span id="opacityhighRestore" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
+                              <button id="mediumRestore" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Medium Restorable<span id="opacitymediumRestore" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
+                              <button id="lowRestore" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Low Restorable<span id="opacitylowRestore" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
+                              <button id="noRestore" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Not Restorable<span id="opacitynoRestore" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                           </div>
                       </div>
 
