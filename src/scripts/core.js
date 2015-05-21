@@ -367,7 +367,7 @@ require([
         const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "studyArea", visible:true} );
         studyAreaLayer.setVisibleLayers([1]);
         mapLayers.push(studyAreaLayer);
-        //legendLayers.push({layer:studyAreaLayer, title: "Study Area"});
+        legendLayers.push({layer:studyAreaLayer, title: "Study Area"});
 
         const parcelsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcels", visible:false} );
         parcelsLayer.setVisibleLayers([2]);
@@ -401,46 +401,46 @@ require([
         //legendLayers.push ({layer:dikedAreasLayer, title: "Diked Areas"});
 
         ///parameters group
-        //const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "waterMask", visible:false} );
-        //waterMaskLayer.setVisibleLayers([2]);
-        //mapLayers.push(waterMaskLayer);
+        const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "waterMask", visible:false} );
+        waterMaskLayer.setVisibleLayers([2]);
+        mapLayers.push(waterMaskLayer);
         //legendLayers.push ({layer:waterMaskLayer, title: "P0 - Water Mask"});
-        //
-        //const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "hydroperiod", visible:false} );
-        //hydroperiodLayer.setVisibleLayers([3]);
-        //mapLayers.push(hydroperiodLayer);
+
+        const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "hydroperiod", visible:false} );
+        hydroperiodLayer.setVisibleLayers([3]);
+        mapLayers.push(hydroperiodLayer);
         //legendLayers.push ({layer:hydroperiodLayer, title: "P1 - Hydroperiod"});
-        //
-        //const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "wetsoils", visible:false} );
-        //wetsoilsLayer.setVisibleLayers([4]);
-        //mapLayers.push(wetsoilsLayer);
+
+        const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "wetsoils", visible:false} );
+        wetsoilsLayer.setVisibleLayers([4]);
+        mapLayers.push(wetsoilsLayer);
         //legendLayers.push ({layer:wetsoilsLayer, title: "P2 - Wetsoils"});
-        //
-        //const flowlineLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "flowline", visible:false} );
-        //flowlineLayer.setVisibleLayers([5]);
-        //mapLayers.push(flowlineLayer);
+
+        const flowlineLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "flowline", visible:false} );
+        flowlineLayer.setVisibleLayers([5]);
+        mapLayers.push(flowlineLayer);
         //legendLayers.push ({layer:flowlineLayer, title: "P3 - Flowline"});
-        //
-        //const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "conservedLands", visible:false} );
-        //conservedLandsLayer.setVisibleLayers([6]);
-        //mapLayers.push(conservedLandsLayer);
+
+        const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "conservedLands", visible:false} );
+        conservedLandsLayer.setVisibleLayers([6]);
+        mapLayers.push(conservedLandsLayer);
         //legendLayers.push ({layer:conservedLandsLayer, title: "P4 - Conserved Lands"});
-        //
-        //const imperviousSurfacesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "imperviousSurfaces", visible:false} );
-        //imperviousSurfacesLayer.setVisibleLayers([7]);
-        //mapLayers.push(imperviousSurfacesLayer);
+
+        const imperviousSurfacesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "imperviousSurfaces", visible:false} );
+        imperviousSurfacesLayer.setVisibleLayers([7]);
+        mapLayers.push(imperviousSurfacesLayer);
         //legendLayers.push ({layer:imperviousSurfacesLayer, title: "P5 - Impervious Surfaces"});
-        //
-        //const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "landuse", visible:false} );
-        //landuseLayer .setVisibleLayers([8]);
-        //mapLayers.push(landuseLayer );
+
+        const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "landuse", visible:false} );
+        landuseLayer .setVisibleLayers([8]);
+        mapLayers.push(landuseLayer );
         //legendLayers.push ({layer:landuseLayer , title: "P6 - Landuse"});
         /////end parameters group
         //
         const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "normalized", visible:true} );
         normRestorationIndexLayer.setVisibleLayers([9]);
         mapLayers.push(normRestorationIndexLayer);
-        //legendLayers.push ({layer:normRestorationIndexLayer, title: "Normalized Restoration Index"});
+        legendLayers.push ({layer:normRestorationIndexLayer, title: "Normalized Restoration Index"});
 
         //4 scale group
         const highRestoreLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "highRestore", visible:false} );
@@ -505,6 +505,36 @@ require([
             var groupToggleID = $(this)[0].id.replace('Group', '');
             $(("#"+ groupToggleID)).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
             $(("#"+ groupToggleID)).find('i.chevron').toggleClass('fa-chevron-right fa-chevron-down');
+        });
+
+        $(".opacity").hover(function () {
+            $(".opacitySlider").remove();
+            var layerToChange = this.parentNode.id;
+            var currOpacity = map.getLayer(layerToChange).opacity;
+            var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');
+            $("body").append(slider);
+
+            $("#slider")[0].value = currOpacity*100;
+            $(".opacitySlider").css('left', event.clientX-180);
+            $(".opacitySlider").css('top', event.clientY-5);
+
+            $(".opacitySlider").mouseleave(function() {
+                $(".opacitySlider").remove();
+            });
+
+            $(".opacityClose").click(function() {
+                $(".opacitySlider").remove();
+            });
+            $('#slider').change(function(event) {
+                //get the value of the slider with this call
+                var o = ($('#slider')[0].value)/100;
+                console.log("o: " + o);
+                $("#opacityValue").html("Opacity: " + o)
+                map.getLayer(layerToChange).setOpacity(o);
+                //here I am just specifying the element to change with a "made up" attribute (but don't worry, this is in the HTML specs and supported by all browsers).
+                //var e = '#' + $(this).attr('data-wjs-element');
+                //$(e).css('opacity', o)
+            });
         });
 
         //$.each(allLayers, function (index,group) {
