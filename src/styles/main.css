@@ -167,6 +167,10 @@ body {
     max-height: 100%;
 }
 
+.opacity {
+    padding-left: 5px;
+}
+
 .opacitySlider {
     position: absolute;
     color: white;
