@@ -533,6 +533,38 @@ require([
         });
 
 
+        $(".zoomto").hover(function (e) {
+
+            $(".zoomDialog").remove();
+            var layerToChange = this.parentNode.id;
+
+            //var zoomDialog = $('<div class="zoomDialog"><label>Zoom to layer scale</label><label>Zoom to layer center</label><label class="zoomClose pull-right">X</label></div>');
+            //var zoomDialog = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><ul class="nav nav-pills nav-stacked"> <li role="presentation"><a href="#">Zoom to layer scale</a></li><li role="presentation"><a href="#">Zoom to layer center</a></li></ul></div>');
+            //var zoomDialog = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><ul  role="menu"> <li><a href="#">Action</a></li> <li><a href="#">Another action</a></li></ul></div>');
+            var zoomDialog = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" class="list-group-item zoomscale">Zoom to scale</a> <a href="#" class="list-group-item zoomcenter">Zoom to center</a></div></div>');
+
+            $("body").append(zoomDialog);
+
+            $(".zoomDialog").css('left', event.clientX-80);
+            $(".zoomDialog").css('top', event.clientY-5);
+
+            $(".zoomDialog").mouseleave(function() {
+                $(".zoomDialog").remove();
+            });
+
+            $(".zoomClose").click(function() {
+                $(".zoomDialog").remove();
+            });
+
+            $(".zoomscale").click(function (e){
+                //logic to zoom to layer scale
+            });
+            $(".zoomcenter").click(function (e){
+                //logic to zoom to layer center
+            });
+        })
+
+
         $(".opacity").hover(function () {
             $(".opacitySlider").remove();
             var layerToChange = this.parentNode.id;

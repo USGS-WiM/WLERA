@@ -168,7 +168,7 @@ body {
 }
 
 .opacity {
-    padding-left: 5px;
+    padding-left: 10px;
 }
 
 .opacitySlider {
@@ -185,6 +185,41 @@ body {
     -webkit-border-radius: 5px;
     border-radius: 5px;
 }
+
+.zoomDialog {
+    position: absolute;
+    color: white;
+    /*width: 200px;*/
+    padding: 5px;
+    /*padding-bottom: 40px;*/
+    opacity: 0.9;
+    border: solid 1px white;
+    background-color: black;
+    z-index: 1000;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.zoomClose {
+    color: white;
+}
+
+.list-group-item {
+    color: white;
+    background-color: black;
+    border: none; !important;
+    padding: 5px 5px; !important;
+}
+
+a.list-group-item {
+    color: white;
+}
+
+a.list-group-item:hover {
+    color: black;
+}
+
 
 .modal-dialog {
     padding-top: 60px;
