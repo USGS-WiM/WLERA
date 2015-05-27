@@ -371,32 +371,32 @@ require([
         legendLayers.push({layer:studyAreaLayer , title:" "});
         studyAreaLayer.inLegendLayers = true;
 
-        const parcelsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcels", visible:false} );
+        const parcelsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcels", visible:false, minScale:100000} );
         parcelsLayer.setVisibleLayers([2]);
         mapLayers.push(parcelsLayer);
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
-        studyAreaLayer.inLegendLayers = false;
+        parcelsLayer.inLegendLayers = false;
         ////end reference layers////////////////////////////////////////
 
-        const dikeBreaksLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikeBreaks", visible:false} );
+        const dikeBreaksLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikeBreaks", visible:false, minScale:100000} );
         dikeBreaksLayer.setVisibleLayers([1]);
         mapLayers.push(dikeBreaksLayer);
         dikeBreaksLayer.inLegendLayers = false;
         //legendLayers.push ({layer:dikeBreaksLayer, title: "Dike Breaks"});
 
-        const culvertsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "culverts", visible:false} );
+        const culvertsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "culverts", visible:false, minScale:100000} );
         culvertsLayer.setVisibleLayers([2]);
         mapLayers.push(culvertsLayer);
         culvertsLayer.inLegendLayers = false;
         //legendLayers.push ({layer:culvertsLayer, title: "Culverts"});
 
-        const degFlowlinesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "degFlowlines", visible:false} );
+        const degFlowlinesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "degFlowlines", visible:false, minScale:100000} );
         degFlowlinesLayer.setVisibleLayers([3]);
         mapLayers.push(degFlowlinesLayer);
         degFlowlinesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:degFlowlinesLayer, title: "Degree flowlines"});
 
-        const dikesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikes", visible:false} );
+        const dikesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikes", visible:false, minScale:100000} );
         dikesLayer.setVisibleLayers([5]);
         mapLayers.push(dikesLayer);
         dikesLayer.inLegendLayers = false;
@@ -537,11 +537,7 @@ require([
 
             $(".zoomDialog").remove();
             var layerToChange = this.parentNode.id;
-
-            //var zoomDialog = $('<div class="zoomDialog"><label>Zoom to layer scale</label><label>Zoom to layer center</label><label class="zoomClose pull-right">X</label></div>');
-            //var zoomDialog = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><ul class="nav nav-pills nav-stacked"> <li role="presentation"><a href="#">Zoom to layer scale</a></li><li role="presentation"><a href="#">Zoom to layer center</a></li></ul></div>');
-            //var zoomDialog = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><ul  role="menu"> <li><a href="#">Action</a></li> <li><a href="#">Another action</a></li></ul></div>');
-            var zoomDialog = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" class="list-group-item zoomscale">Zoom to scale</a> <a href="#" class="list-group-item zoomcenter">Zoom to center</a></div></div>');
+            var zoomDialog = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" id="zoomscale" class="list-group-item zoomscale">Zoom to scale</a> <a id="zoomcenter" href="#" class="list-group-item zoomcenter">Zoom to center</a></div></div>');
 
             $("body").append(zoomDialog);
 
@@ -556,13 +552,24 @@ require([
                 $(".zoomDialog").remove();
             });
 
-            $(".zoomscale").click(function (e){
+            var zoomToScale = function () {
+                console.log(layerToChange)
+            };
+
+            $('#zoomscale').click(function (e) {
                 //logic to zoom to layer scale
+                var layerMinScale = map.getLayer(layerToChange).minScale;
+                map.setScale(layerMinScale);
             });
-            $(".zoomcenter").click(function (e){
+
+            $("#zoomcenter").click(function (e){
                 //logic to zoom to layer center
+                var layerCenter = map.getLayer(layerToChange).fullExtent.getCenter();
+                map.centerAt(layerCenter);
+                //var layerExtent = map.getLayer(layerToChange).fullExtent;
+                //map.setExtent(layerExtent);
             });
-        })
+        });
 
 
         $(".opacity").hover(function () {
