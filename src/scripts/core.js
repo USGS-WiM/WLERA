@@ -355,7 +355,6 @@ require([
         //    "copyright": "WiM 2015"
         //});
         //mapLayers.push(hexRefLayer);
-
         //const studyAreaLayer = new WebTiledLayer("http://wimcloud.usgs.gov.s3-website-us-east-1.amazonaws.com/tiles/WLERA/StudyArea/${level}/${row}/${col}.png", {
         //    "id": "studyArea",
         //    "copyright": "WiM 2015"

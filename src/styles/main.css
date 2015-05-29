@@ -100,11 +100,6 @@ body {
     display:inline-block;
 }
 
-.alert {
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
-
 #legendDiv {
     overflow-y: auto;
     /*max-height: inherit;*/
