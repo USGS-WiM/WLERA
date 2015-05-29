@@ -311,7 +311,6 @@ require([
         'esri/geometry/Extent',
         'esri/layers/ArcGISDynamicMapServiceLayer',
         'esri/layers/FeatureLayer',
-        'esri/layers/WMSLayer',
         'esri/layers/WebTiledLayer',
         'dojo/query',
         'dojo/dom'
@@ -325,7 +324,6 @@ require([
         Extent,
         ArcGISDynamicMapServiceLayer,
         FeatureLayer,
-        WMSLayer,
         WebTiledLayer,
         query,
         dom
