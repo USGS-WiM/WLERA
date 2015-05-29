@@ -13,7 +13,9 @@ var maxLegendDivHeight;
 
 require([
     'esri/map',
+    "esri/SnappingManager",
     "esri/dijit/HomeButton",
+    "esri/dijit/Measurement",
     'application/bootstrapmap',
     'esri/layers/ArcGISTiledMapServiceLayer',
     'esri/dijit/Geocoder',
@@ -23,12 +25,16 @@ require([
     'esri/symbols/PictureMarkerSymbol',
     "esri/geometry/webMercatorUtils",
     "esri/config",
+    "dojo/keys",
+    "dojo/has",
     'dojo/dom',
     'dojo/on',
     'dojo/domReady!'
 ], function (
     Map,
+    SnappingManager,
     HomeButton,
+    Measurement,
     BootstrapMap,
     ArcGISTiledMapServiceLayer,
     Geocoder,
@@ -38,6 +44,8 @@ require([
     PictureMarkerSymbol,
     webMercatorUtils,
     esriConfig,
+    keys,
+    has,
     dom,
     on
 ) {
@@ -54,6 +62,11 @@ require([
         map: map
     }, "homeButton");
     home.startup();
+
+    var measurement = new Measurement({
+        map: map
+    }, dom.byId("measurementDiv"));
+    measurement.startup();
 
     esri.config.defaults.io.corsEnabledServers.push("http://52.0.108.106:6080/");
 
@@ -345,7 +358,7 @@ require([
         //create global layers lookup
         var mapLayers = [];
 
-        const mapServiceRoot= "http://52.0.108.106:6080/arcgis/rest/services/WLERA/";
+        const mapServiceRoot= "http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/";
         //begin reference layers////////////////////////////////////
         const hexRefLayer = new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "hexRef", visible:true} );
         hexRefLayer.setVisibleLayers([0]);
@@ -371,8 +384,10 @@ require([
         legendLayers.push({layer:studyAreaLayer , title:" "});
         studyAreaLayer.inLegendLayers = true;
 
-        const parcelsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcels", visible:false, minScale:100000} );
-        parcelsLayer.setVisibleLayers([2]);
+        //const parcelsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcels", visible:false, minScale:100000} );
+        //parcelsLayer.setVisibleLayers([2]);
+
+        const parcelsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/2", {id: "parcels", visible:false, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outfields: ["*"]});
         mapLayers.push(parcelsLayer);
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
         parcelsLayer.inLegendLayers = false;
@@ -486,6 +501,17 @@ require([
 
         map.addLayers(mapLayers);
 
+
+        //dojo.keys.copyKey maps to CTRL on windows and Cmd on Mac., but has wrong code for Chrome on Mac
+        var snapManager = map.enableSnapping({
+            snapKey: has("mac") ? keys.META : keys.CTRL
+        });
+        var layerInfos = [{
+            layer: parcelsLayer
+        }];
+        snapManager.setLayerInfos(layerInfos);
+
+
         //checks to see which layers are visible on load, sets toggle to active
         for(var j = 0; j < map.layerIds.length; j++) {
             var layer = map.getLayer(map.layerIds[j]);
@@ -551,10 +577,6 @@ require([
             $(".zoomClose").click(function() {
                 $(".zoomDialog").remove();
             });
-
-            var zoomToScale = function () {
-                console.log(layerToChange)
-            };
 
             $('#zoomscale').click(function (e) {
                 //logic to zoom to layer scale

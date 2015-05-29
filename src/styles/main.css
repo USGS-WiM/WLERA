@@ -143,7 +143,32 @@ body {
     border-radius: 4px;
 }
 
+.measurementClass {
+    position:absolute;
+    top:5px;
+    left:45px;
+    z-index:3;
+    color: black;
+    width: 240px;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    /*min-width: 150px;*/
+    border-radius: 4px;
+}
+
 .legendHeading {
+    color: black;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+    text-decoration: none !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.measurementHeading {
     color: black;
     background-color: rgb(255,255,255);
     background-color: rgba(255,255,255,0.8);
@@ -181,8 +206,6 @@ body {
     border: solid 1px white;
     background-color: black;
     z-index: 1000;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
     border-radius: 5px;
 }
 
@@ -196,8 +219,6 @@ body {
     border: solid 1px white;
     background-color: black;
     z-index: 1000;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
     border-radius: 5px;
 }
 
@@ -208,8 +229,8 @@ body {
 .list-group-item {
     color: white;
     background-color: black;
-    border: none; !important;
-    padding: 5px 5px; !important;
+    border: none !important;
+    padding: 5px 5px !important;
 }
 
 a.list-group-item {
@@ -285,9 +306,18 @@ input[type="checkbox"], input[type="radio"] {
 
 .sub1 {
     /*padding-left: 20px; !important;*/
-    width: 95%; !important;
+    width: 95% !important;
     float: right;
     padding: 1px;
     font-weight: bold;
 
+}
+
+.claro .dijitButtonNode .dijitArrowButtonInner {
+    width: 15px;
+    height: 15px;
+    margin: 0 auto;
+    background-image: url("http://js.arcgis.com/3.13/dijit/themes/claro/form/images/buttonArrows.png");
+    background-repeat: no-repeat;
+    background-position: -51px 53%;
 }
