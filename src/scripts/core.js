@@ -174,7 +174,7 @@ require([
     });
 
     // Symbols
-    var sym = createPictureSymbol('../src/images/purple-pin.png', 0, 12, 13, 24);
+    var sym = createPictureSymbol('images/purple-pin.png', 0, 12, 13, 24);
 
     map.on('load', function (){
         map.infoWindow.set('highlight', false);
