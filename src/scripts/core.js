@@ -377,106 +377,106 @@ require([
         ////end reference layers////////////////////////////////////////
 
         const dikeBreaksLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikeBreaks", visible:false, minScale:100000} );
-        dikeBreaksLayer.setVisibleLayers([1]);
+        dikeBreaksLayer.setVisibleLayers([0]);
         mapLayers.push(dikeBreaksLayer);
         dikeBreaksLayer.inLegendLayers = false;
         //legendLayers.push ({layer:dikeBreaksLayer, title: "Dike Breaks"});
 
         const culvertsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "culverts", visible:false, minScale:100000} );
-        culvertsLayer.setVisibleLayers([2]);
+        culvertsLayer.setVisibleLayers([1]);
         mapLayers.push(culvertsLayer);
         culvertsLayer.inLegendLayers = false;
         //legendLayers.push ({layer:culvertsLayer, title: "Culverts"});
 
         const degFlowlinesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "degFlowlines", visible:false, minScale:100000} );
-        degFlowlinesLayer.setVisibleLayers([3]);
+        degFlowlinesLayer.setVisibleLayers([2]);
         mapLayers.push(degFlowlinesLayer);
         degFlowlinesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:degFlowlinesLayer, title: "Degree flowlines"});
 
         const dikesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikes", visible:false, minScale:100000} );
-        dikesLayer.setVisibleLayers([5]);
+        dikesLayer.setVisibleLayers([3]);
         mapLayers.push(dikesLayer);
         dikesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:dikesLayer, title: "Dikes"});
 
         const dikedAreasLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikedAreas", visible:false} );
-        dikedAreasLayer.setVisibleLayers([6]);
+        dikedAreasLayer.setVisibleLayers([4]);
         mapLayers.push(dikedAreasLayer);
         dikedAreasLayer.inLegendLayers = false;
         //legendLayers.push ({layer:dikedAreasLayer, title: "Diked Areas"});
 
         ///parameters group
         const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "waterMask", visible:false} );
-        waterMaskLayer.setVisibleLayers([2]);
+        waterMaskLayer.setVisibleLayers([1]);
         mapLayers.push(waterMaskLayer);
         waterMaskLayer.inLegendLayers = false;
         //legendLayers.push ({layer:waterMaskLayer, title: "P0 - Water Mask"});
 
         const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "hydroperiod", visible:false} );
-        hydroperiodLayer.setVisibleLayers([3]);
+        hydroperiodLayer.setVisibleLayers([2]);
         mapLayers.push(hydroperiodLayer);
         hydroperiodLayer.inLegendLayers = false;
         //legendLayers.push ({layer:hydroperiodLayer, title: "P1 - Hydroperiod"});
 
         const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "wetsoils", visible:false} );
-        wetsoilsLayer.setVisibleLayers([4]);
+        wetsoilsLayer.setVisibleLayers([3]);
         mapLayers.push(wetsoilsLayer);
         wetsoilsLayer.inLegendLayers = false;
         //legendLayers.push ({layer:wetsoilsLayer, title: "P2 - Wetsoils"});
 
         const flowlineLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "flowline", visible:false} );
-        flowlineLayer.setVisibleLayers([5]);
+        flowlineLayer.setVisibleLayers([4]);
         mapLayers.push(flowlineLayer);
         flowlineLayer.inLegendLayers = false;
         //legendLayers.push ({layer:flowlineLayer, title: "P3 - Flowline"});
 
         const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "conservedLands", visible:false} );
-        conservedLandsLayer.setVisibleLayers([6]);
+        conservedLandsLayer.setVisibleLayers([5]);
         mapLayers.push(conservedLandsLayer);
         conservedLandsLayer.inLegendLayers = false;
         //legendLayers.push ({layer:conservedLandsLayer, title: "P4 - Conserved Lands"});
 
         const imperviousSurfacesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "imperviousSurfaces", visible:false} );
-        imperviousSurfacesLayer.setVisibleLayers([7]);
+        imperviousSurfacesLayer.setVisibleLayers([6]);
         mapLayers.push(imperviousSurfacesLayer);
         imperviousSurfacesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:imperviousSurfacesLayer, title: "P5 - Impervious Surfaces"});
 
         const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "landuse", visible:false} );
-        landuseLayer .setVisibleLayers([8]);
+        landuseLayer .setVisibleLayers([7]);
         mapLayers.push(landuseLayer );
         landuseLayer.inLegendLayers = false;
         //legendLayers.push ({layer:landuseLayer , title: "P6 - Landuse"});
         /////end parameters group
         //
         const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "normalized", visible:true} );
-        normRestorationIndexLayer.setVisibleLayers([9]);
+        normRestorationIndexLayer.setVisibleLayers([8]);
         mapLayers.push(normRestorationIndexLayer);
         legendLayers.push ({layer:normRestorationIndexLayer, title:" "});
         normRestorationIndexLayer.inLegendLayers = true;
 
         //4 scale group
         const highRestoreLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "highRestore", visible:false} );
-        highRestoreLayer.setVisibleLayers([11]);
+        highRestoreLayer.setVisibleLayers([10]);
         mapLayers.push(highRestoreLayer);
         highRestoreLayer.inLegendLayers = false;
         //legendLayers.push ({layer:highRestoreLayer, title: "High restorable"});
 
         const mediumRestoreLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "mediumRestore", visible:false} );
-        mediumRestoreLayer.setVisibleLayers([12]);
+        mediumRestoreLayer.setVisibleLayers([11]);
         mapLayers.push(mediumRestoreLayer);
         mediumRestoreLayer.inLegendLayers = false;
         //legendLayers.push ({layer:mediumRestoreLayer, title: "Medium restorable"});
 
         const lowRestoreLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "lowRestore", visible:false} );
-        lowRestoreLayer.setVisibleLayers([13]);
+        lowRestoreLayer.setVisibleLayers([12]);
         mapLayers.push(lowRestoreLayer);
         lowRestoreLayer.inLegendLayers = false;
         //legendLayers.push ({layer:lowRestoreLayer, title: "Low restorable"});
 
         const noRestoreLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot +  "restorationModel/MapServer", {id: "noRestore", visible:false} );
-        noRestoreLayer.setVisibleLayers([14]);
+        noRestoreLayer.setVisibleLayers([13]);
         mapLayers.push(noRestoreLayer);
         noRestoreLayer.inLegendLayers = false;
         //legendLayers.push ({layer:noRestoreLayer, title: "Not restorable"});
@@ -520,6 +520,7 @@ require([
                 //add to legend layers object if not there already(this prevents waiting for all to load on init)
                 if (layer.inLegendLayers == false) {
                     legendLayers.push({layer: layer, title: " "});
+                    layer.inLegendLayers = true;
                     legend.refresh();
                 }
             }

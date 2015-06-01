@@ -12,9 +12,7 @@ body {
     background-color:#474747;
 }
 
-.keepit100 {
-    height: 100%;
-}
+
 
 @media (max-width: 767px) {
     #geosearchButtonText {
@@ -81,6 +79,10 @@ body {
     display:none;
 }
 
+.keepit100 {
+    height: 100%;
+}
+
 .latLngScale {
     position:absolute;
     padding:4px;
@@ -100,13 +102,16 @@ body {
     display:inline-block;
 }
 
-#legendDiv {
-    overflow-y: auto;
-    /*max-height: inherit;*/
+#legendButtonSidebar {
+    width: 100%;
 }
 
 #legendCollapse {
     /*max-height: inherit;*/
+}
+
+#legendDiv {
+    overflow-y: auto;
 }
 
 /*#legendElement {*/
@@ -137,20 +142,6 @@ body {
     border-radius: 4px;
 }
 
-.measurementClass {
-    position:absolute;
-    top:5px;
-    left:45px;
-    z-index:3;
-    color: black;
-    /*width: 240px;*/
-    background-color: rgb(255,255,255);
-    background-color: rgba(255,255,255,0.8);
-    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
-    /*min-width: 150px;*/
-    border-radius: 4px;
-}
-
 .legendHeading {
     color: black;
     background-color: rgb(255,255,255);
@@ -160,68 +151,6 @@ body {
     padding-bottom: 8px;
     padding-right: 10px;
     padding-left: 10px;
-}
-
-.measurementHeading {
-    color: black;
-    background-color: rgb(255,255,255);
-    background-color: rgba(255,255,255,0.8);
-    text-decoration: none !important;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-right: 10px;
-    padding-left: 10px;
-}
-
-#measurementCollapse {
-    width: 240px;
-}
-
-#legendButtonSidebar {
-    width: 100%;
-}
-
-.map {
-    overflow: auto;
-}
-
-#mapDiv {
-    min-height: 100%;
-    max-height: 100%;
-}
-
-.opacity {
-    padding-left: 10px;
-}
-
-.opacitySlider {
-    position: absolute;
-    color: white;
-    width: 200px;
-    padding: 10px;
-    /*padding-bottom: 40px;*/
-    opacity: 0.8;
-    border: solid 1px white;
-    background-color: black;
-    z-index: 1000;
-    border-radius: 5px;
-}
-
-.zoomDialog {
-    position: absolute;
-    color: white;
-    /*width: 200px;*/
-    padding: 5px;
-    /*padding-bottom: 40px;*/
-    opacity: 0.9;
-    border: solid 1px white;
-    background-color: black;
-    z-index: 1000;
-    border-radius: 5px;
-}
-
-.zoomClose {
-    color: white;
 }
 
 .list-group-item {
@@ -239,6 +168,49 @@ a.list-group-item:hover {
     color: black;
 }
 
+.lyrTogDiv {
+    width: 100%;
+    padding: 1px;
+    font-weight: bold;
+}
+
+.map {
+    overflow: auto;
+}
+
+#mapDiv {
+    min-height: 100%;
+    max-height: 100%;
+}
+
+.measurementClass {
+    position:absolute;
+    top:5px;
+    left:45px;
+    z-index:3;
+    color: black;
+    /*width: 240px;*/
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    /*min-width: 150px;*/
+    border-radius: 4px;
+}
+
+.measurementHeading {
+    color: black;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.8);
+    text-decoration: none !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+#measurementCollapse {
+    width: 240px;
+}
 
 .modal-dialog {
     padding-top: 60px;
@@ -262,6 +234,24 @@ a.list-group-item:hover {
     padding: 0;
 }
 
+.opacity {
+    padding-left: 10px;
+}
+
+.opacitySlider {
+    position: absolute;
+    color: white;
+    width: 200px;
+    padding: 10px;
+    /*padding-bottom: 40px;*/
+    opacity: 0.8;
+    border: solid 1px white;
+    background-color: black;
+    z-index: 1000;
+    border-radius: 5px;
+}
+
+
 .panel-heading a:after {
     font-family:'Glyphicons Halflings';
     content:"\e114";
@@ -283,23 +273,12 @@ a.list-group-item:hover {
     text-align: center;
 }
 
-.wim-sidebar-panel {
-    margin-bottom: 2px;
-}
-
 #sidebar {
     top: 50px;
     padding-bottom: 50px;
 }
 input[type="checkbox"], input[type="radio"] {
     float: left;
-}
-
-
-.lyrTogDiv {
-    width: 100%;
-    padding: 1px;
-    font-weight: bold;
 }
 
 .sub1 {
@@ -309,6 +288,27 @@ input[type="checkbox"], input[type="radio"] {
     padding: 1px;
     font-weight: bold;
 
+}
+
+.wim-sidebar-panel {
+    margin-bottom: 2px;
+}
+
+.zoomDialog {
+    position: absolute;
+    color: white;
+    /*width: 200px;*/
+    padding: 5px;
+    /*padding-bottom: 40px;*/
+    opacity: 0.9;
+    border: solid 1px white;
+    background-color: black;
+    z-index: 1000;
+    border-radius: 5px;
+}
+
+.zoomClose {
+    color: white;
 }
 
 .claro .dijitButtonNode .dijitArrowButtonInner {
