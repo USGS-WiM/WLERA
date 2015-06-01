@@ -336,7 +336,6 @@ require([
         var identifyTask, identifyParams;
         var navToolbar;
         var locator;
-
         var legendLayerInfos = [];
 
         //create global layers lookup
