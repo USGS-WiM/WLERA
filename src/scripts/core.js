@@ -7,7 +7,6 @@
  */
 
 var map;
-var allLayers;
 var maxLegendHeight;
 var maxLegendDivHeight;
 
@@ -49,9 +48,6 @@ require([
     dom,
     on
 ) {
-
-    //bring this line back after experiment////////////////////////////
-    //allLayers = mapLayers;
 
     map = Map('mapDiv', {
         basemap: 'gray',
@@ -126,20 +122,8 @@ require([
         map.setBasemap('satellite');
         map.removeLayer(nationalMapBasemap);
     });
-    on(dom.byId('btnHybrid'), 'click', function () {
-        map.setBasemap('hybrid');
-        map.removeLayer(nationalMapBasemap);
-    });
-    on(dom.byId('btnTerrain'), 'click', function () {
-        map.setBasemap('terrain');
-        map.removeLayer(nationalMapBasemap);
-    });
     on(dom.byId('btnGray'), 'click', function () {
         map.setBasemap('gray');
-        map.removeLayer(nationalMapBasemap);
-    });
-    on(dom.byId('btnNatGeo'), 'click', function () {
-        map.setBasemap('national-geographic');
         map.removeLayer(nationalMapBasemap);
     });
     on(dom.byId('btnOSM'), 'click', function () {
@@ -150,7 +134,6 @@ require([
         map.setBasemap('topo');
         map.removeLayer(nationalMapBasemap);
     });
-
     on(dom.byId('btnNatlMap'), 'click', function () {
         map.addLayer(nationalMapBasemap);
     });
@@ -308,10 +291,10 @@ require([
         'esri/tasks/QueryTask',
         'esri/graphicsUtils',
         'esri/geometry/Point',
+        'esri/SpatialReference',
         'esri/geometry/Extent',
         'esri/layers/ArcGISDynamicMapServiceLayer',
         'esri/layers/FeatureLayer',
-        'esri/layers/WebTiledLayer',
         'dojo/query',
         'dojo/dom'
     ], function(
@@ -321,10 +304,10 @@ require([
         QueryTask,
         graphicsUtils,
         Point,
+        SpatialReference,
         Extent,
         ArcGISDynamicMapServiceLayer,
         FeatureLayer,
-        WebTiledLayer,
         query,
         dom
     ) {
@@ -343,23 +326,6 @@ require([
 
         const mapServiceRoot= "http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/";
         //begin reference layers////////////////////////////////////
-        const hexRefLayer = new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "hexRef", visible:true} );
-        hexRefLayer.setVisibleLayers([0]);
-        mapLayers.push(hexRefLayer);
-        legendLayers.push({layer:hexRefLayer, title:" "});
-        hexRefLayer.inLegendLayers = true;
-
-        //const hexRefLayer = new WebTiledLayer("http://wimcloud.usgs.gov.s3-website-us-east-1.amazonaws.com/tiles/WLERA/HexRef/${level}/${row}/${col}.png", {
-        //    "id": "hexRef",
-        //    "copyright": "WiM 2015"
-        //});
-        //mapLayers.push(hexRefLayer);
-        //const studyAreaLayer = new WebTiledLayer("http://wimcloud.usgs.gov.s3-website-us-east-1.amazonaws.com/tiles/WLERA/StudyArea/${level}/${row}/${col}.png", {
-        //    "id": "studyArea",
-        //    "copyright": "WiM 2015"
-        //});
-        //mapLayers.push(studyAreaLayer);
-
         const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "studyArea", visible:true} );
         studyAreaLayer.setVisibleLayers([1]);
         mapLayers.push(studyAreaLayer);
@@ -368,7 +334,6 @@ require([
 
         //const parcelsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcels", visible:false, minScale:100000} );
         //parcelsLayer.setVisibleLayers([2]);
-
         const parcelsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/2", {id: "parcels", visible:false, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outfields: ["*"]});
         mapLayers.push(parcelsLayer);
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
@@ -455,34 +420,7 @@ require([
         legendLayers.push ({layer:normRestorationIndexLayer, title:" "});
         normRestorationIndexLayer.inLegendLayers = true;
 
-        //4 scale group
-        const highRestoreLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "highRestore", visible:false} );
-        highRestoreLayer.setVisibleLayers([10]);
-        mapLayers.push(highRestoreLayer);
-        highRestoreLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:highRestoreLayer, title: "High restorable"});
-
-        const mediumRestoreLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "mediumRestore", visible:false} );
-        mediumRestoreLayer.setVisibleLayers([11]);
-        mapLayers.push(mediumRestoreLayer);
-        mediumRestoreLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:mediumRestoreLayer, title: "Medium restorable"});
-
-        const lowRestoreLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "lowRestore", visible:false} );
-        lowRestoreLayer.setVisibleLayers([12]);
-        mapLayers.push(lowRestoreLayer);
-        lowRestoreLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:lowRestoreLayer, title: "Low restorable"});
-
-        const noRestoreLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot +  "restorationModel/MapServer", {id: "noRestore", visible:false} );
-        noRestoreLayer.setVisibleLayers([13]);
-        mapLayers.push(noRestoreLayer);
-        noRestoreLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:noRestoreLayer, title: "Not restorable"});
-        //end 4 scale group
-
         map.addLayers(mapLayers);
-
 
         //dojo.keys.copyKey maps to CTRL on windows and Cmd on Mac., but has wrong code for Chrome on Mac
         var snapManager = map.enableSnapping({
@@ -492,7 +430,6 @@ require([
             layer: parcelsLayer
         }];
         snapManager.setLayerInfos(layerInfos);
-
 
         //checks to see which layers are visible on load, sets toggle to active
         for(var j = 0; j < map.layerIds.length; j++) {
@@ -546,7 +483,7 @@ require([
 
             $(".zoomDialog").remove();
             var layerToChange = this.parentNode.id;
-            var zoomDialog = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" id="zoomscale" class="list-group-item zoomscale">Zoom to scale</a> <a id="zoomcenter" href="#" class="list-group-item zoomcenter">Zoom to center</a></div></div>');
+            var zoomDialog = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" id="zoomscale" class="list-group-item zoomscale">Zoom to scale</a> <a id="zoomcenter" href="#" class="list-group-item zoomcenter">Zoom to center</a><a id="zoomextent" href="#" class="list-group-item zoomcenter">Zoom to extent</a></div></div>');
 
             $("body").append(zoomDialog);
 
@@ -569,10 +506,17 @@ require([
 
             $("#zoomcenter").click(function (e){
                 //logic to zoom to layer center
-                var layerCenter = map.getLayer(layerToChange).fullExtent.getCenter();
-                map.centerAt(layerCenter);
-                //var layerExtent = map.getLayer(layerToChange).fullExtent;
-                //map.setExtent(layerExtent);
+                //var layerCenter = map.getLayer(layerToChange).fullExtent.getCenter();
+                //map.centerAt(layerCenter);
+                var dataCenter = new Point(-83.208084,41.628103, new SpatialReference({wkid:4326}));
+                map.centerAt(dataCenter);
+
+            });
+
+            $("#zoomextent").click(function (e){
+                //logic to zoom to layer extent
+                var layerExtent = map.getLayer(layerToChange).fullExtent;
+                map.setExtent(layerExtent);
             });
         });
 
@@ -607,27 +551,13 @@ require([
             });
         });
 
-
         var legend = new Legend({
             map: map,
             layerInfos: legendLayers
         }, "legendDiv");
         legend.startup();
 
-
     });//end of require statement containing legend building code
 
-
 });
 
-$(document).ready(function () {
-    //7 lines below are handler for the legend buttons. to be removed if we stick with the in-map legend toggle
-    //$('#legendButtonNavBar, #legendButtonSidebar').on('click', function () {
-    //    $('#legend').toggle();
-    //    //return false;
-    //});
-    //$('#legendClose').on('click', function () {
-    //    $('#legend').hide();
-    //});
-
-});

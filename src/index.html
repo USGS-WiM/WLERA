@@ -127,88 +127,23 @@
               <!--</div>-->
               <!--</div>-->
               <!--<button id="legendButtonSidebar" type="button" class="btn btn-default" ><span class="glyphicon glyphicon-list"></span> Legend</button>-->
-              <div class="panel panel-default wim-sidebar-panel">
-                  <div class="panel-heading" id="basemapsHeader">
-                      <h4 class="panel-title">
-                          <a data-toggle="collapse"  href="#basemapsPanel" aria-expanded="false" aria-controls="basemapsPanel">
-                              Basemaps
-                          </a>
-                      </h4>
-                  </div>
-                  <div id="basemapsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="basemapsHeader">
-                      <div class="panel-body collapse in">
-                          <button id="btnStreets" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/streets.jpg"><br class="basemapThumb">Streets</button>
-                          <button id="btnSatellite" class="btn btn-default basemapBtn equalize" ><img class="basemapThumb" alt="" src="images/satellite.jpg"><br class="basemapThumb">Satellite</button>
-                          <button id="btnHybrid" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/imagery_labels.jpg"><br class="basemapThumb">Hybrid</button>
-                          <button id="btnTopo" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/topo.jpg"><br class="basemapThumb">Topo</button>
-                          <button id="btnTerrain" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/terrain.jpg"><br class="basemapThumb">Terrain</button>
-                          <button id="btnGray" class="btn btn-default basemapBtn equalize" ><img class="basemapThumb" alt="" src="images/gray.jpg"><br class="basemapThumb">Gray</button>
-                          <button id="btnOSM" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/osm.jpg"><br class="basemapThumb">OSM</button>
-                          <button id="btnNatGeo" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/natgeo.jpg"><br class="basemapThumb">NatGeo</button>
-                          <button id="btnNatlMap" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/national_map.jpg"><br class="basemapThumb">Nat'l Map</button>
-                      </div>
 
-                  </div>
-              </div>
               <div class="panel panel-default wim-sidebar-panel">
                   <div class="panel-heading" id="layersPanelHeader">
                       <h4 class="panel-title">
-                          <a class="collapsed" data-toggle="collapse" href="#layersPanel" aria-expanded="true" aria-controls="layersPanel">
-                              Map Layers
-                          </a>
+                          <a class="collapsed" data-toggle="collapse" href="#layersPanel" aria-expanded="true" aria-controls="layersPanel">Map Layers</a>
                       </h4>
                   </div>
                   <div id="layersPanel" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="layersPanelHeader">
-                      <div id="toggle" style="padding: 2px 2px;"></div>
-
-                      <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                          <button id="hexRef" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Hex Reference<span id="opacityhexRef" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
-                      </div>
-
-                      <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                          <button id="studyArea" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Study Area<span id="opacitystudyArea" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
-                      </div>
-
-                      <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                          <button id="parcels" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Ottawa Parcels<span id="opacityparcels" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button>
-                      </div>
-
-                      <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                          <button id="hydroCondition" class="btn btn-default groupToggle" type="button" data-toggle="collapse" data-target="#hydroConditionGroup"  aria-expanded="false" aria-controls="collapseExample" style="font-weight: bold;text-align: left"><!--<i class="checkBoxIcon fa fa-square-o"></i>-->&nbsp;&nbsp;Hydro Conditioning&nbsp;<i class="chevron fa fa-chevron-right pull-right"></i></button>
-                      </div>
-
-                      <div class="collapse groupCollapse" id="hydroConditionGroup">
-                          <div id="hydroConditionsGroupButtons" class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">
-                              <button id="dikeBreaks" type="button" class="btn btn-default lyrTog " aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Dike Breaks<span id="opacitydikeBreaks" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button>
-                          <!--</div>-->
-                          <!--<div class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">-->
-                              <button id="culverts" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Culverts<span id="opacityculverts" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button>
-                          <!--</div>-->
-                          <!--<div class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">-->
-                              <button id="degFlowlines" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Degree Flowlines<span id="opacitydegFlowlines" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button>
-                          <!--</div>-->
-                          <!--<div class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">-->
-                              <button id="dikes" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Dikes<span id="opacitydikes" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button>
-                          <!--</div>-->
-                          <!--<div class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">-->
-                              <button id="dikedAreas" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Diked Areas<span id="opacitydikedAreas" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
-                          </div>
-                      </div>
-
-
                       <div id="restorationModelGroupHeading" class="groupHeading">
-                          <!--<div class="well"><strong>Restoration Model</strong></div>-->
                           <label>Restoration Model</label>
                       </div>
-
                       <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
                           <button id="normalized" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Normalized Restoration Index<span id="opacitynormalized" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                       </div>
-
                       <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
                           <button id="parameters" class="btn btn-default groupToggle" type="button" data-toggle="collapse" data-target="#parametersGroup"  aria-expanded="false" aria-controls="collapseExample" style="font-weight: bold;text-align: left"><!--<i class="checkBoxIcon fa fa-square-o"></i>-->&nbsp;&nbsp;Parameters&nbsp;<i class="chevron fa fa-chevron-right pull-right"></i></button>
                       </div>
-
                       <div class="collapse" id="parametersGroup">
                           <div id="parametersGroupButtons" class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">
                               <button id="waterMask" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Water Mask<span id="opacitywaterMask" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
@@ -220,33 +155,58 @@
                               <button id="landuse" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Landuse<span id="opacitylanduse" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                           </div>
                       </div>
-
-                      <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                          <button id="4scale" class="btn btn-default groupToggle" type="button" data-toggle="collapse" data-target="#4scaleGroup"  aria-expanded="false" aria-controls="collapseExample" style="font-weight: bold;text-align: left"><!--<i class="checkBoxIcon fa fa-square-o"></i>-->&nbsp;&nbsp;4-Scale&nbsp;<i class="chevron fa fa-chevron-right pull-right"></i></button>
+                      <div id="referenceGroupHeading" class="groupHeading">
+                          <label>Reference</label>
                       </div>
-
-                      <div class="collapse" id="4scaleGroup">
-                          <div  id="4scaleGroupButtons" class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">
-                              <button id="highRestore" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;High Restorable<span id="opacityhighRestore" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
-                              <button id="mediumRestore" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Medium Restorable<span id="opacitymediumRestore" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
-                              <button id="lowRestore" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Low Restorable<span id="opacitylowRestore" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
-                              <button id="noRestore" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Not Restorable<span id="opacitynoRestore" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
+                      <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
+                          <button id="studyArea" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Study Area<span id="opacitystudyArea" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
+                      </div>
+                      <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
+                          <button id="parcels" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Parcels<span id="opacityparcels" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button>
+                      </div>
+                      <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
+                          <button id="hydroCondition" class="btn btn-default groupToggle" type="button" data-toggle="collapse" data-target="#hydroConditionGroup"  aria-expanded="false" aria-controls="collapseExample" style="font-weight: bold;text-align: left"><!--<i class="checkBoxIcon fa fa-square-o"></i>-->&nbsp;&nbsp;Hydro Conditioning&nbsp;<i class="chevron fa fa-chevron-right pull-right"></i></button>
+                      </div>
+                      <div class="collapse groupCollapse" id="hydroConditionGroup">
+                          <div id="hydroConditionsGroupButtons" class="btn-group-vertical sub1" style="cursor: pointer;" data-toggle="buttons">
+                              <button id="dikeBreaks" type="button" class="btn btn-default lyrTog " aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Dike Breaks<span id="opacitydikeBreaks" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button>
+                              <button id="culverts" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Culverts<span id="opacityculverts" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button>
+                              <button id="degFlowlines" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Degree Flowlines<span id="opacitydegFlowlines" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button>
+                              <button id="dikes" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Dikes<span id="opacitydikes" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button>
+                              <button id="dikedAreas" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Diked Areas<span id="opacitydikedAreas" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                           </div>
                       </div>
 
+                      <!-- need this useless div and label now to keep the buttons separate from basemaps panel toggle -->
+                      <div style="color: #ffffff"><label>000</label></div>
 
+                  </div>
+
+
+
+              </div>
+
+              <div class="panel panel-default wim-sidebar-panel">
+                  <div class="panel-heading" id="basemapsHeader">
+                      <h4 class="panel-title">
+                          <a data-toggle="collapse"  href="#basemapsPanel" aria-expanded="false" aria-controls="basemapsPanel">Basemaps</a>
+                      </h4>
+                  </div>
+                  <div id="basemapsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="basemapsHeader">
+                      <div class="panel-body collapse in">
+                          <button id="btnStreets" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/streets.jpg"><br class="basemapThumb">Streets</button>
+                          <button id="btnSatellite" class="btn btn-default basemapBtn equalize" ><img class="basemapThumb" alt="" src="images/satellite.jpg"><br class="basemapThumb">Satellite</button>
+                          <button id="btnTopo" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/topo.jpg"><br class="basemapThumb">Topo</button>
+                          <button id="btnGray" class="btn btn-default basemapBtn equalize" ><img class="basemapThumb" alt="" src="images/gray.jpg"><br class="basemapThumb">Gray</button>
+                          <button id="btnOSM" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/osm.jpg"><br class="basemapThumb">OSM</button>
+                          <button id="btnNatlMap" class="btn btn-default basemapBtn equalize"><img class="basemapThumb" alt="" src="images/national_map.jpg"><br class="basemapThumb">Nat'l Map</button>
+                      </div>
                   </div>
               </div>
               <!-- # closing div tag for accordion style panels -->
               <!--</div>-->
           </div>
           <div class="col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 no-col-padding keepit100">
-              <!-- legend, associated with legend buttons. to be removed if we stick with the in-map legend toggle -->
-              <!--<div id="legend" class="legend" style="display: none" >-->
-              <!--<button id="legendClose" type="button" class="close" data-dismiss="legend" aria-label="Close" aria-hidden="true">x</button>-->
-              <!--<h4><b>Explanation</b></h4>-->
-              <!--<div id="legendDiv"></div>-->
-              <!--</div>-->
 
               <div id="mapDiv">
 
