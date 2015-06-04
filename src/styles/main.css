@@ -168,6 +168,13 @@ a.list-group-item:hover {
     color: black;
 }
 
+#locateButton {
+    position: absolute;
+    top: 110px;
+    left: 5px;
+    z-index: 50;
+}
+
 .lyrTogDiv {
     width: 100%;
     padding: 1px;

@@ -14,6 +14,7 @@ require([
     'esri/map',
     "esri/SnappingManager",
     "esri/dijit/HomeButton",
+    "esri/dijit/LocateButton",
     "esri/dijit/Measurement",
     'application/bootstrapmap',
     'esri/layers/ArcGISTiledMapServiceLayer',
@@ -33,6 +34,7 @@ require([
     Map,
     SnappingManager,
     HomeButton,
+    LocateButton,
     Measurement,
     BootstrapMap,
     ArcGISTiledMapServiceLayer,
@@ -52,17 +54,26 @@ require([
     map = Map('mapDiv', {
         basemap: 'gray',
         center: [-82.745, 41.699],
+        spatialReference: 26917,
         zoom: 10
     });
-    var home = new HomeButton({
+    const home = new HomeButton({
         map: map
     }, "homeButton");
     home.startup();
+
+    const geoLocate = new LocateButton({
+        map: map
+    }, "locateButton");
+    geoLocate.startup();
 
     var measurement = new Measurement({
         map: map
     }, dom.byId("measurementDiv"));
     measurement.startup();
+
+    var utmCoords = $('<tr class="esriMeasurementTableRow" id="utmCoords"><td><span>UTM17</span></td><td class="esriMeasurementTableCell"> <span id="utmX" dir="ltr">UTM X</span></td> <td class="esriMeasurementTableCell"> <span id="utmY" dir="ltr">UTM Y</span></td></tr>');
+    $('.esriMeasurementResultTable').append(utmCoords);
 
     esri.config.defaults.io.corsEnabledServers.push("http://52.0.108.106:6080/");
 
@@ -85,8 +96,8 @@ require([
         var scale =  map.getScale().toFixed(0);
         $('#scale')[0].innerHTML = addCommas(scale);
         var initMapCenter = webMercatorUtils.webMercatorToGeographic(map.extent.getCenter());
-        $('#latitude').html(initMapCenter.y.toFixed(3));
-        $('#longitude').html(initMapCenter.x.toFixed(3));
+        $('#latitude').html(initMapCenter.y.toFixed(4));
+        $('#longitude').html(initMapCenter.x.toFixed(4));
     });
     //displays map scale on scale change (i.e. zoom level)
     on(map, "zoom-end", function () {
@@ -99,8 +110,8 @@ require([
         $('#mapCenterLabel').css("display", "none");
         if (cursorPosition.mapPoint != null) {
             var geographicMapPt = webMercatorUtils.webMercatorToGeographic(cursorPosition.mapPoint);
-            $('#latitude').html(geographicMapPt.y.toFixed(3));
-            $('#longitude').html(geographicMapPt.x.toFixed(3));
+            $('#latitude').html(geographicMapPt.y.toFixed(4));
+            $('#longitude').html(geographicMapPt.x.toFixed(4));
         }
     });
     //updates lat/lng indicator to map center after pan and shows "map center" label.
@@ -108,34 +119,35 @@ require([
         //displays latitude and longitude of map center
         $('#mapCenterLabel').css("display", "inline");
         var geographicMapCenter = webMercatorUtils.webMercatorToGeographic(map.extent.getCenter());
-        $('#latitude').html(geographicMapCenter.y.toFixed(3));
-        $('#longitude').html(geographicMapCenter.x.toFixed(3));
+        $('#latitude').html(geographicMapCenter.y.toFixed(4));
+        $('#longitude').html(geographicMapCenter.x.toFixed(4));
     });
 
-    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('http://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer');
-    //on clicks to swap basemap. map.removeLayer is required for nat'l map b/c it is not technically a basemap, but a tiled layer.
+    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('http://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer', {visible: false});
+    map.addLayer(nationalMapBasemap);
+    //on clicks to swap basemap. visibility toggling is required for nat'l map b/c it is not technically a basemap, but a tiled layer.
     on(dom.byId('btnStreets'), 'click', function () {
         map.setBasemap('streets');
-        map.removeLayer(nationalMapBasemap);
+        nationalMapBasemap.setVisibility(false);
     });
     on(dom.byId('btnSatellite'), 'click', function () {
         map.setBasemap('satellite');
-        map.removeLayer(nationalMapBasemap);
+        nationalMapBasemap.setVisibility(false);
     });
     on(dom.byId('btnGray'), 'click', function () {
         map.setBasemap('gray');
-        map.removeLayer(nationalMapBasemap);
+        nationalMapBasemap.setVisibility(false);
     });
     on(dom.byId('btnOSM'), 'click', function () {
         map.setBasemap('osm');
-        map.removeLayer(nationalMapBasemap);
+        nationalMapBasemap.setVisibility(false);
     });
     on(dom.byId('btnTopo'), 'click', function () {
         map.setBasemap('topo');
-        map.removeLayer(nationalMapBasemap);
+        nationalMapBasemap.setVisibility(false);
     });
     on(dom.byId('btnNatlMap'), 'click', function () {
-        map.addLayer(nationalMapBasemap);
+        nationalMapBasemap.setVisibility(true);
     });
 
     var geocoder = new Geocoder({
@@ -288,6 +300,8 @@ require([
         'esri/dijit/Legend',
         'esri/tasks/locator',
         'esri/tasks/query',
+        'esri/tasks/GeometryService',
+        "esri/tasks/ProjectParameters",
         'esri/tasks/QueryTask',
         'esri/graphicsUtils',
         'esri/geometry/Point',
@@ -301,6 +315,8 @@ require([
         Legend,
         Locator,
         Query,
+        GeometryService,
+        ProjectParameters,
         QueryTask,
         graphicsUtils,
         Point,
@@ -325,16 +341,32 @@ require([
         var mapLayers = [];
 
         const mapServiceRoot= "http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/";
+
+        const geomService = new GeometryService("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+
+
+        const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "normalized", visible:true} );
+        normRestorationIndexLayer.setVisibleLayers([0]);
+        mapLayers.push(normRestorationIndexLayer);
+        legendLayers.push ({layer:normRestorationIndexLayer, title:" "});
+        normRestorationIndexLayer.inLegendLayers = true;
+
+        const dikedAreasLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikedAreas", visible:false} );
+        dikedAreasLayer.setVisibleLayers([4]);
+        mapLayers.push(dikedAreasLayer);
+        dikedAreasLayer.inLegendLayers = false;
+        //legendLayers.push ({layer:dikedAreasLayer, title: "Diked Areas"});
+
         //begin reference layers////////////////////////////////////
         const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "studyArea", visible:true} );
-        studyAreaLayer.setVisibleLayers([1]);
+        studyAreaLayer.setVisibleLayers([0]);
         mapLayers.push(studyAreaLayer);
         legendLayers.push({layer:studyAreaLayer , title:" "});
         studyAreaLayer.inLegendLayers = true;
 
         //const parcelsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcels", visible:false, minScale:100000} );
         //parcelsLayer.setVisibleLayers([2]);
-        const parcelsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/2", {id: "parcels", visible:false, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outfields: ["*"]});
+        const parcelsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/1", {id: "parcels", visible:false, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outfields: ["*"]});
         mapLayers.push(parcelsLayer);
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
         parcelsLayer.inLegendLayers = false;
@@ -364,61 +396,53 @@ require([
         dikesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:dikesLayer, title: "Dikes"});
 
-        const dikedAreasLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikedAreas", visible:false} );
-        dikedAreasLayer.setVisibleLayers([4]);
-        mapLayers.push(dikedAreasLayer);
-        dikedAreasLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:dikedAreasLayer, title: "Diked Areas"});
+
 
         ///parameters group
         const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "waterMask", visible:false} );
-        waterMaskLayer.setVisibleLayers([1]);
+        waterMaskLayer.setVisibleLayers([2]);
         mapLayers.push(waterMaskLayer);
         waterMaskLayer.inLegendLayers = false;
         //legendLayers.push ({layer:waterMaskLayer, title: "P0 - Water Mask"});
 
         const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "hydroperiod", visible:false} );
-        hydroperiodLayer.setVisibleLayers([2]);
+        hydroperiodLayer.setVisibleLayers([3]);
         mapLayers.push(hydroperiodLayer);
         hydroperiodLayer.inLegendLayers = false;
         //legendLayers.push ({layer:hydroperiodLayer, title: "P1 - Hydroperiod"});
 
         const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "wetsoils", visible:false} );
-        wetsoilsLayer.setVisibleLayers([3]);
+        wetsoilsLayer.setVisibleLayers([4]);
         mapLayers.push(wetsoilsLayer);
         wetsoilsLayer.inLegendLayers = false;
         //legendLayers.push ({layer:wetsoilsLayer, title: "P2 - Wetsoils"});
 
         const flowlineLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "flowline", visible:false} );
-        flowlineLayer.setVisibleLayers([4]);
+        flowlineLayer.setVisibleLayers([5]);
         mapLayers.push(flowlineLayer);
         flowlineLayer.inLegendLayers = false;
         //legendLayers.push ({layer:flowlineLayer, title: "P3 - Flowline"});
 
         const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "conservedLands", visible:false} );
-        conservedLandsLayer.setVisibleLayers([5]);
+        conservedLandsLayer.setVisibleLayers([6]);
         mapLayers.push(conservedLandsLayer);
         conservedLandsLayer.inLegendLayers = false;
         //legendLayers.push ({layer:conservedLandsLayer, title: "P4 - Conserved Lands"});
 
         const imperviousSurfacesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "imperviousSurfaces", visible:false} );
-        imperviousSurfacesLayer.setVisibleLayers([6]);
+        imperviousSurfacesLayer.setVisibleLayers([7]);
         mapLayers.push(imperviousSurfacesLayer);
         imperviousSurfacesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:imperviousSurfacesLayer, title: "P5 - Impervious Surfaces"});
 
         const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "landuse", visible:false} );
-        landuseLayer .setVisibleLayers([7]);
+        landuseLayer .setVisibleLayers([8]);
         mapLayers.push(landuseLayer );
         landuseLayer.inLegendLayers = false;
         //legendLayers.push ({layer:landuseLayer , title: "P6 - Landuse"});
         /////end parameters group
         //
-        const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "normalized", visible:true} );
-        normRestorationIndexLayer.setVisibleLayers([8]);
-        mapLayers.push(normRestorationIndexLayer);
-        legendLayers.push ({layer:normRestorationIndexLayer, title:" "});
-        normRestorationIndexLayer.inLegendLayers = true;
+
 
         map.addLayers(mapLayers);
 
@@ -430,6 +454,31 @@ require([
             layer: parcelsLayer
         }];
         snapManager.setLayerInfos(layerInfos);
+
+
+        var outSR = new SpatialReference(26917);
+        measurement.on("measure-end", function(evt){
+            //$("#utmCoords").remove();
+            var resultGeom = evt.geometry;
+            var utmResult;
+            var absoluteX = (evt.geometry.x)*-1;
+            if ( absoluteX < 84 && absoluteX > 78 ){
+                geomService.project ( [ resultGeom ], outSR, function (projectedGeoms){
+                    utmResult = projectedGeoms[0];
+                    console.log(utmResult);
+                    var utmX = utmResult.x.toFixed(0);
+                    var utmY = utmResult.y.toFixed(0);
+                    $("#utmX").html(utmX);
+                    $("#utmY").html(utmY);
+                    //var utmCoords = $('<tr id="utmCoords"><td dojoattachpoint="pinCell"><span>UTM17</span></td> <td class="esriMeasurementTableCell"> <span id="utmX" dir="ltr">' + utmX + '</span></td> <td class="esriMeasurementTableCell"> <span id="utmY" dir="ltr">' + utmY + '</span></td></tr>');
+                    //$('.esriMeasurementResultTable').append(utmCoords);
+                });
+
+            } else {
+                $("#utmX").html("out of zone");
+                $("#utmY").html("out of zone");
+            }
+        });
 
         //checks to see which layers are visible on load, sets toggle to active
         for(var j = 0; j < map.layerIds.length; j++) {
