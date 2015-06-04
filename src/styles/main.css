@@ -19,9 +19,22 @@ body {
         display: none;
     }
 
+    #measureLabel {
+        display:none;
+    }
+
+    #snappingLabel {
+        display:none;
+    }
+
     #legendButtonNavBar {
         display: none;
     }
+
+    #sidebar {
+        opacity: 0.9;
+    }
+
 
     /*.basemapThumb {*/
     /*display: none;*/
@@ -284,6 +297,7 @@ a.list-group-item:hover {
     top: 50px;
     padding-bottom: 50px;
 }
+
 input[type="checkbox"], input[type="radio"] {
     float: left;
 }

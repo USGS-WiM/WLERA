@@ -52,15 +52,6 @@
               <span class="glyphicon glyphicon-search"></span>
               <span id="geosearchButtonText"> Geosearch</span>
           </button>
-
-          <!-- legend buttton for navbar. to be removed if we like the in-map legend toggle -->
-          <!--<button id="legendButtonNavBar" type="button" class="btn btn-primary navbar-btn pull-right" style="margin-right: 1em;"><span class="glyphicon glyphicon-list"></span> Legend</button>-->
-          <!-- toggle for a right sidebar (currently not in use) -->
-          <!--<button type="button" class="navbar-toggle toggle-right" data-toggle="sidebar" data-target=".sidebar-right">-->
-          <!--<span class="icon-bar"></span>-->
-          <!--<span class="icon-bar"></span>-->
-          <!--<span class="icon-bar"></span>-->
-          <!--</button>-->
       </div>
   </div>
 
@@ -93,20 +84,7 @@
   <!-- Begin page content -->
   <div class="container-fluid keepit100">
       <div class="row keepit100">
-          <!--<div id="sidebar" class="col-xs-7 col-sm-3 col-md-3 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">-->
           <div id="sidebar" class="col-xs-11 col-sm-10 col-md-3 col-lg-2 sidebar sidebar-left sidebar-animate sidebar-md-show no-col-padding">
-              <!-- # include line below to get accordion effect with panels - opening one closes the others. remember closing div tag at bottom -->
-              <!--<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">-->
-              <!-- include btn-toolbar below to put legend and geosearch buttons next to eachother -->
-              <!--<div class="btn-toolbar" style="margin-bottom: 2px;">-->
-              <!--<div class="btn-group no-col-padding">-->
-              <!-- sidebar legend button. to be rmoved if we like the in-map legend toggle -->
-              <!--<button id="legendButtonSidebar" type="button" class="btn btn-default" ><span class="glyphicon glyphicon-list"></span> Legend</button>-->
-              <!--<button id="geosearchButtonSidebar" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Geosearch</button>-->
-              <!--</div>-->
-              <!--</div>-->
-              <!--<button id="legendButtonSidebar" type="button" class="btn btn-default" ><span class="glyphicon glyphicon-list"></span> Legend</button>-->
-
               <div class="panel panel-default wim-sidebar-panel">
                   <div class="panel-heading" id="layersPanelHeader">
                       <h4 class="panel-title">
@@ -155,14 +133,9 @@
                               <button id="dikedAreas" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Diked Areas<span id="opacitydikedAreas" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span></button>
                           </div>
                       </div>
-
                       <!-- need this useless div and label now to keep the buttons separate from basemaps panel toggle -->
                       <div style="color: #ffffff"><label>000</label></div>
-
                   </div>
-
-
-
               </div>
 
               <div class="panel panel-default wim-sidebar-panel">
@@ -182,8 +155,6 @@
                       </div>
                   </div>
               </div>
-              <!-- # closing div tag for accordion style panels -->
-              <!--</div>-->
           </div>
           <div class="col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 no-col-padding keepit100">
 
@@ -194,7 +165,7 @@
                           <h4 class="panel-title">
                               <a data-toggle="collapse" style="text-decoration: none"  href="#legendCollapse" aria-expanded="true" aria-controls="collapseOne">
                                   <span class="glyphicon glyphicon-list"></span>
-                                  Legend
+                                  <span id="legendLabel">Legend</span>
                               </a>
                           </h4>
                       </div>
@@ -203,24 +174,20 @@
                       </div>
                   </div>
 
-
                   <div id="measurementElement" class="panel panel-default measurementClass">
                       <div id="measurementHeading" class="measurementHeading" role="tab">
                           <h4 class="panel-title">
                               <a data-toggle="collapse" style="text-decoration: none"  href="#measurementCollapse" aria-expanded="true" aria-controls="collapseOne">
                                   <i class="fa fa-ellipsis-h"></i>
-                                  Measure
+                                  <span id="measureLabel">Measure</span>
                               </a>
                           </h4>
                       </div>
                       <div id="measurementCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                           <div id="measurementDiv" class="panel-body"></div>
-                          <span style="font-size:smaller;padding:5px 5px;">Press <b>CTRL</b> to enable snapping.</span>
+                          <span id="snappingLabel" style="font-size:smaller;padding:5px 5px;">Press <b>CTRL</b> to enable snapping.</span>
                       </div>
                   </div>
-
-
-
               </div>
 
               <div id="homeButton"></div>

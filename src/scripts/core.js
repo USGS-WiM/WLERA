@@ -475,8 +475,10 @@ require([
                 });
 
             } else {
-                $("#utmX").html("out of zone");
-                $("#utmY").html("out of zone");
+                //$("#utmX").html("out of zone");
+                $("#utmX").html('<span class="label label-danger">outside zone</span>');
+                //$("#utmY").html("out of zone");
+                $("#utmY").html('<span class="label label-danger">outside zone</span>');
             }
         });
 
