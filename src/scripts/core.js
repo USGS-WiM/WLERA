@@ -284,14 +284,28 @@ require([
         $('#legendElement').css('max-height', maxLegendHeight);
         
         $('#legendCollapse').on('shown.bs.collapse', function () {
+            $('#legendLabel').show();
            maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
            $('#legendElement').css('max-height', maxLegendHeight);
            maxLegendDivHeight = ($('#legendElement').height()) - parseInt($('#legendHeading').css("height").replace('px',''));
            $('#legendDiv').css('max-height', maxLegendDivHeight);
         });
-        
         $('#legendCollapse').on('hide.bs.collapse', function () {
            $('#legendElement').css('height', 'initial');
+            if (window.innerWidth <= 767){
+                $('#legendLabel').hide();
+            }
+        });
+
+        $('#measurementCollapse').on('shown.bs.collapse', function () {
+            //show label when the collapse panel is expanded(for mobile, where label is hidden while collapsed)
+            $('#measureLabel').show();
+        });
+        $('#measurementCollapse').on('hide.bs.collapse', function () {
+            //hide label on collapse if window is small (mobile)
+            if (window.innerWidth <= 767){
+                $('#measureLabel').hide();
+            }
         });
 
     });
