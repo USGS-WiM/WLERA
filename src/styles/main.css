@@ -23,6 +23,10 @@ body {
         display:none;
     }
 
+    #legendLabel {
+        display: none;
+    }
+
     #snappingLabel {
         display:none;
     }
@@ -32,7 +36,7 @@ body {
     }
 
     #sidebar {
-        opacity: 0.9;
+        background: rgba(238, 238, 238, 0.7);
     }
 
 
@@ -298,6 +302,7 @@ a.list-group-item:hover {
     padding-bottom: 50px;
 }
 
+
 input[type="checkbox"], input[type="radio"] {
     float: left;
 }
@@ -313,6 +318,7 @@ input[type="checkbox"], input[type="radio"] {
 
 .wim-sidebar-panel {
     margin-bottom: 2px;
+    opacity: 1;
 }
 
 .zoomDialog {
