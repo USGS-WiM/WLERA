@@ -24,6 +24,7 @@ require([
     'esri/geometry/Multipoint',
     'esri/symbols/PictureMarkerSymbol',
     "esri/geometry/webMercatorUtils",
+    'esri/tasks/GeometryService',
     "esri/config",
     "dojo/keys",
     "dojo/has",
@@ -44,6 +45,7 @@ require([
     Multipoint,
     PictureMarkerSymbol,
     webMercatorUtils,
+    GeometryService,
     esriConfig,
     keys,
     has,
@@ -57,6 +59,11 @@ require([
         spatialReference: 26917,
         zoom: 10
     });
+
+    //esriConfig.defaults.geometryService = new esri.tasks.GeometryService("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+    esriConfig.defaults.geometryService = new GeometryService("http://54.152.244.240:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+    esri.config.defaults.io.corsEnabledServers.push("http://52.0.108.106:6080/");
+
     const home = new HomeButton({
         map: map
     }, "homeButton");
@@ -68,14 +75,13 @@ require([
     geoLocate.startup();
 
     var measurement = new Measurement({
-        map: map
+        map: map,
+        advancedLocationUnits: true
     }, dom.byId("measurementDiv"));
     measurement.startup();
 
     var utmCoords = $('<tr class="esriMeasurementTableRow" id="utmCoords"><td><span>UTM17</span></td><td class="esriMeasurementTableCell"> <span id="utmX" dir="ltr">UTM X</span></td> <td class="esriMeasurementTableCell"> <span id="utmY" dir="ltr">UTM Y</span></td></tr>');
     $('.esriMeasurementResultTable').append(utmCoords);
-
-    esri.config.defaults.io.corsEnabledServers.push("http://52.0.108.106:6080/");
 
     //following block forces map size to override problems with default behavior
     $(window).resize(function () {
@@ -494,6 +500,16 @@ require([
                 //$("#utmY").html("out of zone");
                 $("#utmY").html('<span class="label label-danger">outside zone</span>');
             }
+
+
+            //geomService.project ( [ resultGeom ], outSR, function (projectedGeoms){
+            //    utmResult = projectedGeoms[0];
+            //    console.log(utmResult);
+            //
+            //
+            //
+            //});
+
         });
 
         //checks to see which layers are visible on load, sets toggle to active
