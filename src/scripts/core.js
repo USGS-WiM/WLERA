@@ -9,14 +9,15 @@
 var map;
 var maxLegendHeight;
 var maxLegendDivHeight;
+var printCount = 0;
 
 require([
     'esri/map',
+    "esri/dijit/OverviewMap",
     "esri/SnappingManager",
     "esri/dijit/HomeButton",
     "esri/dijit/LocateButton",
     "esri/dijit/Measurement",
-    'application/bootstrapmap',
     'esri/layers/ArcGISTiledMapServiceLayer',
     'esri/dijit/Geocoder',
     'esri/dijit/PopupTemplate',
@@ -25,6 +26,10 @@ require([
     'esri/symbols/PictureMarkerSymbol',
     "esri/geometry/webMercatorUtils",
     'esri/tasks/GeometryService',
+    "esri/tasks/PrintTask",
+    "esri/tasks/PrintParameters",
+    "esri/tasks/PrintTemplate",
+    "esri/tasks/LegendLayer",
     "esri/config",
     "dojo/keys",
     "dojo/has",
@@ -33,11 +38,11 @@ require([
     'dojo/domReady!'
 ], function (
     Map,
+    OverviewMap,
     SnappingManager,
     HomeButton,
     LocateButton,
     Measurement,
-    BootstrapMap,
     ArcGISTiledMapServiceLayer,
     Geocoder,
     PopupTemplate,
@@ -46,6 +51,10 @@ require([
     PictureMarkerSymbol,
     webMercatorUtils,
     GeometryService,
+    PrintTask,
+    PrintParameters,
+    PrintTemplate,
+    LegendLayer,
     esriConfig,
     keys,
     has,
@@ -74,11 +83,17 @@ require([
     }, "locateButton");
     geoLocate.startup();
 
-    var measurement = new Measurement({
+    const measurement = new Measurement({
         map: map,
         advancedLocationUnits: true
     }, dom.byId("measurementDiv"));
     measurement.startup();
+
+    const overviewMapDijit = new OverviewMap({
+        map: map,
+        attachTo: "bottom-right"
+    });
+    overviewMapDijit.startup();
 
     var utmCoords = $('<tr class="esriMeasurementTableRow" id="utmCoords"><td><span>UTM17</span></td><td class="esriMeasurementTableCell"> <span id="utmX" dir="ltr">UTM X</span></td> <td class="esriMeasurementTableCell"> <span id="utmY" dir="ltr">UTM Y</span></td></tr>');
     $('.esriMeasurementResultTable').append(utmCoords);
@@ -95,6 +110,20 @@ require([
         else {
             $('#legendElement').css('height', 'initial');
         }
+    });
+
+
+    function showPrintModal() {
+        $('#printModal').modal('show');
+    }
+
+    $('#printNavButton').click(function(){
+        showPrintModal();
+    });
+
+    $('#printExecuteButton').click(function () {
+        $(this).button('loading');
+        printMap();
     });
 
     //displays map scale on map load
@@ -268,14 +297,68 @@ require([
                 'width':xWidth, 'height': yHeight
             });
     }
+
+    function printMap() {
+
+        var printParams = new PrintParameters();
+        printParams.map = map;
+
+        var template = new PrintTemplate();
+        template.exportOptions = {
+            width: 500,
+            height: 400,
+            dpi: 300
+        };
+        template.format = "PDF";
+        template.layout = "Letter ANSI A Landscape";
+        template.preserveScale = false;
+        var legendLayer = new LegendLayer();
+        legendLayer.layerId = "normalized";
+        //legendLayer.subLayerIds = [*];
+
+        var userTitle = $("#printTitle").val();
+        //if user does not provide title, use default. otherwise apply user title
+        if (userTitle == "") {
+            template.layoutOptions = {
+                "titleText": "Western Lake Erie Restoration Assessment",
+                "authorText" : "Western Lake Erie Restoration Assessment (WLERA)",
+                "copyrightText": "This page was produced by the WLERA web application at [insert app URL]",
+                "legendlayers": [legendLayer]
+            };
+        } else {
+            template.layoutOptions = {
+                "titleText": userTitle,
+                "authorText" : "Western Lake Erie Restoration Assessment (WLERA)",
+                "copyrightText": "This page was produced by the WLERA web application at [insert app URL]",
+                "legendlayers": [legendLayer]
+            };
+        }
+        printParams.template = template;
+        var printMap = new PrintTask("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+        printMap.execute(printParams, printDone, printError);
+
+        function printDone(event) {
+            //alert(event.url);
+            //window.open(event.url, "_blank");
+            printCount++;
+            var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
+            $("#print-form").append(printJob);
+            $("#printExecuteButton").button('reset');
+        }
+
+        function printError(event) {
+            alert(event.error);
+        }
+    }
+
     // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
-        function showModal() {
+        function showGeosearchModal() {
             $('#geosearchModal').modal('show');
         }
         // Geosearch nav menu is selected
         $('#geosearchNav').click(function(){
-            showModal();
+            showGeosearchModal();
         });
 
         $("#html").niceScroll();
@@ -313,6 +396,7 @@ require([
                 $('#measureLabel').hide();
             }
         });
+
 
     });
 
@@ -637,6 +721,10 @@ require([
             layerInfos: legendLayers
         }, "legendDiv");
         legend.startup();
+
+
+
+
 
     });//end of require statement containing legend building code
 

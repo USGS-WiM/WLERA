@@ -13,23 +13,12 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="shortcut icon" href="/favicon.ico">
 
-    <script type="text/javascript">
-        var package_path = "http://esri.github.com/bootstrap-map-js/src/js";
-        var dojoConfig = {
-          async: true,
-          parseOnLoad: false,
-            packages: [{
-                name: "application",
-                location: package_path
-            }]
-        };
-    </script>
-    
-    <script src="http://js.arcgis.com/3.13/"></script>
-
     <script src="scripts/vendor.js"></script>
 
-    <script src="scripts/combined.js"></script>
+
+    <script src="http://js.arcgis.com/3.13/"></script>
+
+      <script src="scripts/combined.js"></script>
 
 </head>
   <body class="claro">
@@ -48,10 +37,18 @@
               </a>
           </div>
 
+
+
           <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right">
               <span class="glyphicon glyphicon-search"></span>
               <span id="geosearchButtonText"> Geosearch</span>
           </button>
+
+          <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right">
+              <span class="glyphicon glyphicon-print"></span>
+              <span id="printButtonText"> Print</span>
+          </button>
+
       </div>
   </div>
 
@@ -80,6 +77,33 @@
           </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
   </div>
+
+
+
+  <div class="modal fade overflow-y-hidden" id="printModal" style="display: none;" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                  <h4 class="modal-title"><span class="glyphicon glyphicon-print"></span> Print Map</h4>
+              </div>
+              <div id="printModalBody" class="modal-body">
+
+
+                  <form id="print-title-form" class="form-group">
+                      <label for="printTitle">Title </label>
+                      <input class="form-control" id="printTitle" placeholder="Enter a title for your printout">
+                  </form>
+
+                  <form id="print-form" class="form-inline">
+                      <button id="printExecuteButton" type="button" class="btn btn-success btn-fixed" data-loading-text="Printing..." > Print </button>
+                      <button id="printDismissButton" type="submit" class="btn btn-default btn-fixed" data-dismiss="modal"> Dismiss</button>
+                  </form>
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+  </div>
+
 
   <!-- Begin page content -->
   <div class="container-fluid keepit100">

@@ -244,6 +244,11 @@ a.list-group-item:hover {
     padding:7px 4px;
 }
 
+.navbar-btn {
+    margin-left: 5px;
+}
+
+
 .navbar-dark {
     border-width:0;
     background-color:#474747;
