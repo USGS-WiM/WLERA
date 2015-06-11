@@ -333,6 +333,7 @@ require([
                 "legendlayers": [legendLayer]
             };
         }
+        var docTitle = template.layoutOptions.titleText;
         printParams.template = template;
         var printMap = new PrintTask("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
         printMap.execute(printParams, printDone, printError);
@@ -341,8 +342,11 @@ require([
             //alert(event.url);
             //window.open(event.url, "_blank");
             printCount++;
-            var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-            $("#print-form").append(printJob);
+            //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
+            var printJob = $('<p><label>' + printCount + ': </label>&nbsp;&nbsp;<a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
+            //$("#print-form").append(printJob);
+            $("#printJobsDiv").find("p.toRemove").remove();
+            $("#printModalBody").append(printJob);
             $("#printExecuteButton").button('reset');
         }
 
