@@ -110,6 +110,35 @@
   </div>
 
 
+  <div class="modal fade overflow-y-hidden" id="bookmarkModal" style="display: none;" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                  <h4 class="modal-title"><span class="glyphicon glyphicon-bookmark"></span> Add Map Bookmark</h4>
+              </div>
+              <div id="bookmarkModalBody" class="modal-body">
+
+                  <p>A bookmark will save your current map extent. Bookmarks are saved to local storage on your device for use in future sessions.</p>
+
+                  <form id="bookmark-title-form" class="form-group">
+                      <label for="bookmarkTitle">Map bookmark name </label>
+                      <input class="form-control" id="bookmarkTitle" placeholder="Enter a name for your bookmark">
+                  </form>
+
+                  <form id="bmSave-form" class="form-inline">
+                      <button id="bookmarkSaveButton" type="button" class="btn btn-success btn-fixed"  > Save </button>
+                      <button id="bookmarkDismissButton" type="submit" class="btn btn-default btn-fixed" data-dismiss="modal"> Dismiss</button>
+                  </form>
+
+
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+  </div>
+
+
+
   <!-- Begin page content -->
   <div class="container-fluid keepit100">
       <div class="row keepit100">
@@ -184,6 +213,37 @@
                       </div>
                   </div>
               </div>
+
+              <div class="panel panel-default wim-sidebar-panel">
+                  <div class="panel-heading" id="bookmarksHeader">
+                      <h4 class="panel-title">
+                          <a data-toggle="collapse"  href="#bookmarksPanel" aria-expanded="false" aria-controls="bookmarksPanel">Bookmarks</a>
+                      </h4>
+                  </div>
+                  <div id="bookmarksPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="bookmarksHeader">
+                      <div class="panel-body collapse in">
+                          <div id="bookmarksDiv" class="panel-body"></div>
+                          <!--<button id="removeBookmarksButton" type="button" class="btn btn-primary pull-left">-->
+                              <!--<span class="glyphicon glyphicon-trash"></span>-->
+                              <!--<span id="removeBookmarksButtonText"> Remove Map Bookmarks</span>-->
+                          <!--</button>-->
+
+                          <div id="bookmarkList" class="list-group">
+                              <!--<button type="button" id="ottawa-nwr" class="list-group-item lgi-bm">Ottawa NWR</button>-->
+                              <!--<button type="button" id="erie-marsh" class="list-group-item lgi-bm">Erie Marsh</button>-->
+                              <!-- Split button -->
+                          </div>
+
+                          <div class="btn-group  btn-group-sm" role="group" aria-label="...">
+                              <button id="addBookmarkButton" type="button" class="btn btn-default"><i class="fa fa-plus"></i></button>
+                              <button id="removeBookmarksButton" type="button" class="btn btn-default">Remove bookmarks from memory</button>
+                          </div>
+
+
+                      </div>
+                  </div>
+              </div>
+
           </div>
           <div class="col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 no-col-padding keepit100">
 
@@ -238,4 +298,4 @@
       </div>
   </div>
   </body>
-</html>
+</html>  
