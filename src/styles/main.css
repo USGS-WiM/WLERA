@@ -68,6 +68,29 @@ body {
 }
 
 
+.esriBookmarks {
+    width: 100%;
+    border-style: none;
+    /*border-color: #769DC0;*/
+    /*border-width: 1px;*/
+    padding: 0px;
+}
+
+.esriBookmarkEditBox {
+    height: 30px;
+
+}
+
+.esriBookmarkItem {
+    width: 100%;
+}
+
+.esriBookmarkTable {
+    width: 100%;
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+
 .esriSimpleSliderTL {
     top: 5px;
     left: 5px;
@@ -170,19 +193,28 @@ body {
     padding-left: 10px;
 }
 
-.list-group-item {
+.lgi-zoom {
     color: white;
     background-color: black;
     border: none !important;
     padding: 5px 5px !important;
 }
 
-a.list-group-item {
+a.lgi-zoom {
     color: white;
 }
 
-a.list-group-item:hover {
+a.lgi-zoom:hover {
     color: black;
+}
+
+
+button.lgi-bm:hover {
+    background-color: #ddd;
+}
+
+.list-group-item {
+    width:100%
 }
 
 #locateButton {
@@ -289,6 +321,10 @@ a.list-group-item:hover {
 }
 .panel-heading a.collapsed:after {
     content:"\e080";
+}
+
+.removeBookmarksButton {
+    margin-top: 10px;
 }
 
 .row-map {

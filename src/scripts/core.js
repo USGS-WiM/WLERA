@@ -6,10 +6,25 @@
  * Created by bdraper on 4/3/2015.
  */
 
+var wlera = wlera || {
+        bookmarks: [
+            {"id":"ottawa-nwr", "name":"Ottawa NWR", "userCreated": false, spatialReference:{"wkid":102100}, "xmax":-9253627.864758775,"xmin":-9268896.161158718,"ymax":5109457.058192252,"ymin":5099759.110228584},
+            {"id":"erie-marsh", "name":"Erie Marsh", "userCreated": false, spatialReference:{"wkid":102100}, "xmax":-9281192.968084078,"xmin":-9296461.264484022,"ymax":5130611.005770145,"ymin":5120913.057806477}
+        ]
+        ,
+        globals: {
+
+        }
+    };
+
+
 var map;
 var maxLegendHeight;
 var maxLegendDivHeight;
 var printCount = 0;
+var storageName = 'esrijsapi_mapmarks';
+
+
 
 require([
     'esri/map',
@@ -18,6 +33,7 @@ require([
     "esri/dijit/HomeButton",
     "esri/dijit/LocateButton",
     "esri/dijit/Measurement",
+    "esri/dijit/Bookmarks",
     'esri/layers/ArcGISTiledMapServiceLayer',
     'esri/dijit/Geocoder',
     'esri/dijit/PopupTemplate',
@@ -30,8 +46,12 @@ require([
     "esri/tasks/PrintParameters",
     "esri/tasks/PrintTemplate",
     "esri/tasks/LegendLayer",
+    'esri/SpatialReference',
+    'esri/geometry/Extent',
     "esri/config",
+    "dojo/_base/array",
     "dojo/keys",
+    "dojo/cookie",
     "dojo/has",
     'dojo/dom',
     'dojo/on',
@@ -43,6 +63,7 @@ require([
     HomeButton,
     LocateButton,
     Measurement,
+    Bookmarks,
     ArcGISTiledMapServiceLayer,
     Geocoder,
     PopupTemplate,
@@ -55,12 +76,18 @@ require([
     PrintParameters,
     PrintTemplate,
     LegendLayer,
+    SpatialReference,
+    Extent,
     esriConfig,
+    array,
     keys,
+    cookie,
     has,
     dom,
     on
 ) {
+
+    var useLocalStorage = supports_local_storage();
 
     map = Map('mapDiv', {
         basemap: 'gray',
@@ -88,6 +115,119 @@ require([
         advancedLocationUnits: true
     }, dom.byId("measurementDiv"));
     measurement.startup();
+
+    //bookmarks code////////////////////////////////////////////////////////////
+
+    //const bookmarks = new Bookmarks({
+    //    map: map,
+    //    bookmarks: [],
+    //    editable: true
+    //}, dom.byId('bookmarksDiv'));
+
+
+    // Save new bookmarks in local storage, fall back to a cookie
+    // If a cookie is used, it expires after a week
+    //bookmarks.on('edit', refreshBookmarks);
+    //bookmarks.on('remove', refreshBookmarks);
+
+    // Look for stored bookmarks
+    var bmJSON;
+    if ( useLocalStorage ) {
+        bmJSON = window.localStorage.getItem(storageName);
+    } else {
+        bmJSON = dojo.cookie(storageName);
+    }
+
+    // Load bookmarks
+    // Fall back to a single bookmark if no cookie
+    if ( bmJSON && bmJSON != 'null' && bmJSON.length > 4) {
+        console.log('cookie: ', bmJSON, bmJSON.length);
+        var bmarks = dojo.fromJson(bmJSON);
+        array.forEach(bmarks, function(b) {
+            //bookmarks.addBookmark(b);
+            wlera.bookmarks.push(b);
+        });
+    } else {
+        console.log('no stored bookmarks...');
+        //var bookmarkPA = {
+        //    "extent": {
+        //        "spatialReference": {
+        //            "wkid":102100
+        //        },
+        //        "xmin":-8669334,
+        //        "ymin":4982379,
+        //        "xmax":-8664724,
+        //        "ymax":4984864
+        //    },
+        //    "name": "Central Pennsylvania"
+        //};
+        //bookmarks.addBookmark(bookmarkPA);
+    }
+
+    function refreshBookmarks() {
+        if ( useLocalStorage ) {
+            //window.localStorage.setItem(storageName, dojo.toJson(bookmarks.toJson()));
+            window.localStorage.setItem(storageName, wlera.bookmarks);
+        } else {
+            var exp = 7; // number of days to persist the cookie
+            //cookie(storageName, dojo.toJson(bookmarks.toJson()), {
+            //    expires: exp
+            //});
+            cookie(storageName, dojo.toJson(wlera.bookmarks), {
+                expires: exp
+            });
+        }
+    }
+
+    //to do when clear bookmarks button pressed
+    $("#removeBookmarksButton").on('click', function(){
+    //function clearBookmarks() {
+        var conf = confirm('Click OK to remove your map bookmarks.');
+        if ( conf ) {
+            if ( useLocalStorage ) {
+                // Remove from local storage
+                window.localStorage.removeItem(storageName);
+            } else {
+                // Remove cookie
+                dojo.cookie(storageName, null, { expires: -1 });
+            }
+            // Remove all user defined bookmarks
+            // First get all bookmark names
+            //var bmNames = array.map(bookmarks.bookmarks, function(bm) {
+            //    if ( bm.name != 'Central Pennsylvania' ) {
+            //        return bm.name;
+            //    }
+            //});
+            var bmNames = array.map(wlera.bookmarks, function(bm) {
+                if ( bm.name != 'Central Pennsylvania' ) {
+                    return bm.name;
+                }
+            });
+
+            // Run removeBookmark
+            array.forEach(bmNames, function(bName) {
+                //bookmarks.removeBookmark(bName);
+
+                var index = wlera.bookmarks.indexOf(bName);
+                if (index > -1) {
+                    array.splice(index, 1);
+                }
+
+            });
+            alert('Bookmarks Removed.');
+        }
+    });
+
+    // source for supports_local_storage function:
+    // http://diveintohtml5.org/detect.html
+    function supports_local_storage() {
+        try {
+            return 'localStorage' in window && window['localStorage'] !== null;
+        } catch( e ){
+            return false;
+        }
+    }
+    //end bookmarks code ////////////////////////////////////////////////
 
     const overviewMapDijit = new OverviewMap({
         map: map,
@@ -121,10 +261,24 @@ require([
         showPrintModal();
     });
 
+
+    function showBookmarkModal() {
+        $('#bookmarkModal').modal('show');
+    }
+
+    $('#addBookmarkButton').click(function(){
+        showBookmarkModal();
+    });
+
     $('#printExecuteButton').click(function () {
         $(this).button('loading');
         printMap();
     });
+
+    $('#bookmarkSaveButton').click(function () {
+        saveUserBookmark();
+    });
+
 
     //displays map scale on map load
     on(map, "load", function() {
@@ -355,6 +509,23 @@ require([
         }
     }
 
+
+    function saveUserBookmark () {
+
+        var currentMapExtentJSON = map.extent.toJson();
+        var userBookmarkTitle = $("#bookmarkTitle").val();
+        var userBookmarkID = userBookmarkTitle.toLowerCase().replace(/ /g, '-');
+
+        currentMapExtentJSON.name = userBookmarkTitle;
+        currentMapExtentJSON.id = userBookmarkID;
+        currentMapExtentJSON.userCreated = true;
+        wlera.bookmarks.push(currentMapExtentJSON);
+
+        var userBookmarkButton = $('<button id="'+ userBookmarkID +'" type="button" class="list-group-item lgi-bm">' + userBookmarkTitle + '</button>');
+        $("#bookmarkList").append(userBookmarkButton);
+
+    }
+
     // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
         function showGeosearchModal() {
@@ -401,6 +572,39 @@ require([
             }
         });
 
+        wlera.bookmarks.forEach(function(bm) {
+
+            var bookmarkButton = $('<button id="'+ bm.id +'" type="button" class="list-group-item lgi-bm">' + bm.name + '</button>');
+            $("#bookmarkList").append(bookmarkButton);
+
+
+        });
+
+        //$(".lgi-bm").click(function (){
+        //    var bookmarkID = this.id;
+        //    wlera.bookmarks.forEach(function(bookmark) {
+        //        if (bookmark.id == bookmarkID){
+        //            var bookmarkExtent = new Extent(bookmark.xmin, bookmark.ymin, bookmark.xmax, bookmark.ymax, new SpatialReference(bookmark.spatialReference) );
+        //            //var extent = new Extent(-122.68,45.53,-122.45,45.60, new SpatialReference({ wkid:4326 }));
+        //            map.setExtent(bookmarkExtent);
+        //        }
+        //    })
+        //});
+        //need this style onclick because user bookmark buttons are appended to dom and event delegation blah blah
+        $("body").on('click', '.lgi-bm' ,function (){
+            var bookmarkID = this.id;
+            wlera.bookmarks.forEach(function(bookmark) {
+                if (bookmark.id == bookmarkID){
+                    var bookmarkExtent = new Extent(bookmark.xmin, bookmark.ymin, bookmark.xmax, bookmark.ymax, new SpatialReference(bookmark.spatialReference) );
+                    //var extent = new Extent(-122.68,45.53,-122.45,45.60, new SpatialReference({ wkid:4326 }));
+                    map.setExtent(bookmarkExtent);
+                }
+            })
+        });
+
+        $(".bookmarkDelete").click(function () {
+            var bmToDelete = this.parent.id;
+        });
 
     });
 
@@ -652,7 +856,7 @@ require([
 
             $(".zoomDialog").remove();
             var layerToChange = this.parentNode.id;
-            var zoomDialog = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" id="zoomscale" class="list-group-item zoomscale">Zoom to scale</a> <a id="zoomcenter" href="#" class="list-group-item zoomcenter">Zoom to center</a><a id="zoomextent" href="#" class="list-group-item zoomcenter">Zoom to extent</a></div></div>');
+            var zoomDialog = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" id="zoomscale" class="list-group-item lgi-zoom zoomscale">Zoom to scale</a> <a id="zoomcenter" href="#" class="list-group-item lgi-zoom zoomcenter">Zoom to center</a><a id="zoomextent" href="#" class="list-group-item lgi-zoom zoomextent">Zoom to extent</a></div></div>');
 
             $("body").append(zoomDialog);
 
@@ -719,6 +923,7 @@ require([
                 //$(e).css('opacity', o)
             });
         });
+
 
         var legend = new Legend({
             map: map,
