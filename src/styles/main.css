@@ -209,9 +209,9 @@ a.lgi-zoom:hover {
 }
 
 
-button.lgi-bm:hover {
-    background-color: #ddd;
-}
+/*button.lgi-bm:hover {*/
+    /*background-color: #ddd;*/
+/*}*/
 
 .list-group-item {
     width:100%

@@ -521,7 +521,10 @@ require([
         currentMapExtentJSON.userCreated = true;
         wlera.bookmarks.push(currentMapExtentJSON);
 
-        var userBookmarkButton = $('<button id="'+ userBookmarkID +'" type="button" class="list-group-item lgi-bm">' + userBookmarkTitle + '</button>');
+        //var userBookmarkButton = $('<button id="'+ userBookmarkID +'" type="button" class="list-group-item lgi-bm">' + userBookmarkTitle + '</button>');
+        //$("#bookmarkList").append(userBookmarkButton);
+
+        var userBookmarkButton = $('<tr id="'+ userBookmarkID +'"><td  class="bookmarkTitle td-bm">'+ userBookmarkTitle +'</td><td class="text-right text-nowrap"> <button class="btn btn-xs btn-warning bookmarkDelete"> <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
         $("#bookmarkList").append(userBookmarkButton);
 
     }
@@ -574,7 +577,8 @@ require([
 
         wlera.bookmarks.forEach(function(bm) {
 
-            var bookmarkButton = $('<button id="'+ bm.id +'" type="button" class="list-group-item lgi-bm">' + bm.name + '</button>');
+            //var bookmarkButton = $('<button id="'+ bm.id +'" type="button" class="list-group-item lgi-bm">' + bm.name + '</button>');
+            var bookmarkButton = $('<tr id="'+ bm.id +'"><td class="bookmarkTitle td-bm">'+ bm.name +'</td><td class="text-right text-nowrap"></td> </tr>');
             $("#bookmarkList").append(bookmarkButton);
 
 
@@ -591,8 +595,8 @@ require([
         //    })
         //});
         //need this style onclick because user bookmark buttons are appended to dom and event delegation blah blah
-        $("body").on('click', '.lgi-bm' ,function (){
-            var bookmarkID = this.id;
+        $("body").on('click', '.td-bm' ,function (){
+            var bookmarkID = this.parentNode.id;
             wlera.bookmarks.forEach(function(bookmark) {
                 if (bookmark.id == bookmarkID){
                     var bookmarkExtent = new Extent(bookmark.xmin, bookmark.ymin, bookmark.xmax, bookmark.ymax, new SpatialReference(bookmark.spatialReference) );
@@ -602,9 +606,11 @@ require([
             })
         });
 
-        $(".bookmarkDelete").click(function () {
-            var bmToDelete = this.parent.id;
+        $("body").on('click', '.bookmarkDelete' ,function (){
+            var bmToDelete = this.parentNode.parentNode.id;
+            $('#' + bmToDelete).remove();
         });
+
 
     });
 
