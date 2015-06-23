@@ -23,6 +23,7 @@ var maxLegendHeight;
 var maxLegendDivHeight;
 var printCount = 0;
 var storageName = 'esrijsapi_mapmarks';
+var bmToDelete = "";
 
 
 
@@ -149,25 +150,13 @@ require([
         });
     } else {
         console.log('no stored bookmarks...');
-        //var bookmarkPA = {
-        //    "extent": {
-        //        "spatialReference": {
-        //            "wkid":102100
-        //        },
-        //        "xmin":-8669334,
-        //        "ymin":4982379,
-        //        "xmax":-8664724,
-        //        "ymax":4984864
-        //    },
-        //    "name": "Central Pennsylvania"
-        //};
-        //bookmarks.addBookmark(bookmarkPA);
     }
 
     function refreshBookmarks() {
         if ( useLocalStorage ) {
             //window.localStorage.setItem(storageName, dojo.toJson(bookmarks.toJson()));
-            window.localStorage.setItem(storageName, wlera.bookmarks);
+            var x = JSON.stringify(wlera.bookmarks);
+            window.localStorage.setItem(storageName, x);
         } else {
             var exp = 7; // number of days to persist the cookie
             //cookie(storageName, dojo.toJson(bookmarks.toJson()), {
@@ -191,29 +180,50 @@ require([
                 // Remove cookie
                 dojo.cookie(storageName, null, { expires: -1 });
             }
-            // Remove all user defined bookmarks
-            // First get all bookmark names
-            //var bmNames = array.map(bookmarks.bookmarks, function(bm) {
-            //    if ( bm.name != 'Central Pennsylvania' ) {
-            //        return bm.name;
+            
+            //creates list of user defined bookmarks
+            var userBMs = [];
+            array.forEach(wlera.bookmarks, function (bm){
+                if (bm.userCreated == true){
+                    userBMs.push(bm.id);
+                }
+            });
+
+            //removes user bookmarks from the wlera.bookmarks array
+            for(var i = 0; i < wlera.bookmarks.length; i++) {
+                var obj = wlera.bookmarks[i];
+
+                if(userBMs.indexOf(obj.id) !== -1) {
+                    wlera.bookmarks.splice(i, 1);
+                    i--;
+                    //!!!IMPORTANT:If adding another permanent bookmark (non-user defined) may need another i decrement.
+                }
+            }
+
+            array.forEach(userBMs, function (bmID) {
+                $('#' + bmID).remove();
+                //$('#' + bmToDelete).remove();
+            })
+
+            //var bmIDs = array.map(wlera.bookmarks, function(bm) {
+            //    //if ( bm.userCreated != false ) {
+            //    //    return bm.name;
+            //    //}
+            //    if (bm.id != "ottawa-nwr" && bm.id != "erie-marsh"){
+            //        return bm.id;
             //    }
             //});
-            var bmNames = array.map(wlera.bookmarks, function(bm) {
-                if ( bm.name != 'Central Pennsylvania' ) {
-                    return bm.name;
-                }
-            });
-
-            // Run removeBookmark
-            array.forEach(bmNames, function(bName) {
-                //bookmarks.removeBookmark(bName);
-
-                var index = wlera.bookmarks.indexOf(bName);
-                if (index > -1) {
-                    array.splice(index, 1);
-                }
-
-            });
+            //
+            //// Run removeBookmark
+            //array.forEach(bmIDs, function(bID) {
+            //    //bookmarks.removeBookmark(bName);
+            //
+            //    var index = wlera.bookmarks.indexOf(bID);
+            //    if (index > -1) {
+            //        array.splice(index, 1);
+            //    }
+            //
+            //});
             alert('Bookmarks Removed.');
         }
     });
@@ -527,10 +537,15 @@ require([
         var userBookmarkButton = $('<tr id="'+ userBookmarkID +'"><td  class="bookmarkTitle td-bm">'+ userBookmarkTitle +'</td><td class="text-right text-nowrap"> <button class="btn btn-xs btn-warning bookmarkDelete"> <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
         $("#bookmarkList").append(userBookmarkButton);
 
+        refreshBookmarks();
+
+
+
     }
 
     // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
+
         function showGeosearchModal() {
             $('#geosearchModal').modal('show');
         }
@@ -584,16 +599,6 @@ require([
 
         });
 
-        //$(".lgi-bm").click(function (){
-        //    var bookmarkID = this.id;
-        //    wlera.bookmarks.forEach(function(bookmark) {
-        //        if (bookmark.id == bookmarkID){
-        //            var bookmarkExtent = new Extent(bookmark.xmin, bookmark.ymin, bookmark.xmax, bookmark.ymax, new SpatialReference(bookmark.spatialReference) );
-        //            //var extent = new Extent(-122.68,45.53,-122.45,45.60, new SpatialReference({ wkid:4326 }));
-        //            map.setExtent(bookmarkExtent);
-        //        }
-        //    })
-        //});
         //need this style onclick because user bookmark buttons are appended to dom and event delegation blah blah
         $("body").on('click', '.td-bm' ,function (){
             var bookmarkID = this.parentNode.id;
@@ -607,10 +612,19 @@ require([
         });
 
         $("body").on('click', '.bookmarkDelete' ,function (){
-            var bmToDelete = this.parentNode.parentNode.id;
-            $('#' + bmToDelete).remove();
+             bmToDelete = this.parentNode.parentNode.id;
+            $('.bookmarkDelete').confirmation({
+                placement: "left",
+                title: "Delete this bookmark?",
+                btnOkLabel: "Yes",
+                btnCancelLabel: "Cancel",
+                popout: true,
+                onConfirm: function() {
+                    $('#' + bmToDelete).remove();
+                }
+            });
+            console.log(bmToDelete);
         });
-
 
     });
 
