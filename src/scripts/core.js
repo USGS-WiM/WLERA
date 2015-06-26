@@ -119,7 +119,6 @@ require([
         advancedLocationUnits: true
     }, dom.byId("measurementDiv"));
     measurement.startup();
-
     //bookmarks code////////////////////////////////////////////////////////////
 
     // Save new bookmarks in local storage, fall back to a cookie
@@ -245,7 +244,6 @@ require([
         }
     });
 
-
     function showPrintModal() {
         $('#printModal').modal('show');
     }
@@ -253,7 +251,6 @@ require([
     $('#printNavButton').click(function(){
         showPrintModal();
     });
-
 
     function showBookmarkModal() {
         $('#bookmarkModal').modal('show');
@@ -513,7 +510,7 @@ require([
         currentMapExtentJSON.userCreated = true;
         wlera.bookmarks.push(currentMapExtentJSON);
 
-        var userBookmarkButton = $('<tr id="'+ userBookmarkID +'"><td  class="bookmarkTitle td-bm">'+ userBookmarkTitle +'</td><td class="text-right text-nowrap"> <button class="btn btn-xs btn-warning bookmarkDelete"> <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
+        var userBookmarkButton = $('<tr id="'+ userBookmarkID +'"><td  class="bookmarkTitle td-bm">'+ userBookmarkTitle +'</td><td class="text-right text-nowrap"> <button class="btn btn-xs btn-warning bookmarkDelete" data-toggle="tooltip" data-placement="top" title="Delete bookmark"> <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
         $("#bookmarkList").append(userBookmarkButton);
         refreshBookmarks();
     }
@@ -570,7 +567,7 @@ require([
                 var bookmarkButton = $('<tr id="'+ bm.id +'"><td class="bookmarkTitle td-bm">'+ bm.name +'</td><td class="text-right text-nowrap"></td> </tr>');
                 $("#bookmarkList").append(bookmarkButton);
             } else {
-                var userBookmarkButton = $('<tr id="'+ bm.id +'"><td  class="bookmarkTitle td-bm">'+ bm.name +'</td><td class="text-right text-nowrap"> <button class="btn btn-xs btn-warning bookmarkDelete"> <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
+                var userBookmarkButton = $('<tr id="'+ bm.id +'"><td  class="bookmarkTitle td-bm">'+ bm.name +'</td><td class="text-right text-nowrap"> <button class="btn btn-xs btn-warning bookmarkDelete" data-toggle="tooltip" data-placement="top" title="Delete bookmark"> <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
                 $("#bookmarkList").append(userBookmarkButton);
             }
         });
@@ -609,6 +606,8 @@ require([
                 }
             });
         });
+
+        $('[data-toggle="tooltip"]').tooltip({delay: { show: 500, hide: 0 }});
 
     });
 

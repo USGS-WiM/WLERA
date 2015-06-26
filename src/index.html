@@ -149,7 +149,7 @@
                   </form>
 
                   <form id="bmSave-form" class="form-inline">
-                      <button id="bookmarkSaveButton" type="button" class="btn btn-success btn-fixed"  > Save </button>
+                      <button id="bookmarkSaveButton" type="button" class="btn btn-success btn-fixed"  data-dismiss="modal"> Save </button>
                       <button id="bookmarkDismissButton" type="submit" class="btn btn-default btn-fixed" data-dismiss="modal"> Dismiss</button>
                   </form>
 
@@ -273,9 +273,9 @@
                           </div>
                           <!--<div id="bookmarkList" class="list-group"></div>-->
 
-                          <div class="btn-group  btn-group-sm" role="group" aria-label="...">
-                              <button id="addBookmarkButton" type="button" class="btn btn-default"><i class="fa fa-plus"></i></button>
-                              <button id="removeBookmarksButton" type="button" class="btn btn-default">Remove bookmarks from memory</button>
+                          <div class="btn-group " role="group" aria-label="...">
+                              <button id="addBookmarkButton" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Add bookmark"><i class="fa fa-plus"></i></button>
+                              <button id="removeBookmarksButton" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Delete all user bookmarks"><i class="fa fa-trash"></i></button>
                           </div>
                       </div>
                   </div>
