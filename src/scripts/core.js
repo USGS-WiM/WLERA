@@ -51,6 +51,7 @@ require([
     'esri/geometry/Extent',
     "esri/config",
     "dojo/_base/array",
+    "dojo/_base/lang",
     "dojo/keys",
     "dojo/cookie",
     "dojo/has",
@@ -81,6 +82,7 @@ require([
     Extent,
     esriConfig,
     array,
+    lang,
     keys,
     cookie,
     has,
@@ -94,7 +96,8 @@ require([
         basemap: 'gray',
         center: [-82.745, 41.699],
         spatialReference: 26917,
-        zoom: 10
+        zoom: 10,
+        logo: false
     });
 
     //esriConfig.defaults.geometryService = new esri.tasks.GeometryService("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
@@ -119,18 +122,8 @@ require([
 
     //bookmarks code////////////////////////////////////////////////////////////
 
-    //const bookmarks = new Bookmarks({
-    //    map: map,
-    //    bookmarks: [],
-    //    editable: true
-    //}, dom.byId('bookmarksDiv'));
-
-
     // Save new bookmarks in local storage, fall back to a cookie
     // If a cookie is used, it expires after a week
-    //bookmarks.on('edit', refreshBookmarks);
-    //bookmarks.on('remove', refreshBookmarks);
-
     // Look for stored bookmarks
     var bmJSON;
     if ( useLocalStorage ) {
@@ -145,7 +138,6 @@ require([
         console.log('cookie: ', bmJSON, bmJSON.length);
         var bmarks = dojo.fromJson(bmJSON);
         array.forEach(bmarks, function(b) {
-            //bookmarks.addBookmark(b);
             wlera.bookmarks.push(b);
         });
     } else {
@@ -154,14 +146,28 @@ require([
 
     function refreshBookmarks() {
         if ( useLocalStorage ) {
-            //window.localStorage.setItem(storageName, dojo.toJson(bookmarks.toJson()));
-            var x = JSON.stringify(wlera.bookmarks);
+            //create new array with only user created bookmarks, to save to local storage.
+            var appBMs = [];
+            array.forEach(wlera.bookmarks, function (bm){
+                if (bm.userCreated == false){
+                    appBMs.push(bm.id);
+                }
+            });
+            var bmStorageArray = wlera.bookmarks.slice();
+            for(var i = 0; i < bmStorageArray.length; i++) {
+                var obj = bmStorageArray[i];
+
+                if(appBMs.indexOf(obj.id) !== -1) {
+                    bmStorageArray.splice(i, 1);
+                    i--;
+                    //!!!IMPORTANT:If adding another permanent bookmark (non-user defined) may need another i decrement.
+                }
+            }
+            console.log(bmStorageArray);
+            var x = JSON.stringify(bmStorageArray);
             window.localStorage.setItem(storageName, x);
         } else {
             var exp = 7; // number of days to persist the cookie
-            //cookie(storageName, dojo.toJson(bookmarks.toJson()), {
-            //    expires: exp
-            //});
             cookie(storageName, dojo.toJson(wlera.bookmarks), {
                 expires: exp
             });
@@ -180,7 +186,6 @@ require([
                 // Remove cookie
                 dojo.cookie(storageName, null, { expires: -1 });
             }
-            
             //creates list of user defined bookmarks
             var userBMs = [];
             array.forEach(wlera.bookmarks, function (bm){
@@ -188,7 +193,6 @@ require([
                     userBMs.push(bm.id);
                 }
             });
-
             //removes user bookmarks from the wlera.bookmarks array
             for(var i = 0; i < wlera.bookmarks.length; i++) {
                 var obj = wlera.bookmarks[i];
@@ -199,31 +203,10 @@ require([
                     //!!!IMPORTANT:If adding another permanent bookmark (non-user defined) may need another i decrement.
                 }
             }
-
             array.forEach(userBMs, function (bmID) {
                 $('#' + bmID).remove();
                 //$('#' + bmToDelete).remove();
-            })
-
-            //var bmIDs = array.map(wlera.bookmarks, function(bm) {
-            //    //if ( bm.userCreated != false ) {
-            //    //    return bm.name;
-            //    //}
-            //    if (bm.id != "ottawa-nwr" && bm.id != "erie-marsh"){
-            //        return bm.id;
-            //    }
-            //});
-            //
-            //// Run removeBookmark
-            //array.forEach(bmIDs, function(bID) {
-            //    //bookmarks.removeBookmark(bName);
-            //
-            //    var index = wlera.bookmarks.indexOf(bID);
-            //    if (index > -1) {
-            //        array.splice(index, 1);
-            //    }
-            //
-            //});
+            });
             alert('Bookmarks Removed.');
         }
     });
@@ -515,10 +498,9 @@ require([
         }
 
         function printError(event) {
-            alert(event.error);
+            alert("Sorry, an unclear print error occurred. Please try refreshing the application to fix the problem");
         }
     }
-
 
     function saveUserBookmark () {
 
@@ -531,16 +513,9 @@ require([
         currentMapExtentJSON.userCreated = true;
         wlera.bookmarks.push(currentMapExtentJSON);
 
-        //var userBookmarkButton = $('<button id="'+ userBookmarkID +'" type="button" class="list-group-item lgi-bm">' + userBookmarkTitle + '</button>');
-        //$("#bookmarkList").append(userBookmarkButton);
-
         var userBookmarkButton = $('<tr id="'+ userBookmarkID +'"><td  class="bookmarkTitle td-bm">'+ userBookmarkTitle +'</td><td class="text-right text-nowrap"> <button class="btn btn-xs btn-warning bookmarkDelete"> <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
         $("#bookmarkList").append(userBookmarkButton);
-
         refreshBookmarks();
-
-
-
     }
 
     // Show modal dialog; handle legend sizing (both on doc ready)
@@ -591,12 +566,13 @@ require([
         });
 
         wlera.bookmarks.forEach(function(bm) {
-
-            //var bookmarkButton = $('<button id="'+ bm.id +'" type="button" class="list-group-item lgi-bm">' + bm.name + '</button>');
-            var bookmarkButton = $('<tr id="'+ bm.id +'"><td class="bookmarkTitle td-bm">'+ bm.name +'</td><td class="text-right text-nowrap"></td> </tr>');
-            $("#bookmarkList").append(bookmarkButton);
-
-
+            if (bm.userCreated == false) {
+                var bookmarkButton = $('<tr id="'+ bm.id +'"><td class="bookmarkTitle td-bm">'+ bm.name +'</td><td class="text-right text-nowrap"></td> </tr>');
+                $("#bookmarkList").append(bookmarkButton);
+            } else {
+                var userBookmarkButton = $('<tr id="'+ bm.id +'"><td  class="bookmarkTitle td-bm">'+ bm.name +'</td><td class="text-right text-nowrap"> <button class="btn btn-xs btn-warning bookmarkDelete"> <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
+                $("#bookmarkList").append(userBookmarkButton);
+            }
         });
 
         //need this style onclick because user bookmark buttons are appended to dom and event delegation blah blah
@@ -621,9 +597,17 @@ require([
                 popout: true,
                 onConfirm: function() {
                     $('#' + bmToDelete).remove();
+
+                    for(var i = 0; i < wlera.bookmarks.length; i++) {
+                        var obj = wlera.bookmarks[i];
+
+                        if(bmToDelete.indexOf(obj.id) !== -1) {
+                            wlera.bookmarks.splice(i, 1);
+                        }
+                    }
+                    refreshBookmarks();
                 }
             });
-            console.log(bmToDelete);
         });
 
     });
