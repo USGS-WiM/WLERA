@@ -173,42 +173,39 @@ require([
         }
     }
 
-    //to do when clear bookmarks button pressed
-    $("#removeBookmarksButton").on('click', function(){
-    //function clearBookmarks() {
-        var conf = confirm('Click OK to remove your map bookmarks.');
-        if ( conf ) {
-            if ( useLocalStorage ) {
-                // Remove from local storage
-                window.localStorage.removeItem(storageName);
-            } else {
-                // Remove cookie
-                dojo.cookie(storageName, null, { expires: -1 });
-            }
-            //creates list of user defined bookmarks
-            var userBMs = [];
-            array.forEach(wlera.bookmarks, function (bm){
-                if (bm.userCreated == true){
-                    userBMs.push(bm.id);
-                }
-            });
-            //removes user bookmarks from the wlera.bookmarks array
-            for(var i = 0; i < wlera.bookmarks.length; i++) {
-                var obj = wlera.bookmarks[i];
+    function removeUserBookmarks () {
 
-                if(userBMs.indexOf(obj.id) !== -1) {
-                    wlera.bookmarks.splice(i, 1);
-                    i--;
-                    //!!!IMPORTANT:If adding another permanent bookmark (non-user defined) may need another i decrement.
-                }
-            }
-            array.forEach(userBMs, function (bmID) {
-                $('#' + bmID).remove();
-                //$('#' + bmToDelete).remove();
-            });
-            alert('Bookmarks Removed.');
+        if ( useLocalStorage ) {
+            // Remove from local storage
+            window.localStorage.removeItem(storageName);
+        } else {
+            // Remove cookie
+            dojo.cookie(storageName, null, { expires: -1 });
         }
-    });
+        //creates list of user defined bookmarks
+        var userBMs = [];
+        array.forEach(wlera.bookmarks, function (bm){
+            if (bm.userCreated == true){
+                userBMs.push(bm.id);
+            }
+        });
+        //removes user bookmarks from the wlera.bookmarks array
+        for(var i = 0; i < wlera.bookmarks.length; i++) {
+            var obj = wlera.bookmarks[i];
+
+            if(userBMs.indexOf(obj.id) !== -1) {
+                wlera.bookmarks.splice(i, 1);
+                i--;
+                //!!!IMPORTANT:If adding another permanent bookmark (non-user defined) may need another i decrement.
+            }
+        }
+        array.forEach(userBMs, function (bmID) {
+            $('#' + bmID).remove();
+            //$('#' + bmToDelete).remove();
+        });
+        //alert('Bookmarks Removed.');
+    }
+
 
     // source for supports_local_storage function:
     // http://diveintohtml5.org/detect.html
@@ -609,6 +606,20 @@ require([
 
         $('[data-toggle="tooltip"]').tooltip({delay: { show: 500, hide: 0 }});
 
+        //$('#removeBookmarksButton').confirmModal();
+
+        $('#removeBookmarksButton').confirmModal({
+            confirmTitle     : 'Delete user bookmarks from memory',
+            confirmMessage   : 'This action will remove all user-defined bookmarks from local memory on your computer or device. Would you like to continue?',
+            confirmOk        : 'Yes, delete bookmarks',
+            confirmCancel    : 'Cancel',
+            confirmDirection : 'rtl',
+            confirmStyle     : 'primary',
+            confirmCallback  : removeUserBookmarks,
+            confirmDismiss   : true,
+            confirmAutoOpen  : false
+        });
+
     });
 
     require([
@@ -659,51 +670,11 @@ require([
 
         const geomService = new GeometryService("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
-
-        const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "normalized", visible:true} );
-        normRestorationIndexLayer.setVisibleLayers([0]);
-        mapLayers.push(normRestorationIndexLayer);
-        legendLayers.push ({layer:normRestorationIndexLayer, title:" "});
-        normRestorationIndexLayer.inLegendLayers = true;
-
         const dikedAreasLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikedAreas", visible:false} );
         dikedAreasLayer.setVisibleLayers([4]);
         mapLayers.push(dikedAreasLayer);
         dikedAreasLayer.inLegendLayers = false;
         //legendLayers.push ({layer:dikedAreasLayer, title: "Diked Areas"});
-
-        //begin reference layers////////////////////////////////////
-        const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "studyArea", visible:true} );
-        studyAreaLayer.setVisibleLayers([0]);
-        mapLayers.push(studyAreaLayer);
-        legendLayers.push({layer:studyAreaLayer , title:" "});
-        studyAreaLayer.inLegendLayers = true;
-
-        //const parcelsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcels", visible:false, minScale:100000} );
-        //parcelsLayer.setVisibleLayers([2]);
-        const parcelsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/1", {id: "parcels", visible:false, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outfields: ["*"]});
-        mapLayers.push(parcelsLayer);
-        //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
-        parcelsLayer.inLegendLayers = false;
-        ////end reference layers////////////////////////////////////////
-
-        const dikeBreaksLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikeBreaks", visible:false, minScale:100000} );
-        dikeBreaksLayer.setVisibleLayers([0]);
-        mapLayers.push(dikeBreaksLayer);
-        dikeBreaksLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:dikeBreaksLayer, title: "Dike Breaks"});
-
-        const culvertsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "culverts", visible:false, minScale:100000} );
-        culvertsLayer.setVisibleLayers([1]);
-        mapLayers.push(culvertsLayer);
-        culvertsLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:culvertsLayer, title: "Culverts"});
-
-        const degFlowlinesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "degFlowlines", visible:false, minScale:100000} );
-        degFlowlinesLayer.setVisibleLayers([2]);
-        mapLayers.push(degFlowlinesLayer);
-        degFlowlinesLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:degFlowlinesLayer, title: "Degree flowlines"});
 
         const dikesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikes", visible:false, minScale:100000} );
         dikesLayer.setVisibleLayers([3]);
@@ -711,38 +682,45 @@ require([
         dikesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:dikesLayer, title: "Dikes"});
 
+        const degFlowlinesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "degFlowlines", visible:false, minScale:100000} );
+        degFlowlinesLayer.setVisibleLayers([2]);
+        mapLayers.push(degFlowlinesLayer);
+        degFlowlinesLayer.inLegendLayers = false;
+        //legendLayers.push ({layer:degFlowlinesLayer, title: "Degree flowlines"});
 
+        const culvertsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "culverts", visible:false, minScale:100000} );
+        culvertsLayer.setVisibleLayers([1]);
+        mapLayers.push(culvertsLayer);
+        culvertsLayer.inLegendLayers = false;
+        //legendLayers.push ({layer:culvertsLayer, title: "Culverts"});
+
+        const dikeBreaksLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikeBreaks", visible:false, minScale:100000} );
+        dikeBreaksLayer.setVisibleLayers([0]);
+        mapLayers.push(dikeBreaksLayer);
+        dikeBreaksLayer.inLegendLayers = false;
+        //legendLayers.push ({layer:dikeBreaksLayer, title: "Dike Breaks"});
+
+        //begin reference layers////////////////////////////////////
+        //const parcelsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcels", visible:false, minScale:100000} );
+        //parcelsLayer.setVisibleLayers([2]);
+        const parcelsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/1", {id: "parcels", visible:false, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outfields: ["*"]});
+        mapLayers.push(parcelsLayer);
+        //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
+        parcelsLayer.inLegendLayers = false;
+
+        const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "studyArea", visible:true} );
+        studyAreaLayer.setVisibleLayers([0]);
+        mapLayers.push(studyAreaLayer);
+        legendLayers.push({layer:studyAreaLayer , title:" "});
+        studyAreaLayer.inLegendLayers = true;
+        ////end reference layers////////////////////////////////////////
 
         ///parameters group
-        const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "waterMask", visible:false} );
-        waterMaskLayer.setVisibleLayers([2]);
-        mapLayers.push(waterMaskLayer);
-        waterMaskLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:waterMaskLayer, title: "P0 - Water Mask"});
-
-        const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "hydroperiod", visible:false} );
-        hydroperiodLayer.setVisibleLayers([3]);
-        mapLayers.push(hydroperiodLayer);
-        hydroperiodLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:hydroperiodLayer, title: "P1 - Hydroperiod"});
-
-        const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "wetsoils", visible:false} );
-        wetsoilsLayer.setVisibleLayers([4]);
-        mapLayers.push(wetsoilsLayer);
-        wetsoilsLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:wetsoilsLayer, title: "P2 - Wetsoils"});
-
-        const flowlineLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "flowline", visible:false} );
-        flowlineLayer.setVisibleLayers([5]);
-        mapLayers.push(flowlineLayer);
-        flowlineLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:flowlineLayer, title: "P3 - Flowline"});
-
-        const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "conservedLands", visible:false} );
-        conservedLandsLayer.setVisibleLayers([6]);
-        mapLayers.push(conservedLandsLayer);
-        conservedLandsLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:conservedLandsLayer, title: "P4 - Conserved Lands"});
+        const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "landuse", visible:false} );
+        landuseLayer .setVisibleLayers([8]);
+        mapLayers.push(landuseLayer );
+        landuseLayer.inLegendLayers = false;
+        //legendLayers.push ({layer:landuseLayer , title: "P6 - Landuse"});
 
         const imperviousSurfacesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "imperviousSurfaces", visible:false} );
         imperviousSurfacesLayer.setVisibleLayers([7]);
@@ -750,13 +728,46 @@ require([
         imperviousSurfacesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:imperviousSurfacesLayer, title: "P5 - Impervious Surfaces"});
 
-        const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "landuse", visible:false} );
-        landuseLayer .setVisibleLayers([8]);
-        mapLayers.push(landuseLayer );
-        landuseLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:landuseLayer , title: "P6 - Landuse"});
+        const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "conservedLands", visible:false} );
+        conservedLandsLayer.setVisibleLayers([6]);
+        mapLayers.push(conservedLandsLayer);
+        conservedLandsLayer.inLegendLayers = false;
+        //legendLayers.push ({layer:conservedLandsLayer, title: "P4 - Conserved Lands"});
+
+        const flowlineLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "flowline", visible:false} );
+        flowlineLayer.setVisibleLayers([5]);
+        mapLayers.push(flowlineLayer);
+        flowlineLayer.inLegendLayers = false;
+        //legendLayers.push ({layer:flowlineLayer, title: "P3 - Flowline"});
+
+        const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "wetsoils", visible:false} );
+        wetsoilsLayer.setVisibleLayers([4]);
+        mapLayers.push(wetsoilsLayer);
+        wetsoilsLayer.inLegendLayers = false;
+        //legendLayers.push ({layer:wetsoilsLayer, title: "P2 - Wetsoils"});
+
+        const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "hydroperiod", visible:false} );
+        hydroperiodLayer.setVisibleLayers([3]);
+        mapLayers.push(hydroperiodLayer);
+        hydroperiodLayer.inLegendLayers = false;
+        //legendLayers.push ({layer:hydroperiodLayer, title: "P1 - Hydroperiod"});
+
+
+        const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "waterMask", visible:false} );
+        waterMaskLayer.setVisibleLayers([2]);
+        mapLayers.push(waterMaskLayer);
+        waterMaskLayer.inLegendLayers = false;
+        //legendLayers.push ({layer:waterMaskLayer, title: "P0 - Water Mask"});
+
         /////end parameters group
         //
+
+
+        const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "normalized", visible:true} );
+        normRestorationIndexLayer.setVisibleLayers([0]);
+        mapLayers.push(normRestorationIndexLayer);
+        legendLayers.push ({layer:normRestorationIndexLayer, title:" "});
+        normRestorationIndexLayer.inLegendLayers = true;
 
 
         map.addLayers(mapLayers);
