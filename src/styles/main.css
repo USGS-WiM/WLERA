@@ -19,6 +19,14 @@ body {
         display: none;
     }
 
+    #printButtonText {
+        display: none;
+    }
+
+    #shareButtonText {
+        display: none;
+    }
+
     #measureLabel {
         display:none;
     }
