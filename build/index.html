@@ -37,8 +37,6 @@
               </a>
           </div>
 
-
-
           <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right">
               <span class="glyphicon glyphicon-search"></span>
               <span id="geosearchButtonText"> Geosearch</span>
@@ -47,6 +45,11 @@
           <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right">
               <span class="glyphicon glyphicon-print"></span>
               <span id="printButtonText"> Print</span>
+          </button>
+
+          <button id="shareNavButton" type="button" class="btn btn-primary navbar-btn pull-right">
+              <span class="glyphicon glyphicon glyphicon-share"></span>
+              <span id="shareButtonText"> Share</span>
           </button>
 
       </div>
@@ -101,9 +104,35 @@
                   </form>
 
                   <div id="printJobsDiv" style="margin-top: 5px;"><label>Print Jobs </label><p class="toRemove"> No print jobs yet</p></div>
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+  </div>
 
 
+  <div class="modal fade overflow-y-hidden" id="shareModal" style="display: none;" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                  <h4 class="modal-title"><span class="glyphicon glyphicon-link"></span> Create sharing link</h4>
+              </div>
+              <div id="shareModalBody" class="modal-body">
+                  <p>Create a short, shareable link for your current extent using Bitly</p>
+                  <label>Full link:</label> <span id="fullShareURL"></span>
 
+
+                  <!--<form id="print-title-form" class="form-group">-->
+                      <!--<label for="printTitle">Title </label>-->
+                      <!--<input class="form-control" id="printTitle" placeholder="Enter a title for your printout">-->
+                  <!--</form>-->
+
+                  <!--<form id="print-form" class="form-inline">-->
+                      <!--<button id="printExecuteButton" type="button" class="btn btn-success btn-fixed" data-loading-text="Printing..." > Print </button>-->
+                      <!--<button id="printDismissButton" type="submit" class="btn btn-default btn-fixed" data-dismiss="modal"> Dismiss</button>-->
+                  <!--</form>-->
+
+                  <!--<div id="printJobsDiv" style="margin-top: 5px;"><label>Print Jobs </label><p class="toRemove"> No print jobs yet</p></div>-->
               </div>
           </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

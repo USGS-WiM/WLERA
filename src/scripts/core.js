@@ -24,7 +24,9 @@ var maxLegendDivHeight;
 var printCount = 0;
 var storageName = 'esrijsapi_mapmarks';
 var bmToDelete = "";
-
+//create global layers lookup
+var mapLayers = [];
+var mapLayerIds = [];
 
 
 require([
@@ -50,6 +52,7 @@ require([
     'esri/SpatialReference',
     'esri/geometry/Extent',
     "esri/config",
+    "esri/urlUtils",
     "dojo/_base/array",
     "dojo/_base/lang",
     "dojo/keys",
@@ -81,6 +84,7 @@ require([
     SpatialReference,
     Extent,
     esriConfig,
+    urlUtils,
     array,
     lang,
     keys,
@@ -241,6 +245,32 @@ require([
         }
     });
 
+    function showShareModal() {
+        $('#shareModal').modal('show');
+        //create array to store layer info(on hold for now - timing issues with setting layer vis on load
+        //var layerInfo = [];
+        ////retrieve layer info to record current visibility and opacity settings, push to array
+        //array.forEach(mapLayerIds, function(id) {
+        //    var layer = map.getLayer(id);
+        //    layerInfo.push({id: layer.id, visible: layer.visible, opacity:  layer.opacity});
+        //});
+
+        //retrieve current map extent (in map's spatial reference)
+        var currentMapExtent = map.extent;
+        //create a URL query string with extent
+        var shareQueryString = "?xmax=" + map.extent.xmax.toString() + "&xmin=" + map.extent.xmin.toString() + "&ymax=" + map.extent.ymax.toString() + "&ymin=" + map.extent.ymin.toString();
+        var cleanURL = document.location.href;
+
+        var shareURL = cleanURL + shareQueryString;
+        console.log("Share URL is:" + shareURL);
+        $("#fullShareURL").html(shareURL);
+
+    }
+
+    $('#shareNavButton').click(function(){
+        showShareModal();
+    });
+
     function showPrintModal() {
         $('#printModal').modal('show');
     }
@@ -274,6 +304,7 @@ require([
         var initMapCenter = webMercatorUtils.webMercatorToGeographic(map.extent.getCenter());
         $('#latitude').html(initMapCenter.y.toFixed(4));
         $('#longitude').html(initMapCenter.x.toFixed(4));
+        mapReady();
     });
     //displays map scale on scale change (i.e. zoom level)
     on(map, "zoom-end", function () {
@@ -512,6 +543,28 @@ require([
         refreshBookmarks();
     }
 
+
+    function mapReady(){
+
+        var urlSiteObject = esri.urlToObject(document.location.href);
+
+        if (urlSiteObject.query){
+
+            var urlExtent = new Extent(parseFloat(urlSiteObject.query.xmin), parseFloat(urlSiteObject.query.ymin), parseFloat(urlSiteObject.query.xmax), parseFloat(urlSiteObject.query.ymax), new SpatialReference({"wkid":102100}) );
+            map.setExtent(urlExtent);
+
+            //to be used if layer visibility is asked for as part of share (has some timing challenges)
+            //var urlVisLayers = urlSiteObject.query.visLayers;
+            //var visLayersArray = urlVisLayers.split(',');
+
+            var arrivalURL = document.location.href;
+            var cleanURL = arrivalURL.substring(0, arrivalURL.indexOf('?'));
+            history.pushState(null, "", cleanURL);
+
+        }
+    }
+
+
     // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
 
@@ -663,9 +716,6 @@ require([
         var locator;
         var legendLayerInfos = [];
 
-        //create global layers lookup
-        var mapLayers = [];
-
         const mapServiceRoot= "http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/";
 
         const geomService = new GeometryService("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
@@ -673,30 +723,35 @@ require([
         const dikedAreasLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikedAreas", visible:false} );
         dikedAreasLayer.setVisibleLayers([4]);
         mapLayers.push(dikedAreasLayer);
+        mapLayerIds.push(dikedAreasLayer.id);
         dikedAreasLayer.inLegendLayers = false;
         //legendLayers.push ({layer:dikedAreasLayer, title: "Diked Areas"});
 
         const dikesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikes", visible:false, minScale:100000} );
         dikesLayer.setVisibleLayers([3]);
         mapLayers.push(dikesLayer);
+        mapLayerIds.push(dikesLayer.id);
         dikesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:dikesLayer, title: "Dikes"});
 
         const degFlowlinesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "degFlowlines", visible:false, minScale:100000} );
         degFlowlinesLayer.setVisibleLayers([2]);
         mapLayers.push(degFlowlinesLayer);
+        mapLayerIds.push(degFlowlinesLayer.id);
         degFlowlinesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:degFlowlinesLayer, title: "Degree flowlines"});
 
         const culvertsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "culverts", visible:false, minScale:100000} );
         culvertsLayer.setVisibleLayers([1]);
         mapLayers.push(culvertsLayer);
+        mapLayerIds.push(culvertsLayer.id);
         culvertsLayer.inLegendLayers = false;
         //legendLayers.push ({layer:culvertsLayer, title: "Culverts"});
 
         const dikeBreaksLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikeBreaks", visible:false, minScale:100000} );
         dikeBreaksLayer.setVisibleLayers([0]);
         mapLayers.push(dikeBreaksLayer);
+        mapLayerIds.push(dikeBreaksLayer.id);
         dikeBreaksLayer.inLegendLayers = false;
         //legendLayers.push ({layer:dikeBreaksLayer, title: "Dike Breaks"});
 
@@ -705,12 +760,14 @@ require([
         //parcelsLayer.setVisibleLayers([2]);
         const parcelsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/1", {id: "parcels", visible:false, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outfields: ["*"]});
         mapLayers.push(parcelsLayer);
+        mapLayerIds.push(parcelsLayer.id);
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
         parcelsLayer.inLegendLayers = false;
 
         const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "studyArea", visible:true} );
         studyAreaLayer.setVisibleLayers([0]);
         mapLayers.push(studyAreaLayer);
+        mapLayerIds.push(studyAreaLayer.id);
         legendLayers.push({layer:studyAreaLayer , title:" "});
         studyAreaLayer.inLegendLayers = true;
         ////end reference layers////////////////////////////////////////
@@ -719,36 +776,42 @@ require([
         const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "landuse", visible:false} );
         landuseLayer .setVisibleLayers([8]);
         mapLayers.push(landuseLayer );
+        mapLayerIds.push(landuseLayer.id);
         landuseLayer.inLegendLayers = false;
         //legendLayers.push ({layer:landuseLayer , title: "P6 - Landuse"});
 
         const imperviousSurfacesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "imperviousSurfaces", visible:false} );
         imperviousSurfacesLayer.setVisibleLayers([7]);
         mapLayers.push(imperviousSurfacesLayer);
+        mapLayerIds.push(imperviousSurfacesLayer.id);
         imperviousSurfacesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:imperviousSurfacesLayer, title: "P5 - Impervious Surfaces"});
 
         const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "conservedLands", visible:false} );
         conservedLandsLayer.setVisibleLayers([6]);
         mapLayers.push(conservedLandsLayer);
+        mapLayerIds.push(conservedLandsLayer.id);
         conservedLandsLayer.inLegendLayers = false;
         //legendLayers.push ({layer:conservedLandsLayer, title: "P4 - Conserved Lands"});
 
         const flowlineLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "flowline", visible:false} );
         flowlineLayer.setVisibleLayers([5]);
         mapLayers.push(flowlineLayer);
+        mapLayerIds.push(flowlineLayer.id);
         flowlineLayer.inLegendLayers = false;
         //legendLayers.push ({layer:flowlineLayer, title: "P3 - Flowline"});
 
         const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "wetsoils", visible:false} );
         wetsoilsLayer.setVisibleLayers([4]);
         mapLayers.push(wetsoilsLayer);
+        mapLayerIds.push(wetsoilsLayer.id);
         wetsoilsLayer.inLegendLayers = false;
         //legendLayers.push ({layer:wetsoilsLayer, title: "P2 - Wetsoils"});
 
         const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "hydroperiod", visible:false} );
         hydroperiodLayer.setVisibleLayers([3]);
         mapLayers.push(hydroperiodLayer);
+        mapLayerIds.push(hydroperiodLayer.id);
         hydroperiodLayer.inLegendLayers = false;
         //legendLayers.push ({layer:hydroperiodLayer, title: "P1 - Hydroperiod"});
 
@@ -756,6 +819,7 @@ require([
         const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "waterMask", visible:false} );
         waterMaskLayer.setVisibleLayers([2]);
         mapLayers.push(waterMaskLayer);
+        mapLayerIds.push(waterMaskLayer.id);
         waterMaskLayer.inLegendLayers = false;
         //legendLayers.push ({layer:waterMaskLayer, title: "P0 - Water Mask"});
 
@@ -766,6 +830,7 @@ require([
         const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "normalized", visible:true} );
         normRestorationIndexLayer.setVisibleLayers([0]);
         mapLayers.push(normRestorationIndexLayer);
+        mapLayerIds.push(normRestorationIndexLayer.id);
         legendLayers.push ({layer:normRestorationIndexLayer, title:" "});
         normRestorationIndexLayer.inLegendLayers = true;
 
