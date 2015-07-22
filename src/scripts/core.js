@@ -259,11 +259,31 @@ require([
         var currentMapExtent = map.extent;
         //create a URL query string with extent
         var shareQueryString = "?xmax=" + map.extent.xmax.toString() + "&xmin=" + map.extent.xmin.toString() + "&ymax=" + map.extent.ymax.toString() + "&ymin=" + map.extent.ymin.toString();
-        var cleanURL = document.location.href;
+        var encodedShareQueryString = "%3Fxmax=" + map.extent.xmax.toString() + "%26xmin=" + map.extent.xmin.toString() + "%26ymax=" + map.extent.ymax.toString() + "%26ymin=" + map.extent.ymin.toString();
+        //var cleanURL = document.location.href;
+
+        var cleanURL = "http://54.164.126.49/WLERA/"
 
         var shareURL = cleanURL + shareQueryString;
+        var encodedShareURL = cleanURL + encodedShareQueryString;
         console.log("Share URL is:" + shareURL);
         $("#fullShareURL").html(shareURL);
+
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url: 'https://api-ssl.bitly.com/v3/shorten?access_token=e1a16076cc8470c65419920156e0ae2c4f77850f&longUrl='+ encodedShareURL,
+            headers: {'Accept': '*/*'},
+            success: function (data) {
+
+                var bitlyURL = data.data.url;
+                $("#bitlyURL").html(bitlyURL);
+
+            },
+            error: function (error) {
+
+            }
+        });
 
     }
 
