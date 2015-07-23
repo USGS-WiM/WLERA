@@ -210,7 +210,6 @@ require([
         //alert('Bookmarks Removed.');
     }
 
-
     // source for supports_local_storage function:
     // http://diveintohtml5.org/detect.html
     function supports_local_storage() {
@@ -261,28 +260,31 @@ require([
         var shareQueryString = "?xmax=" + map.extent.xmax.toString() + "&xmin=" + map.extent.xmin.toString() + "&ymax=" + map.extent.ymax.toString() + "&ymin=" + map.extent.ymin.toString();
         var encodedShareQueryString = "%3Fxmax=" + map.extent.xmax.toString() + "%26xmin=" + map.extent.xmin.toString() + "%26ymax=" + map.extent.ymax.toString() + "%26ymin=" + map.extent.ymin.toString();
         //var cleanURL = document.location.href;
-
+        //below line for local testing only
         var cleanURL = "http://54.164.126.49/WLERA/"
 
         var shareURL = cleanURL + shareQueryString;
         var encodedShareURL = cleanURL + encodedShareQueryString;
         console.log("Share URL is:" + shareURL);
-        $("#fullShareURL").html(shareURL);
+        $("#showFullLinkButton").click(function(){
+            $("#fullShareURL").html('<span id="fullLinkLabel" class="label label-default"><span class="glyphicon glyphicon-link"></span> Full link</span><br><textarea style="margin-bottom: 10px; cursor: text" class="form-control"  rows="3" readonly>' + shareURL + '</textarea>');
+        });
 
-        $.ajax({
-            dataType: 'json',
-            type: 'GET',
-            url: 'https://api-ssl.bitly.com/v3/shorten?access_token=e1a16076cc8470c65419920156e0ae2c4f77850f&longUrl='+ encodedShareURL,
-            headers: {'Accept': '*/*'},
-            success: function (data) {
+        $("#showShortLinkButton").click(function(){
+            $.ajax({
+                dataType: 'json',
+                type: 'GET',
+                url: 'https://api-ssl.bitly.com/v3/shorten?access_token=e1a16076cc8470c65419920156e0ae2c4f77850f&longUrl='+ encodedShareURL,
+                headers: {'Accept': '*/*'},
+                success: function (data) {
+                    var bitlyURL = data.data.url;
+                    $("#bitlyURL").html('<span class="label label-default"><span class="glyphicon glyphicon-link"></span> Bitly link</span><code>' + bitlyURL + '</code>');
+                },
+                error: function (error) {
+                    $("#bitlyURL").html('<i class="fa fa-exclamation-triangle"></i> An error occurred retrieving shortened Bitly URL');
 
-                var bitlyURL = data.data.url;
-                $("#bitlyURL").html(bitlyURL);
-
-            },
-            error: function (error) {
-
-            }
+                }
+            });
         });
 
     }
@@ -315,7 +317,6 @@ require([
     $('#bookmarkSaveButton').click(function () {
         saveUserBookmark();
     });
-
 
     //displays map scale on map load
     on(map, "load", function() {

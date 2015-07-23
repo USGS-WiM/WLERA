@@ -105,6 +105,18 @@ body {
     background-color: rgba(255,255,255,0.8);
 }
 
+#fullShareURL {
+    margin-bottom: 10px;
+}
+
+#fullLinkLabel {
+    margin-bottom: 2px;
+}
+
+.btn-share {
+    margin-bottom: 5px;
+}
+
 .groupHeading {
     font-weight: bold;
     font-size: 14pt;
