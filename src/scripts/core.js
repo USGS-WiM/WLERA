@@ -567,8 +567,30 @@ require([
             currentMapExtentJSON.userCreated = true;
             wlera.bookmarks.push(currentMapExtentJSON);
 
-            var userBookmarkButton = $('<tr id="'+ userBookmarkID +'"><td  class="bookmarkTitle td-bm">'+ userBookmarkTitle +'</td><td class="text-right text-nowrap"> <button class="btn btn-xs btn-warning bookmarkDelete" data-toggle="tooltip" data-placement="top" title="Delete bookmark"> <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
+            var bmDeleteID = userBookmarkID + "_delete"
+            var userBookmarkButton = $('<tr id="'+ userBookmarkID +'"><td  class="bookmarkTitle td-bm">'+ userBookmarkTitle +'</td><td class="text-right text-nowrap"> <button id="'+ bmDeleteID + '" class="btn btn-xs btn-warning bookmarkDelete" data-toggle="tooltip" data-placement="top" > <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
             $("#bookmarkList").append(userBookmarkButton);
+
+            $('#' + bmDeleteID).confirmation({
+                placement: "left",
+                title: "Delete this bookmark?",
+                btnOkLabel: "Yes",
+                btnCancelLabel: "Cancel",
+                popout: true,
+                onConfirm: function() {
+                    $("#" + userBookmarkID).remove();
+
+                    for(var i = 0; i < wlera.bookmarks.length; i++) {
+                        var obj = wlera.bookmarks[i];
+
+                        if(userBookmarkID.indexOf(obj.id) !== -1) {
+                            wlera.bookmarks.splice(i, 1);
+                        }
+                    }
+                    refreshBookmarks();
+                }
+            });
+
             $("#bookmarkTitle").val("");
             refreshBookmarks();
             $("#bmAlert").hide();
@@ -655,8 +677,31 @@ require([
                 var bookmarkButton = $('<tr id="'+ bm.id +'"><td class="bookmarkTitle td-bm">'+ bm.name +'</td><td class="text-right text-nowrap"></td> </tr>');
                 $("#bookmarkList").append(bookmarkButton);
             } else {
-                var userBookmarkButton = $('<tr id="'+ bm.id +'"><td  class="bookmarkTitle td-bm">'+ bm.name +'</td><td class="text-right text-nowrap"> <button class="btn btn-xs btn-warning bookmarkDelete" data-toggle="tooltip" data-placement="top" title="Delete bookmark"> <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
+                var bmDeleteID = bm.id + "_delete";
+                var userBookmarkButton = $('<tr id="'+ bm.id +'"><td  class="bookmarkTitle td-bm">'+ bm.name +'</td><td class="text-right text-nowrap"> <button id="'+ bmDeleteID + '" class="btn btn-xs btn-warning bookmarkDelete" data-toggle="tooltip" data-placement="top" title="Delete bookmark"> <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
                 $("#bookmarkList").append(userBookmarkButton);
+
+                $('#' + bmDeleteID).confirmation({
+                    placement: "left",
+                    title: "Delete this bookmark?",
+                    btnOkLabel: "Yes",
+                    btnCancelLabel: "Cancel",
+                    popout: true,
+                    onConfirm: function() {
+                        $("#" + bm.id).remove();
+
+                        for(var i = 0; i < wlera.bookmarks.length; i++) {
+                            var obj = wlera.bookmarks[i];
+
+                            if(bm.id.indexOf(obj.id) !== -1) {
+                                wlera.bookmarks.splice(i, 1);
+                            }
+                        }
+                        refreshBookmarks();
+                    }
+                });
+
+
             }
         });
 
@@ -672,28 +717,60 @@ require([
             })
         });
 
-        $("body").on('click', '.bookmarkDelete' ,function (){
-             bmToDelete = this.parentNode.parentNode.id;
-            $('.bookmarkDelete').confirmation({
-                placement: "left",
-                title: "Delete this bookmark?",
-                btnOkLabel: "Yes",
-                btnCancelLabel: "Cancel",
-                popout: true,
-                onConfirm: function() {
-                    $('#' + bmToDelete).remove();
 
-                    for(var i = 0; i < wlera.bookmarks.length; i++) {
-                        var obj = wlera.bookmarks[i];
+        //
+        //$("body").on('click', '.bookmarkDelete' ,function (evt){
+        //    var bmToDelete = this.parentNode.parentNode.id;
+        //   console.log(evt.currentTarget);
+        //    $('.bookmarkDelete').confirmation('show',{
+        //        placement: "left",
+        //        title: "Delete this bookmark?",
+        //        btnOkLabel: "Yes",
+        //        btnCancelLabel: "Cancel",
+        //        popout: true,
+        //        onConfirm: function() {
+        //            $('#' + bmToDelete).remove();
+        //
+        //            for(var i = 0; i < wlera.bookmarks.length; i++) {
+        //                var obj = wlera.bookmarks[i];
+        //
+        //                if(bmToDelete.indexOf(obj.id) !== -1) {
+        //                    wlera.bookmarks.splice(i, 1);
+        //                }
+        //            }
+        //            refreshBookmarks();
+        //        }
+        //    });
+        //    //$('#'+ bmToDelete ).confirmation('show');
+        //});
 
-                        if(bmToDelete.indexOf(obj.id) !== -1) {
-                            wlera.bookmarks.splice(i, 1);
-                        }
-                    }
-                    refreshBookmarks();
-                }
-            });
-        });
+
+        //$(document).ready( function () {
+        //    //var bmToDelete = this.parentNode.parentNode.id;
+        //    //var bmToDelete = this.parentNode.parentNode.id;
+        //    //console.log(evt.currentTarget);
+        //    $('.bookmarkDelete').confirmation({
+        //        placement: "left",
+        //        title: "Delete this bookmark?",
+        //        btnOkLabel: "Yes",
+        //        btnCancelLabel: "Cancel",
+        //        popout: true,
+        //        onConfirm: function(options) {
+        //
+        //            $('#' + bmToDelete).remove();
+        //
+        //            for(var i = 0; i < wlera.bookmarks.length; i++) {
+        //                var obj = wlera.bookmarks[i];
+        //
+        //                if(bmToDelete.indexOf(obj.id) !== -1) {
+        //                    wlera.bookmarks.splice(i, 1);
+        //                }
+        //            }
+        //            refreshBookmarks();
+        //        }
+        //    });
+        //});
+
 
         $('[data-toggle="tooltip"]').tooltip({delay: { show: 500, hide: 0 }});
 
@@ -914,9 +991,7 @@ require([
             //geomService.project ( [ resultGeom ], outSR, function (projectedGeoms){
             //    utmResult = projectedGeoms[0];
             //    console.log(utmResult);
-            //
-            //
-            //
+
             //});
 
         });
