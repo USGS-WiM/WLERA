@@ -75,6 +75,11 @@ body {
     padding:2px;
 }
 
+#bmAlert {
+    display:none;
+    margin-top: 5px;
+}
+
 .esriBookmarks {
     width: 100%;
     border-style: none;

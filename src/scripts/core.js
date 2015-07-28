@@ -318,6 +318,10 @@ require([
         saveUserBookmark();
     });
 
+    $('#bookmarkDismissButton').click(function () {
+        $("#bmAlert").hide();
+    });
+
     //displays map scale on map load
     on(map, "load", function() {
         var scale =  map.getScale().toFixed(0);
@@ -540,6 +544,7 @@ require([
             //$("#print-form").append(printJob);
             $("#printJobsDiv").find("p.toRemove").remove();
             $("#printModalBody").append(printJob);
+            $("#printTitle").val("");
             $("#printExecuteButton").button('reset');
         }
 
@@ -552,16 +557,28 @@ require([
 
         var currentMapExtentJSON = map.extent.toJson();
         var userBookmarkTitle = $("#bookmarkTitle").val();
-        var userBookmarkID = userBookmarkTitle.toLowerCase().replace(/ /g, '-');
 
-        currentMapExtentJSON.name = userBookmarkTitle;
-        currentMapExtentJSON.id = userBookmarkID;
-        currentMapExtentJSON.userCreated = true;
-        wlera.bookmarks.push(currentMapExtentJSON);
+        if (userBookmarkTitle.length > 0 ){
 
-        var userBookmarkButton = $('<tr id="'+ userBookmarkID +'"><td  class="bookmarkTitle td-bm">'+ userBookmarkTitle +'</td><td class="text-right text-nowrap"> <button class="btn btn-xs btn-warning bookmarkDelete" data-toggle="tooltip" data-placement="top" title="Delete bookmark"> <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
-        $("#bookmarkList").append(userBookmarkButton);
-        refreshBookmarks();
+            var userBookmarkID = userBookmarkTitle.toLowerCase().replace(/ /g, '-');
+
+            currentMapExtentJSON.name = userBookmarkTitle;
+            currentMapExtentJSON.id = userBookmarkID;
+            currentMapExtentJSON.userCreated = true;
+            wlera.bookmarks.push(currentMapExtentJSON);
+
+            var userBookmarkButton = $('<tr id="'+ userBookmarkID +'"><td  class="bookmarkTitle td-bm">'+ userBookmarkTitle +'</td><td class="text-right text-nowrap"> <button class="btn btn-xs btn-warning bookmarkDelete" data-toggle="tooltip" data-placement="top" title="Delete bookmark"> <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
+            $("#bookmarkList").append(userBookmarkButton);
+            $("#bookmarkTitle").val("");
+            refreshBookmarks();
+            $("#bmAlert").hide();
+            $("#bookmarkModal").modal('hide');
+
+        } else {
+            $("#bmAlert").show();
+        }
+
+
     }
 
 
