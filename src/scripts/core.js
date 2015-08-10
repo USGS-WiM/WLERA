@@ -104,7 +104,7 @@ require([
         logo: false
     });
 
-    //esriConfig.defaults.geometryService = new esri.tasks.GeometryService("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+    //esriConfig.defaults.geometryService = new esri.tasks.GeometryService("http://wlera.wimcloud.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
     esriConfig.defaults.geometryService = new GeometryService("http://54.152.244.240:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
     esri.config.defaults.io.corsEnabledServers.push("http://52.0.108.106:6080/");
 
@@ -532,7 +532,7 @@ require([
         }
         var docTitle = template.layoutOptions.titleText;
         printParams.template = template;
-        var printMap = new PrintTask("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+        var printMap = new PrintTask("http://wlera.wimcloud.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
         printMap.execute(printParams, printDone, printError);
 
         function printDone(event) {
@@ -831,9 +831,9 @@ require([
         var locator;
         var legendLayerInfos = [];
 
-        const mapServiceRoot= "http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/";
+        const mapServiceRoot= "http://wlera.wimcloud.usgs.gov/arcgis/rest/services/WLERA/";
 
-        const geomService = new GeometryService("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+        const geomService = new GeometryService("http://wlera.wimcloud.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
         const dikedAreasLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikedAreas", visible:false} );
         dikedAreasLayer.setVisibleLayers([4]);
