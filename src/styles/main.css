@@ -110,6 +110,35 @@ body {
     background-color: rgba(255,255,255,0.8);
 }
 
+.esriPopup.dark .titlePane {
+    font-size: 12px;
+    line-height: 34px;
+    height: 34px;
+    padding: 10px;
+    border: 0;
+    border-radius: 3px 3px 0 0;
+    -webkit-border-radius: 3px 3px 0 0;
+}
+
+
+/* Change color of icons to match bar chart and selection symbol */
+.esriPopup.dark div.titleButton,
+.esriPopup.dark div.titlePane .title,
+.esriPopup.dark div.actionsPane .action {
+    color: #ffffff;
+    height:34px;
+}
+/* Additional customizations */
+.esriPopup.dark .esriPopupWrapper {
+    border: none;
+}
+.esriPopup .contentPane {
+    text-align: center;
+}
+.esriViewPopup .gallery {
+    margin: 0 auto;
+}
+
 #fullShareURL {
     margin-bottom: 10px;
 }

@@ -17,7 +17,6 @@ var wlera = wlera || {
         }
     };
 
-
 var map;
 var maxLegendHeight;
 var maxLegendDivHeight;
@@ -39,6 +38,7 @@ require([
     "esri/dijit/Bookmarks",
     'esri/layers/ArcGISTiledMapServiceLayer',
     'esri/dijit/Geocoder',
+    "esri/dijit/Popup",
     'esri/dijit/PopupTemplate',
     'esri/graphic',
     'esri/geometry/Multipoint',
@@ -59,6 +59,8 @@ require([
     "dojo/cookie",
     "dojo/has",
     'dojo/dom',
+    "dojo/dom-class",
+    "dojo/dom-construct",
     'dojo/on',
     'dojo/domReady!'
 ], function (
@@ -71,6 +73,7 @@ require([
     Bookmarks,
     ArcGISTiledMapServiceLayer,
     Geocoder,
+    Popup,
     PopupTemplate,
     Graphic,
     Multipoint,
@@ -91,17 +94,25 @@ require([
     cookie,
     has,
     dom,
+    domClass,
+    domConstruct,
     on
 ) {
 
     var useLocalStorage = supports_local_storage();
+
+    var popup = new Popup({
+    }, domConstruct.create("div"));
+    //Add the dark theme which is customized further in the <style> tag at the top of this page
+    domClass.add(popup.domNode, "dark");
 
     map = Map('mapDiv', {
         basemap: 'gray',
         center: [-82.745, 41.699],
         spatialReference: 26917,
         zoom: 10,
-        logo: false
+        logo: false,
+        infoWindow: popup
     });
 
     //esriConfig.defaults.geometryService = new esri.tasks.GeometryService("http://wlera.wimcloud.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
@@ -600,9 +611,7 @@ require([
             $("#bmAlert").show();
         }
 
-
     }
-
 
     function mapReady(){
 
@@ -623,7 +632,6 @@ require([
 
         }
     }
-
 
     // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
@@ -718,7 +726,6 @@ require([
         });
 
 
-        //
         //$("body").on('click', '.bookmarkDelete' ,function (evt){
         //    var bmToDelete = this.parentNode.parentNode.id;
         //   console.log(evt.currentTarget);
@@ -743,7 +750,6 @@ require([
         //    });
         //    //$('#'+ bmToDelete ).confirmation('show');
         //});
-
 
         //$(document).ready( function () {
         //    //var bmToDelete = this.parentNode.parentNode.id;
@@ -799,10 +805,16 @@ require([
         'esri/tasks/QueryTask',
         'esri/graphicsUtils',
         'esri/geometry/Point',
+        "esri/toolbars/draw",
         'esri/SpatialReference',
         'esri/geometry/Extent',
         'esri/layers/ArcGISDynamicMapServiceLayer',
         'esri/layers/FeatureLayer',
+        "esri/symbols/SimpleFillSymbol",
+        "esri/symbols/SimpleLineSymbol",
+        "esri/Color",
+        "esri/dijit/Popup",
+        "esri/dijit/PopupTemplate",
         'dojo/query',
         'dojo/dom'
     ], function(
@@ -814,10 +826,16 @@ require([
         QueryTask,
         graphicsUtils,
         Point,
+        Draw,
         SpatialReference,
         Extent,
         ArcGISDynamicMapServiceLayer,
         FeatureLayer,
+        SimpleFillSymbol,
+        SimpleLineSymbol,
+        Color,
+        Popup,
+        PopupTemplate,
         query,
         dom
     ) {
@@ -830,10 +848,20 @@ require([
         var navToolbar;
         var locator;
         var legendLayerInfos = [];
+        var selectionToolbar;
+        var clickSelectionActive = false;
+        var clickRemoveSelectionActive = false;
 
         const mapServiceRoot= "http://wlera.wimcloud.usgs.gov/arcgis/rest/services/WLERA/";
 
         const geomService = new GeometryService("http://wlera.wimcloud.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+
+        const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "normalized", visible:true} );
+        normRestorationIndexLayer.setVisibleLayers([0]);
+        mapLayers.push(normRestorationIndexLayer);
+        mapLayerIds.push(normRestorationIndexLayer.id);
+        legendLayers.push ({layer:normRestorationIndexLayer, title:" "});
+        normRestorationIndexLayer.inLegendLayers = true;
 
         const dikedAreasLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "hydroCondition/MapServer", {id: "dikedAreas", visible:false} );
         dikedAreasLayer.setVisibleLayers([4]);
@@ -879,12 +907,102 @@ require([
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
         parcelsLayer.inLegendLayers = false;
 
+        var parcelQuery = new Query();
+        var parcelSelectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SHORTDOT, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
+        parcelsLayer.setSelectionSymbol(parcelSelectionSymbol);
+
+        //disable shift-click to recenter since we are using shift click to remove features from selection
+        map.disableClickRecenter();
+
+        //////////////////////////move elsewhere
+        map.on("click", function(evt){
+
+            parcelQuery.geometry = evt.mapPoint;
+            parcelQuery.outFields = ["*"];
+            parcelQuery.returnGeometry = true;
+
+            if (clickSelectionActive) {
+                parcelsLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_ADD, function (results) {
+
+                });
+            }
+
+            if(evt.shiftKey){
+                parcelsLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_SUBTRACT);
+            }
+
+            if (clickRemoveSelectionActive) {
+                parcelsLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_SUBTRACT, function (results) {
+
+                });
+
+            }
+            
+
+            if(e.shiftKey){
+                neighborhoods.selectFeatures(query, esri.layers.FeatureLayer.SELECTION_SUBTRACT);
+            }else{
+                neighborhoods.selectFeatures(query, esri.layers.FeatureLayer.SELECTION_ADD);
+            }
+
+        });
+        ///////////////////move elsewhere
+
+        selectionToolbar = new Draw(map);
+
+
+        $('#activatePolySelection').click(function(){
+            clickSelectionActive = false;
+            selectionToolbar.activate(Draw.POLYGON);
+        });
+
+        $('#activateClickSelection').click(function(){
+            clickRemoveSelectionActive = false;
+            clickSelectionActive = true;
+        });
+
+        $('#clearSelection').click(function(){
+            parcelsLayer.clearSelection();
+        });
+
+        $('#removeSelection').click(function(){
+            clickSelectionActive = false;
+            clickRemoveSelectionActive = true;
+        });
+
+        on(selectionToolbar, "DrawEnd", function (geometry) {
+            selectionToolbar.deactivate();
+            parcelQuery.geometry = geometry;
+            parcelsLayer.selectFeatures(parcelQuery,
+                FeatureLayer.SELECTION_ADD);
+        });
+
         const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "studyArea", visible:true} );
         studyAreaLayer.setVisibleLayers([0]);
         mapLayers.push(studyAreaLayer);
         mapLayerIds.push(studyAreaLayer.id);
         legendLayers.push({layer:studyAreaLayer , title:" "});
         studyAreaLayer.inLegendLayers = true;
+
+        var aerialsPopup = new PopupTemplate({
+            title: "U.S. ACOE Aerial Photo",
+            mediaInfos: [{
+                "title": "",
+                "caption": "Date & Time taken: {date_}",
+                "type": "image",
+                "value": {
+                    sourceURL: "{imageUrl}",
+                    linkURL: "{imageUrl}"
+                }
+            }]
+        });
+        //const aerialsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "aerials", visible:false} );
+        //aerialsLayer.setVisibleLayers([2]);
+        var aerialsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/2", {id: "aerials", visible:false, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"], infoTemplate: aerialsPopup});
+        mapLayers.push(aerialsLayer);
+        mapLayerIds.push(aerialsLayer.id);
+        legendLayers.push({layer:aerialsLayer , title:"US Army Corps of Engineers Aerial Photos "});
+        aerialsLayer.inLegendLayers = true;
         ////end reference layers////////////////////////////////////////
 
         ///parameters group
@@ -930,25 +1048,13 @@ require([
         hydroperiodLayer.inLegendLayers = false;
         //legendLayers.push ({layer:hydroperiodLayer, title: "P1 - Hydroperiod"});
 
-
         const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "waterMask", visible:false} );
         waterMaskLayer.setVisibleLayers([2]);
         mapLayers.push(waterMaskLayer);
         mapLayerIds.push(waterMaskLayer.id);
         waterMaskLayer.inLegendLayers = false;
         //legendLayers.push ({layer:waterMaskLayer, title: "P0 - Water Mask"});
-
         /////end parameters group
-        //
-
-
-        const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "normalized", visible:true} );
-        normRestorationIndexLayer.setVisibleLayers([0]);
-        mapLayers.push(normRestorationIndexLayer);
-        mapLayerIds.push(normRestorationIndexLayer.id);
-        legendLayers.push ({layer:normRestorationIndexLayer, title:" "});
-        normRestorationIndexLayer.inLegendLayers = true;
-
 
         map.addLayers(mapLayers);
 
@@ -960,7 +1066,6 @@ require([
             layer: parcelsLayer
         }];
         snapManager.setLayerInfos(layerInfos);
-
 
         var outSR = new SpatialReference(26917);
         measurement.on("measure-end", function(evt){
@@ -987,11 +1092,9 @@ require([
                 $("#utmY").html('<span class="label label-danger">outside zone</span>');
             }
 
-
             //geomService.project ( [ resultGeom ], outSR, function (projectedGeoms){
             //    utmResult = projectedGeoms[0];
             //    console.log(utmResult);
-
             //});
 
         });
@@ -1116,16 +1219,11 @@ require([
             });
         });
 
-
         var legend = new Legend({
             map: map,
             layerInfos: legendLayers
         }, "legendDiv");
         legend.startup();
-
-
-
-
 
     });//end of require statement containing legend building code
 

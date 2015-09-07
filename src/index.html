@@ -235,6 +235,9 @@
                           <button id="parcels" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Parcels<span id="opacityparcels" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button>
                       </div>
                       <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
+                          <button id="aerials" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Oblique Aerial Imagery<span id="opacityaerials" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span><span class="glyphicon glyphicon-search pull-right zoomto"></span></button>
+                      </div>
+                      <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
                           <button id="hydroCondition" class="btn btn-default groupToggle" type="button" data-toggle="collapse" data-target="#hydroConditionGroup"  aria-expanded="false" aria-controls="collapseExample" style="font-weight: bold;text-align: left"><!--<i class="checkBoxIcon fa fa-square-o"></i>-->&nbsp;&nbsp;Hydro Conditioning&nbsp;<i class="chevron fa fa-chevron-right pull-right"></i></button>
                       </div>
                       <div class="collapse groupCollapse" id="hydroConditionGroup">
@@ -268,6 +271,38 @@
                       </div>
                   </div>
               </div>
+
+
+              <div class="panel panel-default wim-sidebar-panel">
+                  <div class="panel-heading" id="zonalStatsHeader">
+                      <h4 class="panel-title">
+                          <a data-toggle="collapse"  href="#zonalStatsPanel" aria-expanded="false" aria-controls="zonalStatsPanel">Zonal Statistics</a>
+                      </h4>
+                  </div>
+                  <div id="zonalStatsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="zonalStatsHeader">
+                      <div class="panel-body collapse in">
+                          <div class="btn-group-vertical " role="group" aria-label="...">
+                              <button id="activatePolySelection" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Select Parcels by Polygon">Select Parcels by Polygon</button>
+                              <button id="activateClickSelection" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Select individual parcels">Select individual parcels</button>
+                          <!--</div>-->
+                          <br>
+                          <!--<div class="btn-group " role="group" aria-label="...">-->
+                              <button id="clearSelection" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Clear">Clear whole selection</button>
+                              <button id="removeSelection" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Remove selection">Remove feature from selection</button>
+                          <!--</div>-->
+                          <br>
+
+                          <!--<div class="btn-group " role="group" aria-label="...">-->
+                              <button id="calculateStats" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Calculate">Calculate Zonal Stats</button>
+                              <button id="cancelStats" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Cancel">Cancel</button>
+                          </div>
+
+
+                      </div>
+                  </div>
+              </div>
+
+
 
               <div class="panel panel-default wim-sidebar-panel">
                   <div class="panel-heading" id="bookmarksHeader">
