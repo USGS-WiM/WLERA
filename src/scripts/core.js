@@ -852,7 +852,7 @@ require([
         var clickSelectionActive = false;
         var clickRemoveSelectionActive = false;
 
-        const mapServiceRoot= "http://wlera.wimcloud.usgs.gov/arcgis/rest/services/WLERA/";
+        const mapServiceRoot= "http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/";
 
         const geomService = new GeometryService("http://wlera.wimcloud.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
@@ -901,7 +901,7 @@ require([
         //begin reference layers////////////////////////////////////
         //const parcelsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcels", visible:false, minScale:100000} );
         //parcelsLayer.setVisibleLayers([2]);
-        const parcelsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/1", {id: "parcels", visible:false, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outfields: ["*"]});
+        const parcelsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/1", {id: "parcels", visible:false, minScale:150000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"]});
         mapLayers.push(parcelsLayer);
         mapLayerIds.push(parcelsLayer.id);
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
@@ -914,11 +914,31 @@ require([
         //disable shift-click to recenter since we are using shift click to remove features from selection
         map.disableClickRecenter();
 
-        //////////////////////////move elsewhere
-        map.on("click", function(evt){
+        ////////////////////////////move elsewhere
+        //map.on("click", function(evt){
+        //
+        //    parcelQuery.geometry = evt.mapPoint;
+        //    parcelQuery.outFields = ["*"];
+        //    parcelQuery.returnGeometry = true;
+        //
+        //    if (clickSelectionActive) {
+        //        parcelsLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_ADD, function (results) {
+        //
+        //        });
+        //    }
+        //
+        //    if(evt.shiftKey){
+        //        parcelsLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_SUBTRACT);
+        //    }
+        //
+        //
+        //});
+        /////////////////////move elsewhere
 
+
+        parcelsLayer.on("click", function (evt){
             parcelQuery.geometry = evt.mapPoint;
-            parcelQuery.outFields = ["*"];
+            //parcelQuery.outFields = ["*"];
             parcelQuery.returnGeometry = true;
 
             if (clickSelectionActive) {
@@ -930,45 +950,38 @@ require([
             if(evt.shiftKey){
                 parcelsLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_SUBTRACT);
             }
-
-            if (clickRemoveSelectionActive) {
-                parcelsLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_SUBTRACT, function (results) {
-
-                });
-
-            }
-            
-
-            if(e.shiftKey){
-                neighborhoods.selectFeatures(query, esri.layers.FeatureLayer.SELECTION_SUBTRACT);
-            }else{
-                neighborhoods.selectFeatures(query, esri.layers.FeatureLayer.SELECTION_ADD);
-            }
-
         });
-        ///////////////////move elsewhere
 
         selectionToolbar = new Draw(map);
 
 
-        $('#activatePolySelection').click(function(){
+        $('#polySelection').click(function(){
+            map.setMapCursor("auto");
             clickSelectionActive = false;
             selectionToolbar.activate(Draw.POLYGON);
         });
 
-        $('#activateClickSelection').click(function(){
+        $('#clickSelection').click(function(){
+            map.setMapCursor("crosshair");
             clickRemoveSelectionActive = false;
             clickSelectionActive = true;
         });
 
         $('#clearSelection').click(function(){
+            clickSelectionActive = false;
+            $('#polySelection, #clickSelection').removeClass("active");
+            $('#stopSelection').removeClass("active");
+            map.setMapCursor("auto");
             parcelsLayer.clearSelection();
         });
 
-        $('#removeSelection').click(function(){
+        $('#stopSelection').click(function(){
+            $('#polySelection, #clickSelection').removeClass("active");
+            selectionToolbar.deactivate();
+            map.setMapCursor("auto");
             clickSelectionActive = false;
-            clickRemoveSelectionActive = true;
         });
+
 
         on(selectionToolbar, "DrawEnd", function (geometry) {
             selectionToolbar.deactivate();
@@ -976,6 +989,23 @@ require([
             parcelsLayer.selectFeatures(parcelQuery,
                 FeatureLayer.SELECTION_ADD);
         });
+
+        $('#calculateStats').click(function(){
+
+            $('#zonalStatsTable').html('<tr><th>Parcel ID</th><th>Hectares</th><th>Mean </th><th>Standard Deviation</th><th>Max</th></tr>');
+
+            //if there are recent conditions, append them to recent conditions table
+            if (map.getLayer('parcels').getSelectedFeatures().length > 0) {
+                $.each(map.getLayer('parcels').getSelectedFeatures(), function() {
+                    $('#zonalStatsTable').append('<tr><td>' + this.attributes.P_ID + '</td><td>' + this.attributes.Hec+ '</td><td>' + this.attributes.MEAN + '</td><td>' + this.attributes.STD + '</td><td>' + this.attributes.MAX + '</td></tr>');
+                });
+            }
+
+            $('#zonalStatsModal').modal('show');
+
+        });
+
+
 
         const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "studyArea", visible:true} );
         studyAreaLayer.setVisibleLayers([0]);
