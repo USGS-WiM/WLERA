@@ -543,7 +543,7 @@ require([
         }
         var docTitle = template.layoutOptions.titleText;
         printParams.template = template;
-        var printMap = new PrintTask("http://wlera.wimcloud.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+        var printMap = new PrintTask("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
         printMap.execute(printParams, printDone, printError);
 
         function printDone(event) {
@@ -561,6 +561,7 @@ require([
 
         function printError(event) {
             alert("Sorry, an unclear print error occurred. Please try refreshing the application to fix the problem");
+            $("#printExecuteButton").button('reset');
         }
     }
 
@@ -997,7 +998,8 @@ require([
             //if there are recent conditions, append them to recent conditions table
             if (map.getLayer('parcels').getSelectedFeatures().length > 0) {
                 $.each(map.getLayer('parcels').getSelectedFeatures(), function() {
-                    $('#zonalStatsTable').append('<tr><td>' + this.attributes.P_ID + '</td><td>' + this.attributes.Hec+ '</td><td>' + this.attributes.MEAN + '</td><td>' + this.attributes.STD + '</td><td>' + this.attributes.MAX + '</td></tr>');
+                    $('#zonalStatsTable').append('<tr><td>' + this.attributes.P_ID + '</td><td>' + this.attributes.Hec.toFixed(3) + '</td><td>' + this.attributes.MEAN.toFixed(4) + '</td><td>' + this.attributes.STD.toFixed(3) + '</td><td>' + this.attributes.MAX + '</td></tr>');
+                    //$('#zonalStatsTable').append('<tr><td>' + this.attributes.P_ID + '</td><td>' + this.attributes.Hec + '</td><td>' + this.attributes.MEAN + '</td><td>' + this.attributes.STD + '</td><td>' + this.attributes.MAX + '</td></tr>');
                 });
             }
 

@@ -432,6 +432,12 @@ input[type="checkbox"], input[type="radio"] {
     color: white;
 }
 
+#zonalStatsModalBody {
+    overflow-y: auto;
+    max-height: 800px;
+}
+
+
 .claro .dijitButtonNode .dijitArrowButtonInner {
     width: 15px;
     height: 15px;
