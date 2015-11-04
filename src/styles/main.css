@@ -63,6 +63,37 @@ body {
     }
 }
 
+#aboutNav {
+    background: 0 0;
+    border: none;
+    line-height: 16px;
+    /*padding-top: 0;*/
+    /*padding-bottom: 0;*/
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    top: 2px;
+    transition: .2s;
+    color: rgba(255,255,255,.35);
+}
+
+
+#aboutNav{
+    letter-spacing: 2px;
+    position: relative; top: 2px;
+    transition: 0.2s;
+    color: rgba(255,255,255,0.35);
+}
+#aboutNav:hover{
+    cursor: pointer;
+    color: rgba(255,255,255,1);
+    transition: 0.2s;
+}
+#aboutNav:focus{
+    outline: none;
+}
+
+
 .basemapThumb {
     border:1px solid #ffffff;
     border-radius: 5px;
@@ -170,6 +201,19 @@ body {
 
 .hover-content {
     display:none;
+}
+
+.identification {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 9pt;
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0 0 0 8px;
+    opacity: .75;
+    text-align: center;
+    color: #6E7490;
 }
 
 .keepit100 {
@@ -413,6 +457,18 @@ input[type="checkbox"], input[type="radio"] {
 .wim-sidebar-panel {
     margin-bottom: 2px;
     opacity: 1;
+}
+
+#wim_logo {
+    background: #000 0 0;
+    border-radius: 5px;
+    width: 45px;
+}
+
+#wim_logo:hover{
+    background: blue none repeat scroll 0 0;
+    opacity: 0.8;
+    cursor: pointer;
 }
 
 .zoomDialog {

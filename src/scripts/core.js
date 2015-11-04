@@ -310,6 +310,7 @@ require([
 
     $('#printNavButton').click(function(){
         showPrintModal();
+        //insert function here that swaps out parcels feature layer with dynamic
     });
 
     function showBookmarkModal() {
@@ -645,6 +646,13 @@ require([
             showGeosearchModal();
         });
 
+        function showAboutModal () {
+            $('#aboutModal').modal('show');
+        }
+        $('#aboutNav').click(function(){
+            showAboutModal();
+        });
+
         $("#html").niceScroll();
         $("#sidebar").niceScroll();
         $("#sidebar").scroll(function () {
@@ -725,7 +733,6 @@ require([
                 }
             })
         });
-
 
         //$("body").on('click', '.bookmarkDelete' ,function (evt){
         //    var bmToDelete = this.parentNode.parentNode.id;
@@ -811,8 +818,11 @@ require([
         'esri/geometry/Extent',
         'esri/layers/ArcGISDynamicMapServiceLayer',
         'esri/layers/FeatureLayer',
+        "esri/layers/LabelLayer",
+        "esri/symbols/TextSymbol",
         "esri/symbols/SimpleFillSymbol",
         "esri/symbols/SimpleLineSymbol",
+        "esri/renderers/SimpleRenderer",
         "esri/Color",
         "esri/dijit/Popup",
         "esri/dijit/PopupTemplate",
@@ -832,8 +842,11 @@ require([
         Extent,
         ArcGISDynamicMapServiceLayer,
         FeatureLayer,
+        LabelLayer,
+        TextSymbol,
         SimpleFillSymbol,
         SimpleLineSymbol,
+        SimpleRenderer,
         Color,
         Popup,
         PopupTemplate,
@@ -900,61 +913,71 @@ require([
         //legendLayers.push ({layer:dikeBreaksLayer, title: "Dike Breaks"});
 
         //begin reference layers////////////////////////////////////
-        //const parcelsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcels", visible:false, minScale:100000} );
-        //parcelsLayer.setVisibleLayers([2]);
-        const parcelsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/1", {id: "parcels", visible:false, minScale:150000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"]});
-        mapLayers.push(parcelsLayer);
-        mapLayerIds.push(parcelsLayer.id);
+
+        ///dynamic parcels layer for display only
+        const parcelsDynLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcelsDyn", visible:false, minScale:100000} );
+        parcelsDynLayer.setVisibleLayers([1]);
+        mapLayers.push(parcelsDynLayer);
+        mapLayerIds.push(parcelsDynLayer.id);
+        parcelsDynLayer.inLegendLayers = false;
+
+        ///parcels feature layer for selection/zonal stats calc
+        //const parcelsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/1", {id: "parcels", visible:false, minScale:150000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"]});
+        const parcelsFeatLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/1", {id: "parcelsFeat", visible:true, minScale:150000, mode: FeatureLayer.MODE_SELECTION, outFields: ["*"]});
+        mapLayers.push(parcelsFeatLayer);
+        mapLayerIds.push(parcelsFeatLayer.id);
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
-        parcelsLayer.inLegendLayers = false;
+        parcelsFeatLayer.inLegendLayers = false;
 
         var parcelQuery = new Query();
-        var parcelSelectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SHORTDOT, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
-        parcelsLayer.setSelectionSymbol(parcelSelectionSymbol);
+        parcelQuery.outSpatialReference = map.spatialReference;
+        //var parcelSelectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SHORTDOT, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
+        var parcelSelectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
+        parcelsFeatLayer.setSelectionSymbol(parcelSelectionSymbol);
 
         //disable shift-click to recenter since we are using shift click to remove features from selection
         map.disableClickRecenter();
 
-        ////////////////////////////move elsewhere
-        //map.on("click", function(evt){
-        //
-        //    parcelQuery.geometry = evt.mapPoint;
-        //    parcelQuery.outFields = ["*"];
-        //    parcelQuery.returnGeometry = true;
-        //
-        //    if (clickSelectionActive) {
-        //        parcelsLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_ADD, function (results) {
-        //
-        //        });
-        //    }
-        //
-        //    if(evt.shiftKey){
-        //        parcelsLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_SUBTRACT);
-        //    }
-        //
-        //
-        //});
-        /////////////////////move elsewhere
+        //map click based parcel query (necessary because parcel layers is strictly selection mode due to full feature display causing print problems)
+        map.on("click", function(evt){
 
-
-        parcelsLayer.on("click", function (evt){
             parcelQuery.geometry = evt.mapPoint;
-            //parcelQuery.outFields = ["*"];
+            parcelQuery.outFields = ["*"];
             parcelQuery.returnGeometry = true;
 
             if (clickSelectionActive) {
-                parcelsLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_ADD, function (results) {
+                parcelsFeatLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_ADD, function (results) {
 
                 });
             }
 
             if(evt.shiftKey){
-                parcelsLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_SUBTRACT);
+                parcelsFeatLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_SUBTRACT);
             }
+
+
         });
+        //end map click based parcel query
+
+        //graphics layer based on click query for parcels feature layer. deprecated due to need to use dynamic layer for display because of printing issues
+        //parcelsFeatLayer.on("click", function (evt){
+        //    parcelQuery.geometry = evt.mapPoint;
+        //    //parcelQuery.outFields = ["*"];
+        //    parcelQuery.returnGeometry = true;
+        //
+        //    if (clickSelectionActive) {
+        //        parcelsFeatLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_ADD, function (results) {
+        //
+        //        });
+        //    }
+        //
+        //    if(evt.shiftKey){
+        //        parcelsFeatLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_SUBTRACT);
+        //    }
+        //});
+        //end graphics layer based parcels query
 
         selectionToolbar = new Draw(map);
-
 
         $('#polySelection').click(function(){
             map.setMapCursor("auto");
@@ -973,7 +996,7 @@ require([
             $('#polySelection, #clickSelection').removeClass("active");
             $('#stopSelection').removeClass("active");
             map.setMapCursor("auto");
-            parcelsLayer.clearSelection();
+            parcelsFeatLayer.clearSelection();
         });
 
         $('#stopSelection').click(function(){
@@ -987,7 +1010,7 @@ require([
         on(selectionToolbar, "DrawEnd", function (geometry) {
             selectionToolbar.deactivate();
             parcelQuery.geometry = geometry;
-            parcelsLayer.selectFeatures(parcelQuery,
+            parcelsFeatLayer.selectFeatures(parcelQuery,
                 FeatureLayer.SELECTION_ADD);
         });
 
@@ -996,9 +1019,9 @@ require([
             $('#zonalStatsTable').html('<tr><th>Parcel ID</th><th>Hectares</th><th>Mean </th><th>Standard Deviation</th><th>Max</th></tr>');
 
             //if there are recent conditions, append them to recent conditions table
-            if (map.getLayer('parcels').getSelectedFeatures().length > 0) {
-                $.each(map.getLayer('parcels').getSelectedFeatures(), function() {
-                    $('#zonalStatsTable').append('<tr><td>' + this.attributes.P_ID + '</td><td>' + this.attributes.Hec.toFixed(3) + '</td><td>' + this.attributes.MEAN.toFixed(4) + '</td><td>' + this.attributes.STD.toFixed(3) + '</td><td>' + this.attributes.MAX + '</td></tr>');
+            if (map.getLayer('parcelsFeat').getSelectedFeatures().length > 0) {
+                $.each(map.getLayer('parcelsFeat').getSelectedFeatures(), function() {
+                    $('#zonalStatsTable').append('<tr><td>' + this.attributes.P_ID + '</td><td>' + this.attributes.Hec.toFixed(3) + '</td><td>' + this.attributes.MEAN.toFixed(4) + '</td><td>' + this.attributes.STD.toFixed(3) + '</td><td>' + this.attributes.stat_MAX + '</td></tr>');
                     //$('#zonalStatsTable').append('<tr><td>' + this.attributes.P_ID + '</td><td>' + this.attributes.Hec + '</td><td>' + this.attributes.MEAN + '</td><td>' + this.attributes.STD + '</td><td>' + this.attributes.MAX + '</td></tr>');
                 });
             }
@@ -1006,8 +1029,6 @@ require([
             $('#zonalStatsModal').modal('show');
 
         });
-
-
 
         const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "studyArea", visible:true} );
         studyAreaLayer.setVisibleLayers([0]);
@@ -1095,7 +1116,7 @@ require([
             snapKey: has("mac") ? keys.META : keys.CTRL
         });
         var layerInfos = [{
-            layer: parcelsLayer
+            layer: parcelsFeatLayer
         }];
         snapManager.setLayerInfos(layerInfos);
 
@@ -1219,7 +1240,6 @@ require([
                 map.setExtent(layerExtent);
             });
         });
-
 
         $(".opacity").hover(function () {
             $(".opacitySlider").remove();
