@@ -53,6 +53,7 @@ require([
     'esri/geometry/Extent',
     "esri/config",
     "esri/urlUtils",
+    "esri/request",
     "dojo/_base/array",
     "dojo/_base/lang",
     "dojo/keys",
@@ -88,6 +89,7 @@ require([
     Extent,
     esriConfig,
     urlUtils,
+    esriRequest,
     array,
     lang,
     keys,
@@ -523,7 +525,7 @@ require([
         template.preserveScale = false;
         var legendLayer = new LegendLayer();
         legendLayer.layerId = "normalized";
-        //legendLayer.subLayerIds = [*];
+        legendLayer.subLayerIds = [0];
 
         var userTitle = $("#printTitle").val();
         //if user does not provide title, use default. otherwise apply user title
@@ -532,18 +534,19 @@ require([
                 "titleText": "Western Lake Erie Restoration Assessment",
                 "authorText" : "Western Lake Erie Restoration Assessment (WLERA)",
                 "copyrightText": "This page was produced by the WLERA web application at [insert app URL]",
-                "legendlayers": [legendLayer]
+                "legendLayers": [legendLayer]
             };
         } else {
             template.layoutOptions = {
                 "titleText": userTitle,
                 "authorText" : "Western Lake Erie Restoration Assessment (WLERA)",
                 "copyrightText": "This page was produced by the WLERA web application at [insert app URL]",
-                "legendlayers": [legendLayer]
+                "legendLayers": [legendLayer]
             };
         }
         var docTitle = template.layoutOptions.titleText;
         printParams.template = template;
+
         var printMap = new PrintTask("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
         printMap.execute(printParams, printDone, printError);
 
@@ -929,11 +932,27 @@ require([
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
         parcelsFeatLayer.inLegendLayers = false;
 
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////
+        //var parcelsFeatLayerProperties = {
+        //    "type": "simple",
+        //    "label": "Selection"
+        //};
+        //
+        //var symbol = new SimpleFillSymbol().setColor(new Color([255,0,0,0.5]));
+        //
+        //var renderer = new SimpleRenderer(symbol);
+        //
+        //featureLayer.setRenderer(renderer);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
         var parcelQuery = new Query();
         parcelQuery.outSpatialReference = map.spatialReference;
         //var parcelSelectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SHORTDOT, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
         var parcelSelectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
         parcelsFeatLayer.setSelectionSymbol(parcelSelectionSymbol);
+
 
         //disable shift-click to recenter since we are using shift click to remove features from selection
         map.disableClickRecenter();
