@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="bower_components/bootstrap-sidebar/dist/css/sidebar.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-map-js/dist/css/bootstrapmap.min.css" />
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="styles/themify-icons.css"/>
 
     <!-- endbower -->
     <!-- endbuild -->
@@ -29,7 +30,7 @@
     <script src="bower_components/jquery.nicescroll/jquery.nicescroll.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/bootstrap-sidebar/dist/js/sidebar.js"></script>
-    <script src="bower_components/bootstrap-map-js/dist/js/bootstrapmap.min.js"></script>
+    <!--<script src="bower_components/bootstrap-map-js/dist/js/bootstrapmap.min.js"></script>-->
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -347,25 +348,32 @@
                   </div>
                   <div id="zonalStatsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="zonalStatsHeader">
                       <div class="panel-body collapse in">
-                          <div class="btn-group" role="group" aria-label="..." data-toggle="buttons" style="padding-bottom: 5px">
-                              <!--<button id="polySelection" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Select parcels by polygon">Select parcels by polygon</button>-->
-                              <!--<button id="clickSelection" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Select individual parcels">Select parcels by click</button>-->
-                              <label id="polySelection" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Select by polygon">
-                                  <input  type="radio" name="options" id="option1" autocomplete="off" checked>Select by polygon
+                          <p>Calculate restoration suitability statistics for custom area or selected parcels</p>
+                          <!--<label for="customSelectBtnGroup" class="btnGroupLabel">Custom Area</label>-->
+                          <!--<div id="customSelectBtnGroup" class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">-->
+                              <!--<button id="drawCustom" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Draw custom area">Draw Custom Area</button>-->
+                          <!--</div>-->
+                          <div id="zonalStatsBtnGroup" class="btn-group" role="group" aria-label="..." data-toggle="buttons" style="padding-bottom: 5px">
+                              <label  id="drawCustom" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Draw custom area">
+                                  <input type="radio" name="zoneOptions" id="draw" autocomplete="off"><span class="ti-pencil-alt2"></span>&nbsp;&nbsp;Draw Custom Area
                               </label>
-                              <label  id="clickSelection" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="SHIFT + click to deselect">
-                                  <input type="radio" name="options" id="option2" autocomplete="off">Select by click
+                              <label  id="clickSelection" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Click to select | Hold Shift to deselect">
+                                  <input type="radio" name="zoneOptions" id="click" autocomplete="off"><span class="ti-plus"></span>&nbsp;&nbsp;Select Parcels
                               </label>
-                              <button id="stopSelection" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Stop selecting features">Stop selecting</button>
-                              </div>
+                              <!--<label id="polySelection" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Select by polygon">-->
+                                  <!--<input  type="radio" name="options" id="option1" autocomplete="off" checked>Draw Area-->
+                              <!--</label>-->
+                              <!--<button id="stopSelection" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Stop selecting features">Stop selecting</button>-->
+                          </div>
                           <br>
                           <div class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">
-                              <button id="clearSelection" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Clear entire selection">Clear selection</button>
+                              <button id="stopSelection" type="button" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Stop selecting features"><i class="fa fa-stop"></i>&nbsp;&nbsp;Stop selecting</button>
+                              <button id="clearSelection" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Clear entire selection"><i class="fa fa-times-circle"></i>&nbsp;&nbsp;Clear selection</button>
                           </div>
                           <br>
 
                           <!--<div class="btn-group " role="group" aria-label="...">-->
-                              <button id="calculateStats" type="button" class="btn btn-success btn-lg" data-toggle="tooltip" data-placement="top" title="Calculate" style="padding: 5px">Calculate Zonal Stats</button>
+                              <button id="calculateStats" type="button" class="btn btn-success btn-lg" data-toggle="tooltip" data-placement="top" title="Calculate" style="padding: 5px"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Calculate Zonal Stats</button>
                               <!--<button id="cancelStats" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Cancel" style="padding: 5px">Cancel</button>-->
                           <!--</div>-->
 
@@ -445,7 +453,8 @@
                       <div id="measurementHeading" class="measurementHeading" role="tab">
                           <h4 class="panel-title">
                               <a data-toggle="collapse" style="text-decoration: none"  href="#measurementCollapse" aria-expanded="true" aria-controls="collapseOne">
-                                  <i class="fa fa-ellipsis-h"></i>
+                                  <!--<i class="fa fa-ellipsis-h"></i>-->
+                                  <span class="ti-ruler-alt"></span>
                                   <span id="measureLabel">Measure</span>
                               </a>
                           </h4>

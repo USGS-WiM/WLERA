@@ -111,6 +111,11 @@ body {
     margin-top: 5px;
 }
 
+/*.btnGroupLabel {*/
+    /*text-align: left;*/
+/*}*/
+
+
 .esriBookmarks {
     width: 100%;
     border-style: none;
@@ -491,6 +496,10 @@ input[type="checkbox"], input[type="radio"] {
 #zonalStatsModalBody {
     overflow-y: auto;
     max-height: 800px;
+}
+
+#zonalStatsPanel {
+    text-align: left;
 }
 
 

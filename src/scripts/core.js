@@ -18,6 +18,7 @@ var wlera = wlera || {
     };
 
 var map;
+var zonalStatsGP;
 var maxLegendHeight;
 var maxLegendDivHeight;
 var printCount = 0;
@@ -811,6 +812,8 @@ require([
         'esri/dijit/Legend',
         'esri/tasks/locator',
         'esri/tasks/query',
+        "esri/tasks/Geoprocessor",
+        "esri/tasks/FeatureSet",
         'esri/tasks/GeometryService',
         "esri/tasks/ProjectParameters",
         'esri/tasks/QueryTask',
@@ -835,6 +838,8 @@ require([
         Legend,
         Locator,
         Query,
+        Geoprocessor,
+        FeatureSet,
         GeometryService,
         ProjectParameters,
         QueryTask,
@@ -865,6 +870,7 @@ require([
         var navToolbar;
         var locator;
         var legendLayerInfos = [];
+        var customArea;
         var selectionToolbar;
         var clickSelectionActive = false;
         var clickRemoveSelectionActive = false;
@@ -996,12 +1002,14 @@ require([
         //});
         //end graphics layer based parcels query
 
-        selectionToolbar = new Draw(map);
+        customArea = new Draw(map);
+        //selectionToolbar = new Draw(map);
 
-        $('#polySelection').click(function(){
+        $('#drawCustom').click(function(){
             map.setMapCursor("auto");
             clickSelectionActive = false;
-            selectionToolbar.activate(Draw.POLYGON);
+            customArea.activate(Draw.POLYGON);
+            //selectionToolbar.activate(Draw.POLYGON);
         });
 
         $('#clickSelection').click(function(){
@@ -1012,26 +1020,55 @@ require([
 
         $('#clearSelection').click(function(){
             clickSelectionActive = false;
-            $('#polySelection, #clickSelection').removeClass("active");
+            $('#drawCustom, #clickSelection').removeClass("active");
             $('#stopSelection').removeClass("active");
             map.setMapCursor("auto");
             parcelsFeatLayer.clearSelection();
         });
 
         $('#stopSelection').click(function(){
-            $('#polySelection, #clickSelection').removeClass("active");
+            $('#drawCustom, #clickSelection').removeClass("active");
             selectionToolbar.deactivate();
             map.setMapCursor("auto");
             clickSelectionActive = false;
         });
 
+        zonalStatsGP = new Geoprocessor("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/zonalStats/GPServer/WLERAZonalStats");
+        zonalStatsGP.setOutputSpatialReference({wkid:102100});
+        zonalStatsGP.on("execute-complete", displayZonalStatsResults);
 
-        on(selectionToolbar, "DrawEnd", function (geometry) {
-            selectionToolbar.deactivate();
-            parcelQuery.geometry = geometry;
-            parcelsFeatLayer.selectFeatures(parcelQuery,
-                FeatureLayer.SELECTION_ADD);
+
+        on(customArea, "DrawEnd", function (geometry) {
+            //customArea.deactivate();
+
+            //var symbol = new SimpleFillSymbol("none", new SimpleLineSymbol("dashdot", new Color([255,0,0]), 2), new Color([255,255,0,0.25]));
+            var symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
+            var graphic = new Graphic(geometry,symbol);
+
+            map.graphics.add(graphic);
+            customArea.deactivate();
+
+            var features= [];
+            features.push(graphic);
+
+            var featureSet = new FeatureSet();
+            featureSet.features = features;
+
+            var params = { "inputPoly":featureSet };
+            zonalStatsGP.execute(params);
+
         });
+
+        function displayZonalStatsResults (zonalStatsResults) {
+            console.log(zonalStatsResults.results[0].value.features[0].attributes);
+        }
+        
+        //on(selectionToolbar, "DrawEnd", function (geometry) {
+        //    selectionToolbar.deactivate();
+        //    parcelQuery.geometry = geometry;
+        //    parcelsFeatLayer.selectFeatures(parcelQuery,
+        //        FeatureLayer.SELECTION_ADD);
+        //});
 
         $('#calculateStats').click(function(){
 
