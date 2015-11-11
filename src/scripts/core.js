@@ -874,6 +874,10 @@ require([
         var selectionToolbar;
         var clickSelectionActive = false;
         var clickRemoveSelectionActive = false;
+        var customAreaSymbol;
+        var customAreaGraphic;
+        var customAreaParams;
+        var customAreaFeatureArray = [];
 
         const mapServiceRoot= "http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/";
 
@@ -939,20 +943,6 @@ require([
         parcelsFeatLayer.inLegendLayers = false;
 
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////
-        //var parcelsFeatLayerProperties = {
-        //    "type": "simple",
-        //    "label": "Selection"
-        //};
-        //
-        //var symbol = new SimpleFillSymbol().setColor(new Color([255,0,0,0.5]));
-        //
-        //var renderer = new SimpleRenderer(symbol);
-        //
-        //featureLayer.setRenderer(renderer);
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-
         var parcelQuery = new Query();
         parcelQuery.outSpatialReference = map.spatialReference;
         //var parcelSelectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SHORTDOT, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
@@ -1012,7 +1002,7 @@ require([
             //selectionToolbar.activate(Draw.POLYGON);
         });
 
-        $('#clickSelection').click(function(){
+        $('#selectParcels').click(function(){
             map.setMapCursor("crosshair");
             clickRemoveSelectionActive = false;
             clickSelectionActive = true;
@@ -1020,14 +1010,15 @@ require([
 
         $('#clearSelection').click(function(){
             clickSelectionActive = false;
-            $('#drawCustom, #clickSelection').removeClass("active");
+            $('#drawCustom, #selectParcels').removeClass("active");
             $('#stopSelection').removeClass("active");
             map.setMapCursor("auto");
             parcelsFeatLayer.clearSelection();
+            map.graphics.remove(customAreaGraphic);
         });
 
         $('#stopSelection').click(function(){
-            $('#drawCustom, #clickSelection').removeClass("active");
+            $('#drawCustom, #selectParcels').removeClass("active");
             selectionToolbar.deactivate();
             map.setMapCursor("auto");
             clickSelectionActive = false;
@@ -1035,34 +1026,43 @@ require([
 
         zonalStatsGP = new Geoprocessor("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/zonalStats/GPServer/WLERAZonalStats");
         zonalStatsGP.setOutputSpatialReference({wkid:102100});
-        zonalStatsGP.on("execute-complete", displayZonalStatsResults);
+        //zonalStatsGP.on("execute-complete", displayZonalStatsResults);
+        zonalStatsGP.on("execute-complete", displayCustomStatsResults);
+
+        $('#calculateStats').click(function () {
+            zonalStatsGP.execute(customAreaParams)
+        });
 
 
-        on(customArea, "DrawEnd", function (geometry) {
-            //customArea.deactivate();
-
+        on(customArea, "DrawEnd", function (customAreaGeometry) {
             //var symbol = new SimpleFillSymbol("none", new SimpleLineSymbol("dashdot", new Color([255,0,0]), 2), new Color([255,255,0,0.25]));
-            var symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
-            var graphic = new Graphic(geometry,symbol);
+            customAreaSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
+            customAreaGraphic = new Graphic(customAreaGeometry,customAreaSymbol);
 
-            map.graphics.add(graphic);
+            map.graphics.add(customAreaGraphic);
             customArea.deactivate();
 
-            var features= [];
-            features.push(graphic);
+            customAreaFeatureArray.push(customAreaGraphic);
 
             var featureSet = new FeatureSet();
-            featureSet.features = features;
+            featureSet.features = customAreaFeatureArray;
 
-            var params = { "inputPoly":featureSet };
-            zonalStatsGP.execute(params);
+            customAreaParams = { "inputPoly":featureSet };
+            //zonalStatsGP.execute(customAreaParams);
 
         });
 
-        function displayZonalStatsResults (zonalStatsResults) {
-            console.log(zonalStatsResults.results[0].value.features[0].attributes);
+
+        function displayCustomStatsResults (customStatsResults) {
+
+            var results = customStatsResults.results[0].value.features[0].attributes;
+
+            $('#zonalStatsTable').html('<tr><th>Mean </th><th>Standard Deviation</th><th>Max</th></tr>');
+            $('#zonalStatsTable').append('<tr><td>' + results.MEAN.toFixed(4) + '</td><td>' + results.STD.toFixed(3) + '</td><td>' + results.MAX + '</td></tr>');
+            $('#zonalStatsModal').modal('show');
         }
-        
+
+        //below is for selcting parcels with a user-drawn polygon area
         //on(selectionToolbar, "DrawEnd", function (geometry) {
         //    selectionToolbar.deactivate();
         //    parcelQuery.geometry = geometry;
@@ -1070,11 +1070,12 @@ require([
         //        FeatureLayer.SELECTION_ADD);
         //});
 
-        $('#calculateStats').click(function(){
+
+        $('#displayStats').click(function(){
 
             $('#zonalStatsTable').html('<tr><th>Parcel ID</th><th>Hectares</th><th>Mean </th><th>Standard Deviation</th><th>Max</th></tr>');
 
-            //if there are recent conditions, append them to recent conditions table
+            //if there are selected parcels, retrieve their zonal stats attributes and append to the table
             if (map.getLayer('parcelsFeat').getSelectedFeatures().length > 0) {
                 $.each(map.getLayer('parcelsFeat').getSelectedFeatures(), function() {
                     $('#zonalStatsTable').append('<tr><td>' + this.attributes.P_ID + '</td><td>' + this.attributes.Hec.toFixed(3) + '</td><td>' + this.attributes.MEAN.toFixed(4) + '</td><td>' + this.attributes.STD.toFixed(3) + '</td><td>' + this.attributes.stat_MAX + '</td></tr>');

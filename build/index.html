@@ -325,31 +325,32 @@
                   <div id="zonalStatsPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="zonalStatsHeader">
                       <div class="panel-body collapse in">
                           <p>Calculate restoration suitability statistics for custom area or selected parcels</p>
-                          <!--<label for="customSelectBtnGroup" class="btnGroupLabel">Custom Area</label>-->
-                          <!--<div id="customSelectBtnGroup" class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">-->
-                              <!--<button id="drawCustom" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Draw custom area">Draw Custom Area</button>-->
-                          <!--</div>-->
-                          <div id="zonalStatsBtnGroup" class="btn-group" role="group" aria-label="..." data-toggle="buttons" style="padding-bottom: 5px">
-                              <label  id="drawCustom" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Draw custom area">
-                                  <input type="radio" name="zoneOptions" id="draw" autocomplete="off"><span class="ti-pencil-alt2"></span>&nbsp;&nbsp;Draw Custom Area
-                              </label>
-                              <label  id="clickSelection" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Click to select | Hold Shift to deselect">
-                                  <input type="radio" name="zoneOptions" id="click" autocomplete="off"><span class="ti-plus"></span>&nbsp;&nbsp;Select Parcels
-                              </label>
-                              <!--<label id="polySelection" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Select by polygon">-->
-                                  <!--<input  type="radio" name="options" id="option1" autocomplete="off" checked>Draw Area-->
-                              <!--</label>-->
-                              <!--<button id="stopSelection" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Stop selecting features">Stop selecting</button>-->
+                          <div id="customSelectBtnGroup" class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">
+                              <button id="drawCustom" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Draw custom area"><span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area</button>
+                              <button id="calculateStats" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Calculate" style="padding: 5px"><i class="fa fa-cogs"></i>&nbsp;Calculate Stats</button>
+
                           </div>
-                          <br>
-                          <div class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">
-                              <button id="stopSelection" type="button" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Stop selecting features"><i class="fa fa-stop"></i>&nbsp;&nbsp;Stop selecting</button>
-                              <button id="clearSelection" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Clear entire selection"><i class="fa fa-times-circle"></i>&nbsp;&nbsp;Clear selection</button>
+
+                          <div id="parcelSelectBtnGroup" class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">
+                              <button id="selectParcels" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Click to select | Hold Shift to deselect"><span class="ti-plus"></span>&nbsp;&nbsp;Select Parcels</button>
+                              <button id="stopSelection" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Stop selecting features"><i class="fa fa-stop"></i>&nbsp;&nbsp;Stop selecting</button>
+                              <button id="displayStats" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Display Stats"><i class="fa fa-table"></i>&nbsp;Display Stats</button>
                           </div>
+
                           <br>
 
+                          <div class="btn-group" role="group" aria-label="..." style="padding-bottom: 5px">
+                            <button id="clearSelection" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Clear entire selection"><i class="fa fa-times-circle"></i>&nbsp;&nbsp;Clear selection</button>
+                          </div>
+
+                          <!--<div class="btn-group" role="group" aria-label="..." style="padding-bottom: 5px">-->
+                              <!--<button id="stopSelection" type="button" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Stop selecting features"><i class="fa fa-stop"></i>&nbsp;&nbsp;Stop selecting</button>-->
+                              <!--<button id="clearSelection" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Clear entire selection"><i class="fa fa-times-circle"></i>&nbsp;&nbsp;Clear selection</button>-->
+                          <!--</div>-->
+                          <!--<br>-->
+
                           <!--<div class="btn-group " role="group" aria-label="...">-->
-                              <button id="calculateStats" type="button" class="btn btn-success btn-lg" data-toggle="tooltip" data-placement="top" title="Calculate" style="padding: 5px"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Calculate Zonal Stats</button>
+                              <!--<button id="calculateStats" type="button" class="btn btn-success btn-lg" data-toggle="tooltip" data-placement="top" title="Calculate" style="padding: 5px"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Calculate Zonal Stats</button>-->
                               <!--<button id="cancelStats" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Cancel" style="padding: 5px">Cancel</button>-->
                           <!--</div>-->
 
