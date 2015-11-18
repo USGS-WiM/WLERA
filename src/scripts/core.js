@@ -693,6 +693,13 @@ require([
             }
         });
 
+        //custom function for handling of show/hide alert divs
+        $(function(){
+            $("[data-hide]").on("click", function(){
+                $("." + $(this).attr("data-hide")).hide();
+            });
+        });
+
         wlera.bookmarks.forEach(function(bm) {
             if (bm.userCreated == false) {
                 var bookmarkButton = $('<tr id="'+ bm.id +'"><td class="bookmarkTitle td-bm">'+ bm.name +'</td><td class="text-right text-nowrap"></td> </tr>');
@@ -874,9 +881,10 @@ require([
         var selectionToolbar;
         var clickSelectionActive = false;
         var clickRemoveSelectionActive = false;
+        var drawCustomActive = false;
         var customAreaSymbol;
         var customAreaGraphic;
-        var customAreaParams;
+        var customAreaParams = { "inputPoly":null };
         var customAreaFeatureArray = [];
 
         const mapServiceRoot= "http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/";
@@ -970,9 +978,12 @@ require([
                 parcelsFeatLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_SUBTRACT);
             }
 
-
         });
         //end map click based parcel query
+
+        parcelsFeatLayer.on("selection-complete", function () {
+            $("#displayStats").prop('disabled', false);
+        });
 
         //graphics layer based on click query for parcels feature layer. deprecated due to need to use dynamic layer for display because of printing issues
         //parcelsFeatLayer.on("click", function (evt){
@@ -996,33 +1007,66 @@ require([
         //selectionToolbar = new Draw(map);
 
         $('#drawCustom').click(function(){
-            map.setMapCursor("auto");
-            clickSelectionActive = false;
-            customArea.activate(Draw.POLYGON);
+            //if active, turn off. if not, turn on
+            if (drawCustomActive){
+                customArea.deactivate();
+                $('#drawCustom').removeClass("active");
+                $('#drawCustom').html('<span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area');
+                drawCustomActive = false;
+                return;
+            } else if (!drawCustomActive) {
+                $('#drawCustom').addClass("active");
+                $('#drawCustom').html('<i class="fa fa-stop"></i>&nbsp;&nbsp;Stop drawing');
+                clickSelectionActive = false;
+                customArea.activate(Draw.POLYGON);
+                drawCustomActive = true;
+                return;
+            }
+
+            //map.setMapCursor("auto");
+            //clickSelectionActive = false;
+            //customArea.activate(Draw.POLYGON);
             //selectionToolbar.activate(Draw.POLYGON);
         });
 
         $('#selectParcels').click(function(){
-            map.setMapCursor("crosshair");
-            clickRemoveSelectionActive = false;
-            clickSelectionActive = true;
+            $('#drawCustom').removeClass("active");
+            $('#drawCustom').html('<span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area');
+            drawCustomActive = false;
+            customArea.deactivate();
+            if (clickSelectionActive) {
+                $('#selectParcels').removeClass("active");
+                $('#selectParcels').html('<span class="ti-plus"></span>&nbsp;&nbsp;Select Parcels');
+
+                map.setMapCursor("auto");
+                clickSelectionActive = false;
+                return;
+            } else if (!clickSelectionActive) {
+                $('#selectParcels').addClass("active");
+                $('#selectParcels').html('<i class="fa fa-stop"></i>&nbsp;&nbsp;Stop selecting');
+                map.setMapCursor("crosshair");
+                clickRemoveSelectionActive = false;
+                clickSelectionActive = true;
+                return;
+            }
+
         });
 
         $('#clearSelection').click(function(){
-            clickSelectionActive = false;
-            $('#drawCustom, #selectParcels').removeClass("active");
-            $('#stopSelection').removeClass("active");
-            map.setMapCursor("auto");
             parcelsFeatLayer.clearSelection();
             map.graphics.remove(customAreaGraphic);
+            $("#displayStats").prop('disabled', true);
+            $("#calculateStats").prop('disabled', true);
+            //clear the feature set
+            customAreaParams = { "inputPoly":null };
         });
 
-        $('#stopSelection').click(function(){
-            $('#drawCustom, #selectParcels').removeClass("active");
-            selectionToolbar.deactivate();
-            map.setMapCursor("auto");
-            clickSelectionActive = false;
-        });
+        //$('#stopSelection').click(function(){
+        //    $('#drawCustom, #selectParcels').removeClass("active");
+        //    selectionToolbar.deactivate();
+        //    map.setMapCursor("auto");
+        //    clickSelectionActive = false;
+        //});
 
         zonalStatsGP = new Geoprocessor("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/zonalStats/GPServer/WLERAZonalStats");
         zonalStatsGP.setOutputSpatialReference({wkid:102100});
@@ -1030,9 +1074,14 @@ require([
         zonalStatsGP.on("execute-complete", displayCustomStatsResults);
 
         $('#calculateStats').click(function () {
-            zonalStatsGP.execute(customAreaParams)
+            if (customAreaParams.inputPoly == null) {
+                $("#noCustomSelectionAlert").show();
+                return;
+            } else {
+                $(this).button('loading');
+                zonalStatsGP.execute(customAreaParams);
+            }
         });
-
 
         on(customArea, "DrawEnd", function (customAreaGeometry) {
             //var symbol = new SimpleFillSymbol("none", new SimpleLineSymbol("dashdot", new Color([255,0,0]), 2), new Color([255,255,0,0.25]));
@@ -1041,6 +1090,9 @@ require([
 
             map.graphics.add(customAreaGraphic);
             customArea.deactivate();
+            $('#drawCustom').removeClass("active");
+            $('#drawCustom').html('<span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area');
+            drawCustomActive = false;
 
             customAreaFeatureArray.push(customAreaGraphic);
 
@@ -1048,18 +1100,21 @@ require([
             featureSet.features = customAreaFeatureArray;
 
             customAreaParams = { "inputPoly":featureSet };
-            //zonalStatsGP.execute(customAreaParams);
 
+            $("#calculateStats").prop('disabled', false);
+            //zonalStatsGP.execute(customAreaParams);
         });
 
-
         function displayCustomStatsResults (customStatsResults) {
+
+            $("#calculateStats").button('reset');
 
             var results = customStatsResults.results[0].value.features[0].attributes;
 
             $('#zonalStatsTable').html('<tr><th>Mean </th><th>Standard Deviation</th><th>Max</th></tr>');
             $('#zonalStatsTable').append('<tr><td>' + results.MEAN.toFixed(4) + '</td><td>' + results.STD.toFixed(3) + '</td><td>' + results.MAX + '</td></tr>');
             $('#zonalStatsModal').modal('show');
+
         }
 
         //below is for selcting parcels with a user-drawn polygon area
@@ -1080,10 +1135,15 @@ require([
                 $.each(map.getLayer('parcelsFeat').getSelectedFeatures(), function() {
                     $('#zonalStatsTable').append('<tr><td>' + this.attributes.P_ID + '</td><td>' + this.attributes.Hec.toFixed(3) + '</td><td>' + this.attributes.MEAN.toFixed(4) + '</td><td>' + this.attributes.STD.toFixed(3) + '</td><td>' + this.attributes.stat_MAX + '</td></tr>');
                     //$('#zonalStatsTable').append('<tr><td>' + this.attributes.P_ID + '</td><td>' + this.attributes.Hec + '</td><td>' + this.attributes.MEAN + '</td><td>' + this.attributes.STD + '</td><td>' + this.attributes.MAX + '</td></tr>');
+                    $('#zonalStatsModal').modal('show');
+                    return;
                 });
+            } else if (map.getLayer('parcelsFeat').getSelectedFeatures().length == 0) {
+                $("#noParcelSelectionAlert").show();
+                return;
             }
 
-            $('#zonalStatsModal').modal('show');
+            //$('#zonalStatsModal').modal('show');
 
         });
 

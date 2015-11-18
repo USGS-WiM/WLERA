@@ -351,15 +351,19 @@
                           <p>Calculate restoration suitability statistics for custom area or selected parcels</p>
                           <div id="customSelectBtnGroup" class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">
                               <button id="drawCustom" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Draw custom area"><span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area</button>
-                              <button id="calculateStats" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Calculate" style="padding: 5px"><i class="fa fa-cogs"></i>&nbsp;Calculate Stats</button>
+                              <button id="calculateStats" type="button" class="btn btn-success" data-toggle="tooltip" data-loading-text="<i class='fa fa-cog fa-spin'></i>&nbsp;Calculating..." data-placement="top" title="Calculate" disabled><i class="fa fa-cogs"></i>&nbsp;Calculate Stats</button>
 
                           </div>
+
+                          <div id="noCustomSelectionAlert" class="alert alert-warning" role="alert"><button type="button" class="close" data-hide="alert">&times;</button>No selection drawn.</div>
 
                           <div id="parcelSelectBtnGroup" class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">
                               <button id="selectParcels" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Click to select | Hold Shift to deselect"><span class="ti-plus"></span>&nbsp;&nbsp;Select Parcels</button>
-                              <button id="stopSelection" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Stop selecting features"><i class="fa fa-stop"></i>&nbsp;&nbsp;Stop selecting</button>
-                              <button id="displayStats" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Display Stats"><i class="fa fa-table"></i>&nbsp;Display Stats</button>
+                              <!--<button id="stopSelection" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Stop selecting features"><i class="fa fa-stop"></i>&nbsp;&nbsp;Stop selecting</button>-->
+                              <button id="displayStats" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Display Stats" disabled><i class="fa fa-table"></i>&nbsp;Display Stats</button>
                           </div>
+
+                          <div id="noParcelSelectionAlert" class="alert alert-warning" role="alert"><button type="button" class="close" data-hide="alert">&times;</button>No parcels selected.</div>
 
                           <br>
 
