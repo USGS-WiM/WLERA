@@ -384,7 +384,7 @@ a.lgi-zoom:hover {
 }
 
 .navbar-brand {
-    padding:7px 4px;
+    padding:7px 5px;
 }
 
 .navbar-btn {
@@ -466,6 +466,11 @@ input[type="checkbox"], input[type="radio"] {
     padding: 1px;
     font-weight: bold;
 
+}
+.title {
+    font-size:25px;
+    display:inline-block;
+    padding-top: 15px
 }
 
 .wim-sidebar-panel {

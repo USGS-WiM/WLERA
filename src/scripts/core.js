@@ -1009,6 +1009,7 @@ require([
         $('#drawCustom').click(function(){
             //if active, turn off. if not, turn on
             if (drawCustomActive){
+                customArea.finishDrawing();
                 customArea.deactivate();
                 $('#drawCustom').removeClass("active");
                 $('#drawCustom').html('<span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area');

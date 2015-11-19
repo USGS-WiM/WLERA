@@ -30,6 +30,7 @@
     <script src="bower_components/jquery.nicescroll/jquery.nicescroll.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/bootstrap-sidebar/dist/js/sidebar.js"></script>
+    <script src="bower_components/bootstrap-confirmation2/bootstrap-confirmation.min.js"></script>
     <!--<script src="bower_components/bootstrap-map-js/dist/js/bootstrapmap.min.js"></script>-->
     <!-- endbower -->
     <!-- endbuild -->
@@ -54,10 +55,10 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="http://usgs.gov">
-                  <img height="38px" alt="USGS logo" src="images/USGS_ID_white.png">
-                  <span class='hidden-xs' style='font-size:20px;display:inline-block;'>&nbsp;&nbsp;Western Lake Erie Restoration Assessment (WLERA)</span>
-              </a>
+              <span>
+                  <a class="navbar-brand" href="http://usgs.gov"><img height="38px" alt="USGS logo" src="images/USGS_ID_white.png"></a>
+                  <span class='hidden-xs navbar-brand title'>&nbsp;&nbsp;Western Lake Erie Restoration Assessment (WLERA)</span>
+              </span>
           </div>
 
           <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right">
@@ -100,20 +101,14 @@
                       <div role="tabpanel" class="tab-pane" id="aboutTabPane"></br>
                           <p style="color:black; font-size: larger">The Western Lake Erie Restoration Assessment web application is developed by the Wisconsin Internet Mapping (WiM) group.</p>
                           <p>WLERA project information goes here</p>
-
                       </div>
                       <div role="tabpanel" class="tab-pane active" id="disclaimerTabPane"></br>
                           <h3>Data Limitations</h3>
                           <p>WLERA-specific data disclaimer will go here, if needed. </p>
-
                       </div>
                       <div role="tabpanel" class="tab-pane" id="contactTabPane"></br>
                           Project contact info here.
-
                       </div>
-
-
-
                   </div>
               </div>
 
@@ -153,8 +148,6 @@
       </div><!-- /.modal-dialog -->
   </div>
 
-
-
   <div class="modal fade overflow-y-hidden" id="printModal" style="display: none;" aria-hidden="true">
       <div class="modal-dialog">
           <div class="modal-content">
@@ -181,7 +174,6 @@
       </div><!-- /.modal-dialog -->
   </div>
 
-
   <div class="modal fade overflow-y-hidden" id="shareModal" style="display: none;" aria-hidden="true">
       <div class="modal-dialog">
           <div class="modal-content">
@@ -191,28 +183,15 @@
               </div>
               <div id="shareModalBody" class="modal-body">
                   <p>Create a short, shareable link for your current extent using Bitly</p>
-                  <button id="showFullLinkButton" type="button" class="btn btn-default btn-fixed btn-sm btn-share"> Display full link</button><br>
-                  <span id="fullShareURL"></span>
                   <button id="showShortLinkButton" type="button" class="btn btn-default btn-fixed btn-sm btn-share"> Generate shortened Bitly link</button><br>
                   <span id="bitlyURL"></span>
-
-
-                  <!--<form id="print-title-form" class="form-group">-->
-                      <!--<label for="printTitle">Title </label>-->
-                      <!--<input class="form-control" id="printTitle" placeholder="Enter a title for your printout">-->
-                  <!--</form>-->
-
-                  <!--<form id="print-form" class="form-inline">-->
-                      <!--<button id="printExecuteButton" type="button" class="btn btn-success btn-fixed" data-loading-text="Printing..." > Print </button>-->
-                      <!--<button id="printDismissButton" type="submit" class="btn btn-default btn-fixed" data-dismiss="modal"> Dismiss</button>-->
-                  <!--</form>-->
-
-                  <!--<div id="printJobsDiv" style="margin-top: 5px;"><label>Print Jobs </label><p class="toRemove"> No print jobs yet</p></div>-->
+                  <hr>
+                  <button id="showFullLinkButton" type="button" class="btn btn-default btn-fixed btn-sm btn-share"> Display full link</button><br>
+                  <span id="fullShareURL"></span>
               </div>
           </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
   </div>
-
 
   <div class="modal fade overflow-y-hidden" id="bookmarkModal" style="display: none;" aria-hidden="true">
       <div class="modal-dialog">
@@ -243,8 +222,6 @@
       </div><!-- /.modal-dialog -->
   </div>
 
-
-
   <div class="modal fade overflow-y-hidden" id="zonalStatsModal" style="display: none;" aria-hidden="true">
       <div class="modal-dialog">
           <div class="modal-content">
@@ -259,7 +236,6 @@
           </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
   </div>
-
 
   <!-- Begin page content -->
   <div class="container-fluid keepit100">
@@ -352,37 +328,16 @@
                           <div id="customSelectBtnGroup" class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">
                               <button id="drawCustom" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Draw custom area"><span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area</button>
                               <button id="calculateStats" type="button" class="btn btn-success" data-toggle="tooltip" data-loading-text="<i class='fa fa-cog fa-spin'></i>&nbsp;Calculating..." data-placement="top" title="Calculate" disabled><i class="fa fa-cogs"></i>&nbsp;Calculate Stats</button>
-
                           </div>
-
-                          <div id="noCustomSelectionAlert" class="alert alert-warning" role="alert"><button type="button" class="close" data-hide="alert">&times;</button>No selection drawn.</div>
-
                           <div id="parcelSelectBtnGroup" class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">
                               <button id="selectParcels" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Click to select | Hold Shift to deselect"><span class="ti-plus"></span>&nbsp;&nbsp;Select Parcels</button>
                               <!--<button id="stopSelection" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Stop selecting features"><i class="fa fa-stop"></i>&nbsp;&nbsp;Stop selecting</button>-->
                               <button id="displayStats" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Display Stats" disabled><i class="fa fa-table"></i>&nbsp;Display Stats</button>
                           </div>
-
-                          <div id="noParcelSelectionAlert" class="alert alert-warning" role="alert"><button type="button" class="close" data-hide="alert">&times;</button>No parcels selected.</div>
-
                           <br>
-
                           <div class="btn-group" role="group" aria-label="..." style="padding-bottom: 5px">
                             <button id="clearSelection" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Clear entire selection"><i class="fa fa-times-circle"></i>&nbsp;&nbsp;Clear selection</button>
                           </div>
-
-                          <!--<div class="btn-group" role="group" aria-label="..." style="padding-bottom: 5px">-->
-                              <!--<button id="stopSelection" type="button" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Stop selecting features"><i class="fa fa-stop"></i>&nbsp;&nbsp;Stop selecting</button>-->
-                              <!--<button id="clearSelection" type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Clear entire selection"><i class="fa fa-times-circle"></i>&nbsp;&nbsp;Clear selection</button>-->
-                          <!--</div>-->
-                          <!--<br>-->
-
-                          <!--<div class="btn-group " role="group" aria-label="...">-->
-                              <!--<button id="calculateStats" type="button" class="btn btn-success btn-lg" data-toggle="tooltip" data-placement="top" title="Calculate" style="padding: 5px"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Calculate Zonal Stats</button>-->
-                              <!--<button id="cancelStats" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Cancel" style="padding: 5px">Cancel</button>-->
-                          <!--</div>-->
-
-
                       </div>
                   </div>
               </div>
@@ -397,35 +352,11 @@
                   </div>
                   <div id="bookmarksPanel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="bookmarksHeader">
                       <div class="panel-body collapse in">
-                          <!--<div id="bookmarksDiv" class="panel-body"></div>-->
-                          <!--<button id="removeBookmarksButton" type="button" class="btn btn-primary pull-left">-->
-                              <!--<span class="glyphicon glyphicon-trash"></span>-->
-                              <!--<span id="removeBookmarksButtonText"> Remove Map Bookmarks</span>-->
-                          <!--</button>-->
                           <div class="panel panel-default">
                               <table class="table table-hover">
-                                  <tbody id="bookmarkList">
-                                  <!--<tr>-->
-                                      <!--<td class="title">first button.</td>-->
-                                      <!--<td class="text-right text-nowrap">-->
-                                          <!--<button class="btn btn-xs btn-warning">-->
-                                              <!--<span class="glyphicon glyphicon-remove"></span>-->
-                                          <!--</button>-->
-                                      <!--</td>-->
-                                  <!--</tr>-->
-                                  <!--<tr>-->
-                                      <!--<td class="title">second button.</td>-->
-                                      <!--<td class="text-right text-nowrap">-->
-                                          <!--<button class="btn btn-xs btn-warning">-->
-                                              <!--<span class="glyphicon glyphicon-remove"></span>-->
-                                          <!--</button>-->
-                                      <!--</td>-->
-                                  <!--</tr>-->
-                                  </tbody>
+                                  <tbody id="bookmarkList"></tbody>
                               </table>
                           </div>
-                          <!--<div id="bookmarkList" class="list-group"></div>-->
-
                           <div class="btn-group " role="group" aria-label="...">
                               <button id="addBookmarkButton" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Add bookmark"><i class="fa fa-plus"></i></button>
                               <button id="removeBookmarksButton" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Delete all user bookmarks"><i class="fa fa-trash"></i></button>
