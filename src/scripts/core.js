@@ -1,7 +1,6 @@
 //for jshint
-'use strict';
+(function () {'use strict';}());
 // Generated on 2015-04-13 using generator-wim 0.0.1
-
 /**
  * Created by bdraper on 4/3/2015.
  */
@@ -10,8 +9,7 @@ var wlera = wlera || {
         bookmarks: [
             {"id":"ottawa-nwr", "name":"Ottawa NWR", "userCreated": false, spatialReference:{"wkid":102100}, "xmax":-9253627.864758775,"xmin":-9268896.161158718,"ymax":5109457.058192252,"ymin":5099759.110228584},
             {"id":"erie-marsh", "name":"Erie Marsh", "userCreated": false, spatialReference:{"wkid":102100}, "xmax":-9281192.968084078,"xmin":-9296461.264484022,"ymax":5130611.005770145,"ymin":5120913.057806477}
-        ]
-        ,
+        ],
         globals: {
 
         }
@@ -27,7 +25,6 @@ var bmToDelete = "";
 //create global layers lookup
 var mapLayers = [];
 var mapLayerIds = [];
-
 
 require([
     'esri/map',
@@ -103,7 +100,6 @@ require([
 ) {
 
     var useLocalStorage = supports_local_storage();
-
     var popup = new Popup({
     }, domConstruct.create("div"));
     //Add the dark theme which is customized further in the <style> tag at the top of this page
@@ -166,7 +162,7 @@ require([
             //create new array with only user created bookmarks, to save to local storage.
             var appBMs = [];
             array.forEach(wlera.bookmarks, function (bm){
-                if (bm.userCreated == false){
+                if (bm.userCreated === false){
                     appBMs.push(bm.id);
                 }
             });
@@ -192,7 +188,6 @@ require([
     }
 
     function removeUserBookmarks () {
-
         if ( useLocalStorage ) {
             // Remove from local storage
             window.localStorage.removeItem(storageName);
@@ -203,7 +198,7 @@ require([
         //creates list of user defined bookmarks
         var userBMs = [];
         array.forEach(wlera.bookmarks, function (bm){
-            if (bm.userCreated == true){
+            if (bm.userCreated === true){
                 userBMs.push(bm.id);
             }
         });
@@ -267,7 +262,6 @@ require([
         //    var layer = map.getLayer(id);
         //    layerInfo.push({id: layer.id, visible: layer.visible, opacity:  layer.opacity});
         //});
-
         //retrieve current map extent (in map's spatial reference)
         var currentMapExtent = map.extent;
         //create a URL query string with extent
@@ -313,7 +307,6 @@ require([
 
     $('#printNavButton').click(function(){
         showPrintModal();
-        //insert function here that swaps out parcels feature layer with dynamic
     });
 
     function showBookmarkModal() {
@@ -355,7 +348,7 @@ require([
     //updates lat/lng indicator on mouse move. does not apply on devices w/out mouse. removes "map center" label
     on(map, "mouse-move", function (cursorPosition) {
         $('#mapCenterLabel').css("display", "none");
-        if (cursorPosition.mapPoint != null) {
+        if (cursorPosition.mapPoint !== null) {
             var geographicMapPt = webMercatorUtils.webMercatorToGeographic(cursorPosition.mapPoint);
             $('#latitude').html(geographicMapPt.y.toFixed(4));
             $('#longitude').html(geographicMapPt.x.toFixed(4));
@@ -396,7 +389,6 @@ require([
     on(dom.byId('btnNatlMap'), 'click', function () {
         nationalMapBasemap.setVisibility(true);
     });
-
     var geocoder = new Geocoder({
         value: '',
         maxLocations: 25,
@@ -414,18 +406,14 @@ require([
             setSearchExtent();
         }
     });
-
-    // Symbols
+    // map pin symbol for geosearch
     var sym = createPictureSymbol('images/purple-pin.png', 0, 12, 13, 24);
-
     map.on('load', function (){
         map.infoWindow.set('highlight', false);
         map.infoWindow.set('titleInBody', false);
     });
-
     // Geosearch functions
     on(dom.byId('btnGeosearch'),'click', geosearch);
-
     // Optionally confine search to map extent
     function setSearchExtent (){
         if (dom.byId('chkExtent').checked === 1) {
@@ -485,7 +473,6 @@ require([
         // Add to map
         map.graphics.add(graphic);
     }
-
     function zoomToPlaces(places) {
         var multiPoint = new Multipoint(map.spatialReference);
         for (var i = 0; i < places.length; i++) {
@@ -493,12 +480,10 @@ require([
         }
         map.setExtent(multiPoint.getExtent().expand(2.0));
     }
-
     function clearFindGraphics() {
         map.infoWindow.hide();
         map.graphics.clear();
     }
-
     function createPictureSymbol(url, xOffset, yOffset, xWidth, yHeight) {
         return new PictureMarkerSymbol(
             {
@@ -509,12 +494,9 @@ require([
                 'width':xWidth, 'height': yHeight
             });
     }
-
     function printMap() {
-
         var printParams = new PrintParameters();
         printParams.map = map;
-
         var template = new PrintTemplate();
         template.exportOptions = {
             width: 500,
@@ -530,7 +512,7 @@ require([
 
         var userTitle = $("#printTitle").val();
         //if user does not provide title, use default. otherwise apply user title
-        if (userTitle == "") {
+        if (userTitle === "") {
             template.layoutOptions = {
                 "titleText": "Western Lake Erie Restoration Assessment",
                 "authorText" : "Western Lake Erie Restoration Assessment (WLERA)",
@@ -552,14 +534,11 @@ require([
         printMap.execute(printParams, printDone, printError);
 
         function printDone(event) {
-            //alert(event.url);
-            //window.open(event.url, "_blank");
             printCount++;
-            //var printJob = $('<a href="'+ event.url +'" target="_blank">Printout ' + printCount + ' </a>');
-            var printJob = $('<p><label>' + printCount + ': </label>&nbsp;&nbsp;<a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
+            var printJobMarkup = $('<p><label>' + printCount + ': </label>&nbsp;&nbsp;<a href="'+ event.url +'" target="_blank">' + docTitle +' </a></p>');
             //$("#print-form").append(printJob);
             $("#printJobsDiv").find("p.toRemove").remove();
-            $("#printModalBody").append(printJob);
+            $("#printModalBody").append(printJobMarkup);
             $("#printTitle").val("");
             $("#printExecuteButton").button('reset');
         }
@@ -569,11 +548,12 @@ require([
             $("#printExecuteButton").button('reset');
         }
     }
-
     function saveUserBookmark () {
 
+        //jQuery selector variable assignment for sidebar
+        var bookmarkTitle = $("#bookmarkTitle");
         var currentMapExtentJSON = map.extent.toJson();
-        var userBookmarkTitle = $("#bookmarkTitle").val();
+        var userBookmarkTitle = bookmarkTitle.val();
 
         if (userBookmarkTitle.length > 0 ){
 
@@ -584,7 +564,7 @@ require([
             currentMapExtentJSON.userCreated = true;
             wlera.bookmarks.push(currentMapExtentJSON);
 
-            var bmDeleteID = userBookmarkID + "_delete"
+            var bmDeleteID = userBookmarkID + "_delete";
             var userBookmarkButton = $('<tr id="'+ userBookmarkID +'"><td  class="bookmarkTitle td-bm">'+ userBookmarkTitle +'</td><td class="text-right text-nowrap"> <button id="'+ bmDeleteID + '" class="btn btn-xs btn-warning bookmarkDelete" data-toggle="tooltip" data-placement="top" > <span class="glyphicon glyphicon-remove"></span> </button> </td> </tr>');
             $("#bookmarkList").append(userBookmarkButton);
 
@@ -608,7 +588,7 @@ require([
                 }
             });
 
-            $("#bookmarkTitle").val("");
+            bookmarkTitle.val("");
             refreshBookmarks();
             $("#bmAlert").hide();
             $("#bookmarkModal").modal('hide');
@@ -616,92 +596,83 @@ require([
         } else {
             $("#bmAlert").show();
         }
-
     }
-
     function mapReady(){
-
         var urlSiteObject = esri.urlToObject(document.location.href);
-
         if (urlSiteObject.query){
-
             var urlExtent = new Extent(parseFloat(urlSiteObject.query.xmin), parseFloat(urlSiteObject.query.ymin), parseFloat(urlSiteObject.query.xmax), parseFloat(urlSiteObject.query.ymax), new SpatialReference({"wkid":102100}) );
             map.setExtent(urlExtent);
-
             //to be used if layer visibility is asked for as part of share (has some timing challenges)
             //var urlVisLayers = urlSiteObject.query.visLayers;
             //var visLayersArray = urlVisLayers.split(',');
-
             var arrivalURL = document.location.href;
             var cleanURL = arrivalURL.substring(0, arrivalURL.indexOf('?'));
             history.pushState(null, "", cleanURL);
-
         }
     }
-
     // Show modal dialog; handle legend sizing (both on doc ready)
     $(document).ready(function(){
-
         function showGeosearchModal() {
             $('#geosearchModal').modal('show');
         }
-        // Geosearch nav menu is selected
         $('#geosearchNav').click(function(){
             showGeosearchModal();
         });
-
         function showAboutModal () {
             $('#aboutModal').modal('show');
         }
         $('#aboutNav').click(function(){
             showAboutModal();
         });
-
         $("#html").niceScroll();
-        $("#sidebar").niceScroll();
-        $("#sidebar").scroll(function () {
+        //jQuery selector variable assignment for sidebar
+        var sidebar = $("#sidebar");
+        sidebar.niceScroll();
+        sidebar.scroll(function () {
            $("#sidebar").getNiceScroll().resize();
         });
-        
+
+        /////logic dealing with legend resizing
+        //jQuery selector variable assignment for legendCollapse control
+        var legendCollapse =  $('#legendCollapse');
+        //jQuery selector variable assignment for legendElement div
+        var legendElement = $('#legendElement');
         $("#legendDiv").niceScroll();
-        
         maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
-        $('#legendElement').css('max-height', maxLegendHeight);
-        
-        $('#legendCollapse').on('shown.bs.collapse', function () {
+        legendElement.css('max-height', maxLegendHeight);
+        legendCollapse.on('shown.bs.collapse', function () {
             $('#legendLabel').show();
            maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
-           $('#legendElement').css('max-height', maxLegendHeight);
-           maxLegendDivHeight = ($('#legendElement').height()) - parseInt($('#legendHeading').css("height").replace('px',''));
+           legendElement.css('max-height', maxLegendHeight);
+           maxLegendDivHeight = (legendElement.height()) - parseInt($('#legendHeading').css("height").replace('px',''));
            $('#legendDiv').css('max-height', maxLegendDivHeight);
         });
-        $('#legendCollapse').on('hide.bs.collapse', function () {
-           $('#legendElement').css('height', 'initial');
+        legendCollapse.on('hide.bs.collapse', function () {
+           legendElement.css('height', 'initial');
             if (window.innerWidth <= 767){
                 $('#legendLabel').hide();
             }
         });
-
-        $('#measurementCollapse').on('shown.bs.collapse', function () {
+        //jQuery selector for measurement tool control
+        var measurementCollapse = $('#measurementCollapse');
+        measurementCollapse.on('shown.bs.collapse', function () {
             //show label when the collapse panel is expanded(for mobile, where label is hidden while collapsed)
             $('#measureLabel').show();
         });
-        $('#measurementCollapse').on('hide.bs.collapse', function () {
+        measurementCollapse.on('hide.bs.collapse', function () {
             //hide label on collapse if window is small (mobile)
             if (window.innerWidth <= 767){
                 $('#measureLabel').hide();
             }
         });
-
         //custom function for handling of show/hide alert divs
         $(function(){
             $("[data-hide]").on("click", function(){
                 $("." + $(this).attr("data-hide")).hide();
             });
         });
-
         wlera.bookmarks.forEach(function(bm) {
-            if (bm.userCreated == false) {
+            if (bm.userCreated === false) {
                 var bookmarkButton = $('<tr id="'+ bm.id +'"><td class="bookmarkTitle td-bm">'+ bm.name +'</td><td class="text-right text-nowrap"></td> </tr>');
                 $("#bookmarkList").append(bookmarkButton);
             } else {
@@ -732,7 +703,6 @@ require([
 
             }
         });
-
         //need this style onclick because user bookmark buttons are appended to dom and event delegation blah blah
         $("body").on('click', '.td-bm' ,function (){
             var bookmarkID = this.parentNode.id;
@@ -742,65 +712,10 @@ require([
                     //var extent = new Extent(-122.68,45.53,-122.45,45.60, new SpatialReference({ wkid:4326 }));
                     map.setExtent(bookmarkExtent);
                 }
-            })
+            });
         });
 
-        //$("body").on('click', '.bookmarkDelete' ,function (evt){
-        //    var bmToDelete = this.parentNode.parentNode.id;
-        //   console.log(evt.currentTarget);
-        //    $('.bookmarkDelete').confirmation('show',{
-        //        placement: "left",
-        //        title: "Delete this bookmark?",
-        //        btnOkLabel: "Yes",
-        //        btnCancelLabel: "Cancel",
-        //        popout: true,
-        //        onConfirm: function() {
-        //            $('#' + bmToDelete).remove();
-        //
-        //            for(var i = 0; i < wlera.bookmarks.length; i++) {
-        //                var obj = wlera.bookmarks[i];
-        //
-        //                if(bmToDelete.indexOf(obj.id) !== -1) {
-        //                    wlera.bookmarks.splice(i, 1);
-        //                }
-        //            }
-        //            refreshBookmarks();
-        //        }
-        //    });
-        //    //$('#'+ bmToDelete ).confirmation('show');
-        //});
-
-        //$(document).ready( function () {
-        //    //var bmToDelete = this.parentNode.parentNode.id;
-        //    //var bmToDelete = this.parentNode.parentNode.id;
-        //    //console.log(evt.currentTarget);
-        //    $('.bookmarkDelete').confirmation({
-        //        placement: "left",
-        //        title: "Delete this bookmark?",
-        //        btnOkLabel: "Yes",
-        //        btnCancelLabel: "Cancel",
-        //        popout: true,
-        //        onConfirm: function(options) {
-        //
-        //            $('#' + bmToDelete).remove();
-        //
-        //            for(var i = 0; i < wlera.bookmarks.length; i++) {
-        //                var obj = wlera.bookmarks[i];
-        //
-        //                if(bmToDelete.indexOf(obj.id) !== -1) {
-        //                    wlera.bookmarks.splice(i, 1);
-        //                }
-        //            }
-        //            refreshBookmarks();
-        //        }
-        //    });
-        //});
-
-
         $('[data-toggle="tooltip"]').tooltip({delay: { show: 500, hide: 0 }});
-
-        //$('#removeBookmarksButton').confirmModal();
-
         $('#removeBookmarksButton').confirmModal({
             confirmTitle     : 'Delete user bookmarks from memory',
             confirmMessage   : 'This action will remove all user-defined bookmarks from local memory on your computer or device. Would you like to continue?',
@@ -812,9 +727,7 @@ require([
             confirmDismiss   : true,
             confirmAutoOpen  : false
         });
-
     });
-
     require([
         'esri/dijit/Legend',
         'esri/tasks/locator',
@@ -868,7 +781,6 @@ require([
         query,
         dom
     ) {
-
         var legendLayers = [];
         var layersObject = [];
         var layerArray = [];
@@ -888,7 +800,6 @@ require([
         var customAreaFeatureArray = [];
 
         const mapServiceRoot= "http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/";
-
         const geomService = new GeometryService("http://wlera.wimcloud.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
         const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "normalized", visible:true} );
@@ -933,8 +844,7 @@ require([
         dikeBreaksLayer.inLegendLayers = false;
         //legendLayers.push ({layer:dikeBreaksLayer, title: "Dike Breaks"});
 
-        //begin reference layers////////////////////////////////////
-
+        //////////////begin reference layers////////////////////////////////////
         ///dynamic parcels layer for display only
         const parcelsDynLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcelsDyn", visible:false, minScale:100000} );
         parcelsDynLayer.setVisibleLayers([1]);
@@ -950,107 +860,91 @@ require([
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
         parcelsFeatLayer.inLegendLayers = false;
 
-
         var parcelQuery = new Query();
         parcelQuery.outSpatialReference = map.spatialReference;
         //var parcelSelectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SHORTDOT, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
         var parcelSelectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
         parcelsFeatLayer.setSelectionSymbol(parcelSelectionSymbol);
 
-
         //disable shift-click to recenter since we are using shift click to remove features from selection
         map.disableClickRecenter();
 
         //map click based parcel query (necessary because parcel layers is strictly selection mode due to full feature display causing print problems)
         map.on("click", function(evt){
-
             parcelQuery.geometry = evt.mapPoint;
             parcelQuery.outFields = ["*"];
             parcelQuery.returnGeometry = true;
-
             if (clickSelectionActive) {
-                parcelsFeatLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_ADD, function (results) {
-
-                });
+                parcelsFeatLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_ADD);
             }
-
             if(evt.shiftKey){
                 parcelsFeatLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_SUBTRACT);
             }
-
         });
         //end map click based parcel query
-
         parcelsFeatLayer.on("selection-complete", function () {
             $("#displayStats").prop('disabled', false);
         });
-
         //graphics layer based on click query for parcels feature layer. deprecated due to need to use dynamic layer for display because of printing issues
         //parcelsFeatLayer.on("click", function (evt){
         //    parcelQuery.geometry = evt.mapPoint;
         //    //parcelQuery.outFields = ["*"];
         //    parcelQuery.returnGeometry = true;
-        //
         //    if (clickSelectionActive) {
         //        parcelsFeatLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_ADD, function (results) {
-        //
         //        });
         //    }
-        //
         //    if(evt.shiftKey){
         //        parcelsFeatLayer.selectFeatures(parcelQuery, FeatureLayer.SELECTION_SUBTRACT);
         //    }
         //});
         //end graphics layer based parcels query
 
+        //instantiation of Draw element for custom area draw
         customArea = new Draw(map);
-        //selectionToolbar = new Draw(map);
+        //jQuery selector variable assignment for the draw custom area button
+        var drawCustom =  $('#drawCustom');
 
-        $('#drawCustom').click(function(){
+        drawCustom.click(function(){
             //if active, turn off. if not, turn on
             if (drawCustomActive){
                 customArea.finishDrawing();
                 customArea.deactivate();
-                $('#drawCustom').removeClass("active");
-                $('#drawCustom').html('<span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area');
+               drawCustom.removeClass("active");
+               drawCustom.html('<span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area');
                 drawCustomActive = false;
-                return;
             } else if (!drawCustomActive) {
-                $('#drawCustom').addClass("active");
-                $('#drawCustom').html('<i class="fa fa-stop"></i>&nbsp;&nbsp;Stop drawing');
+               drawCustom.addClass("active");
+               drawCustom.html('<i class="fa fa-stop"></i>&nbsp;&nbsp;Stop drawing');
                 clickSelectionActive = false;
                 customArea.activate(Draw.POLYGON);
                 drawCustomActive = true;
-                return;
             }
-
             //map.setMapCursor("auto");
             //clickSelectionActive = false;
             //customArea.activate(Draw.POLYGON);
             //selectionToolbar.activate(Draw.POLYGON);
         });
 
-        $('#selectParcels').click(function(){
-            $('#drawCustom').removeClass("active");
-            $('#drawCustom').html('<span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area');
+        //jQuery selector variable assignment for select parcels button
+        var selectParcels = $('#selectParcels');
+        selectParcels.click(function(){
+           drawCustom.removeClass("active");
+           drawCustom.html('<span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area');
             drawCustomActive = false;
             customArea.deactivate();
             if (clickSelectionActive) {
-                $('#selectParcels').removeClass("active");
-                $('#selectParcels').html('<span class="ti-plus"></span>&nbsp;&nbsp;Select Parcels');
-
+                selectParcels.removeClass("active");
+                selectParcels.html('<span class="ti-plus"></span>&nbsp;&nbsp;Select Parcels');
                 map.setMapCursor("auto");
                 clickSelectionActive = false;
-                return;
             } else if (!clickSelectionActive) {
-                $('#selectParcels').addClass("active");
-                $('#selectParcels').html('<i class="fa fa-stop"></i>&nbsp;&nbsp;Stop selecting');
+                selectParcels.addClass("active");
+                selectParcels.html('<i class="fa fa-stop"></i>&nbsp;&nbsp;Stop selecting');
                 map.setMapCursor("crosshair");
                 clickRemoveSelectionActive = false;
                 clickSelectionActive = true;
-                return;
             }
-
         });
 
         $('#clearSelection').click(function(){
@@ -1061,91 +955,55 @@ require([
             //clear the feature set
             customAreaParams = { "inputPoly":null };
         });
-
-        //$('#stopSelection').click(function(){
-        //    $('#drawCustom, #selectParcels').removeClass("active");
-        //    selectionToolbar.deactivate();
-        //    map.setMapCursor("auto");
-        //    clickSelectionActive = false;
-        //});
-
         zonalStatsGP = new Geoprocessor("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/zonalStats/GPServer/WLERAZonalStats");
         zonalStatsGP.setOutputSpatialReference({wkid:102100});
-        //zonalStatsGP.on("execute-complete", displayZonalStatsResults);
         zonalStatsGP.on("execute-complete", displayCustomStatsResults);
-
         $('#calculateStats').click(function () {
-            if (customAreaParams.inputPoly == null) {
-                $("#noCustomSelectionAlert").show();
-                return;
-            } else {
-                $(this).button('loading');
-                zonalStatsGP.execute(customAreaParams);
-            }
+            $(this).button('loading');
+            zonalStatsGP.execute(customAreaParams);
         });
-
         on(customArea, "DrawEnd", function (customAreaGeometry) {
             //var symbol = new SimpleFillSymbol("none", new SimpleLineSymbol("dashdot", new Color([255,0,0]), 2), new Color([255,255,0,0.25]));
             customAreaSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
             customAreaGraphic = new Graphic(customAreaGeometry,customAreaSymbol);
-
             map.graphics.add(customAreaGraphic);
             customArea.deactivate();
-            $('#drawCustom').removeClass("active");
-            $('#drawCustom').html('<span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area');
+            drawCustom.removeClass("active");
+            drawCustom.html('<span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area');
             drawCustomActive = false;
-
             customAreaFeatureArray.push(customAreaGraphic);
-
             var featureSet = new FeatureSet();
             featureSet.features = customAreaFeatureArray;
-
             customAreaParams = { "inputPoly":featureSet };
-
             $("#calculateStats").prop('disabled', false);
             //zonalStatsGP.execute(customAreaParams);
         });
 
         function displayCustomStatsResults (customStatsResults) {
-
             $("#calculateStats").button('reset');
-
             var results = customStatsResults.results[0].value.features[0].attributes;
-
-            $('#zonalStatsTable').html('<tr><th>Mean </th><th>Standard Deviation</th><th>Max</th></tr>');
-            $('#zonalStatsTable').append('<tr><td>' + results.MEAN.toFixed(4) + '</td><td>' + results.STD.toFixed(3) + '</td><td>' + results.MAX + '</td></tr>');
+            var zonalStatsTable = $('#zonalStatsTable');
+            zonalStatsTable.html('<tr><th>Mean </th><th>Standard Deviation</th><th>Max</th></tr>');
+            zonalStatsTable.append('<tr><td>' + results.MEAN.toFixed(4) + '</td><td>' + results.STD.toFixed(3) + '</td><td>' + results.MAX + '</td></tr>');
             $('#zonalStatsModal').modal('show');
-
         }
-
-        //below is for selcting parcels with a user-drawn polygon area
+        //below is for selecting parcels with a user-drawn polygon area
         //on(selectionToolbar, "DrawEnd", function (geometry) {
         //    selectionToolbar.deactivate();
         //    parcelQuery.geometry = geometry;
         //    parcelsFeatLayer.selectFeatures(parcelQuery,
         //        FeatureLayer.SELECTION_ADD);
         //});
-
-
         $('#displayStats').click(function(){
-
             $('#zonalStatsTable').html('<tr><th>Parcel ID</th><th>Hectares</th><th>Mean </th><th>Standard Deviation</th><th>Max</th></tr>');
-
             //if there are selected parcels, retrieve their zonal stats attributes and append to the table
             if (map.getLayer('parcelsFeat').getSelectedFeatures().length > 0) {
                 $.each(map.getLayer('parcelsFeat').getSelectedFeatures(), function() {
                     $('#zonalStatsTable').append('<tr><td>' + this.attributes.P_ID + '</td><td>' + this.attributes.Hec.toFixed(3) + '</td><td>' + this.attributes.MEAN.toFixed(4) + '</td><td>' + this.attributes.STD.toFixed(3) + '</td><td>' + this.attributes.stat_MAX + '</td></tr>');
                     //$('#zonalStatsTable').append('<tr><td>' + this.attributes.P_ID + '</td><td>' + this.attributes.Hec + '</td><td>' + this.attributes.MEAN + '</td><td>' + this.attributes.STD + '</td><td>' + this.attributes.MAX + '</td></tr>');
                     $('#zonalStatsModal').modal('show');
-                    return;
                 });
-            } else if (map.getLayer('parcelsFeat').getSelectedFeatures().length == 0) {
-                $("#noParcelSelectionAlert").show();
-                return;
             }
-
-            //$('#zonalStatsModal').modal('show');
-
         });
 
         const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "studyArea", visible:true} );
@@ -1278,7 +1136,6 @@ require([
                 $("#" + layer.id).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
             }
         }
-
         //toggles the visibility of corresponding layer and status of toggle button on click.
         $("button.lyrTog").click(function(e) {
             //toggle checkmark and button state
@@ -1293,14 +1150,13 @@ require([
             } else {
                 layer.setVisibility(true);
                 //add to legend layers object if not there already(this prevents waiting for all to load on init)
-                if (layer.inLegendLayers == false) {
+                if (layer.inLegendLayers === false) {
                     legendLayers.push({layer: layer, title: " "});
                     layer.inLegendLayers = true;
                     legend.refresh();
                 }
             }
         });
-
         //toggles the icons of the group toggle buttons on click
         $('#hydroConditionGroup, #parametersGroup, #4scaleGroup').on('hide.bs.collapse', function () {
             var groupToggleID = $(this)[0].id.replace('Group', '');
@@ -1320,16 +1176,16 @@ require([
 
         $(".zoomto").hover(function (e) {
 
-            $(".zoomDialog").remove();
+            var zoomDialog =  $(".zoomDialog");
+            zoomDialog.remove();
             var layerToChange = this.parentNode.id;
-            var zoomDialog = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" id="zoomscale" class="list-group-item lgi-zoom zoomscale">Zoom to scale</a> <a id="zoomcenter" href="#" class="list-group-item lgi-zoom zoomcenter">Zoom to center</a><a id="zoomextent" href="#" class="list-group-item lgi-zoom zoomextent">Zoom to extent</a></div></div>');
+            var zoomDialogMarkup = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" id="zoomscale" class="list-group-item lgi-zoom zoomscale">Zoom to scale</a> <a id="zoomcenter" href="#" class="list-group-item lgi-zoom zoomcenter">Zoom to center</a><a id="zoomextent" href="#" class="list-group-item lgi-zoom zoomextent">Zoom to extent</a></div></div>');
+            $("body").append(zoomDialogMarkup);
 
-            $("body").append(zoomDialog);
+            zoomDialog.css('left', event.clientX-80);
+            zoomDialog.css('top', event.clientY-5);
 
-            $(".zoomDialog").css('left', event.clientX-80);
-            $(".zoomDialog").css('top', event.clientY-5);
-
-            $(".zoomDialog").mouseleave(function() {
+            zoomDialog.mouseleave(function() {
                 $(".zoomDialog").remove();
             });
 
@@ -1349,7 +1205,6 @@ require([
                 //map.centerAt(layerCenter);
                 var dataCenter = new Point(-83.208084,41.628103, new SpatialReference({wkid:4326}));
                 map.centerAt(dataCenter);
-
             });
 
             $("#zoomextent").click(function (e){
@@ -1360,42 +1215,39 @@ require([
         });
 
         $(".opacity").hover(function () {
-            $(".opacitySlider").remove();
+            var opacitySlider = $(".opacitySlider");
+            opacitySlider.remove();
             var layerToChange = this.parentNode.id;
             var currOpacity = map.getLayer(layerToChange).opacity;
-            var slider = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');
-            $("body").append(slider);
+            var sliderMarkup = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');
+            $("body").append(sliderMarkup);
 
-            $("#slider")[0].value = currOpacity*100;
-            $(".opacitySlider").css('left', event.clientX-180);
-            $(".opacitySlider").css('top', event.clientY-5);
-
-            $(".opacitySlider").mouseleave(function() {
+            var slider = $("#slider");
+            slider[0].value = currOpacity*100;
+            opacitySlider.css('left', event.clientX-180);
+            opacitySlider.css('top', event.clientY-5);
+            opacitySlider.mouseleave(function() {
                 $(".opacitySlider").remove();
             });
-
             $(".opacityClose").click(function() {
                 $(".opacitySlider").remove();
             });
-            $('#slider').change(function(event) {
+            slider.change(function(event) {
                 //get the value of the slider with this call
-                var o = ($('#slider')[0].value)/100;
+                var o = (slider[0].value)/100;
                 console.log("o: " + o);
-                $("#opacityValue").html("Opacity: " + o)
+                $("#opacityValue").html("Opacity: " + o);
                 map.getLayer(layerToChange).setOpacity(o);
                 //here I am just specifying the element to change with a "made up" attribute (but don't worry, this is in the HTML specs and supported by all browsers).
                 //var e = '#' + $(this).attr('data-wjs-element');
                 //$(e).css('opacity', o)
             });
         });
-
         var legend = new Legend({
             map: map,
             layerInfos: legendLayers
         }, "legendDiv");
         legend.startup();
-
     });//end of require statement containing legend building code
-
 });
 
