@@ -800,7 +800,7 @@ require([
         var customAreaFeatureArray = [];
 
         const mapServiceRoot= "http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/";
-        const geomService = new GeometryService("http://wlera.wimcloud.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+        const geomService = new GeometryService("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
         const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "normalized", visible:true} );
         normRestorationIndexLayer.setVisibleLayers([0]);
@@ -906,6 +906,7 @@ require([
         var drawCustom =  $('#drawCustom');
 
         drawCustom.click(function(){
+            map.graphics.remove(customAreaGraphic);
             //if active, turn off. if not, turn on
             if (drawCustomActive){
                 customArea.finishDrawing();
@@ -1096,15 +1097,18 @@ require([
         }];
         snapManager.setLayerInfos(layerInfos);
 
+        var projectParams = new ProjectParameters();
+
         var outSR = new SpatialReference(26917);
         measurement.on("measure-end", function(evt){
             //$("#utmCoords").remove();
-            var resultGeom = evt.geometry;
-            var utmResult;
+            //var resultGeom = evt.geometry;
+            projectParams.geometries = [evt.geometry];
+            projectParams.outSR = outSR;
             var absoluteX = (evt.geometry.x)*-1;
             if ( absoluteX < 84 && absoluteX > 78 ){
-                geomService.project ( [ resultGeom ], outSR, function (projectedGeoms){
-                    utmResult = projectedGeoms[0];
+                geomService.project(projectParams, function (projectedGeoms){
+                    var utmResult = projectedGeoms[0];
                     console.log(utmResult);
                     var utmX = utmResult.x.toFixed(0);
                     var utmY = utmResult.y.toFixed(0);
@@ -1113,19 +1117,12 @@ require([
                     //var utmCoords = $('<tr id="utmCoords"><td dojoattachpoint="pinCell"><span>UTM17</span></td> <td class="esriMeasurementTableCell"> <span id="utmX" dir="ltr">' + utmX + '</span></td> <td class="esriMeasurementTableCell"> <span id="utmY" dir="ltr">' + utmY + '</span></td></tr>');
                     //$('.esriMeasurementResultTable').append(utmCoords);
                 });
-
             } else {
                 //$("#utmX").html("out of zone");
                 $("#utmX").html('<span class="label label-danger">outside zone</span>');
                 //$("#utmY").html("out of zone");
                 $("#utmY").html('<span class="label label-danger">outside zone</span>');
             }
-
-            //geomService.project ( [ resultGeom ], outSR, function (projectedGeoms){
-            //    utmResult = projectedGeoms[0];
-            //    console.log(utmResult);
-            //});
-
         });
 
         //checks to see which layers are visible on load, sets toggle to active
@@ -1173,19 +1170,17 @@ require([
             $(("#"+ groupToggleID)).find('i.chevron').toggleClass('fa-chevron-right fa-chevron-down');
         });
 
-
         $(".zoomto").hover(function (e) {
 
-            var zoomDialog =  $(".zoomDialog");
-            zoomDialog.remove();
+            $(".zoomDialog").remove();
             var layerToChange = this.parentNode.id;
             var zoomDialogMarkup = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" id="zoomscale" class="list-group-item lgi-zoom zoomscale">Zoom to scale</a> <a id="zoomcenter" href="#" class="list-group-item lgi-zoom zoomcenter">Zoom to center</a><a id="zoomextent" href="#" class="list-group-item lgi-zoom zoomextent">Zoom to extent</a></div></div>');
             $("body").append(zoomDialogMarkup);
 
-            zoomDialog.css('left', event.clientX-80);
-            zoomDialog.css('top', event.clientY-5);
+            $(".zoomDialog").css('left', event.clientX-80);
+            $(".zoomDialog").css('top', event.clientY-5);
 
-            zoomDialog.mouseleave(function() {
+            $(".zoomDialog").mouseleave(function() {
                 $(".zoomDialog").remove();
             });
 
@@ -1210,13 +1205,13 @@ require([
             $("#zoomextent").click(function (e){
                 //logic to zoom to layer extent
                 var layerExtent = map.getLayer(layerToChange).fullExtent;
-                map.setExtent(layerExtent);
+                map.setExtent(layerExtent, new SpatialReference({ wkid:26917 }));
             });
         });
 
         $(".opacity").hover(function () {
-            var opacitySlider = $(".opacitySlider");
-            opacitySlider.remove();
+
+            $(".opacitySlider").remove();
             var layerToChange = this.parentNode.id;
             var currOpacity = map.getLayer(layerToChange).opacity;
             var sliderMarkup = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');
@@ -1224,9 +1219,9 @@ require([
 
             var slider = $("#slider");
             slider[0].value = currOpacity*100;
-            opacitySlider.css('left', event.clientX-180);
-            opacitySlider.css('top', event.clientY-5);
-            opacitySlider.mouseleave(function() {
+            $(".opacitySlider").css('left', event.clientX-180);
+            $(".opacitySlider").css('top', event.clientY-5);
+            $(".opacitySlider").mouseleave(function() {
                 $(".opacitySlider").remove();
             });
             $(".opacityClose").click(function() {
