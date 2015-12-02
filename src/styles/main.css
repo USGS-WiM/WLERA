@@ -467,10 +467,15 @@ input[type="checkbox"], input[type="radio"] {
     font-weight: bold;
 
 }
-.title {
+.navbar-title {
     font-size:25px;
     display:inline-block;
     padding-top: 15px
+}
+
+.navbar-toggle {
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .wim-sidebar-panel {
