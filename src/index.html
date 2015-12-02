@@ -57,7 +57,7 @@
               </button>
               <span>
                   <a class="navbar-brand" href="http://usgs.gov"><img height="38px" alt="USGS logo" src="images/USGS_ID_white.png"></a>
-                  <span class='hidden-xs navbar-brand title'>&nbsp;&nbsp;Western Lake Erie Restoration Assessment (WLERA)</span>
+                  <span class='hidden-xs navbar-brand navbar-title'>&nbsp;&nbsp;Western Lake Erie Restoration Assessment (WLERA)</span>
               </span>
           </div>
 
@@ -326,13 +326,14 @@
                       <div class="panel-body collapse in">
                           <p>Calculate restoration suitability statistics for custom area or selected parcels</p>
                           <div id="customSelectBtnGroup" class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">
-                              <button id="drawCustom" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Draw custom area"><span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area</button>
-                              <button id="calculateStats" type="button" class="btn btn-success" data-toggle="tooltip" data-loading-text="<i class='fa fa-cog fa-spin'></i>&nbsp;Calculating..." data-placement="top" title="Calculate" disabled><i class="fa fa-cogs"></i>&nbsp;Calculate Stats</button>
+                              <button id="drawCustom" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Draw custom area"><span class="ti-pencil-alt2"></span>&nbsp;Custom <span class="hidden-xs">Area</span></button>
+                              <button id="calculateStats" type="button" class="btn btn-success" data-toggle="tooltip" data-loading-text="<i class='fa fa-cog fa-spin'></i>&nbsp;Calculating..." data-placement="top" title="Calculate" disabled><i class="fa fa-cogs"></i>&nbsp;Calculate <span class="hidden-xs">Stats</span></button>
                           </div>
+                          <br>
                           <div id="parcelSelectBtnGroup" class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">
-                              <button id="selectParcels" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Click to select | Hold Shift to deselect"><span class="ti-plus"></span>&nbsp;&nbsp;Select Parcels</button>
+                              <button id="selectParcels" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Click to select | Hold Shift to deselect"><span class="ti-plus"></span>&nbsp;&nbsp;Select <span class="hidden-xs">Parcels</span></button>
                               <!--<button id="stopSelection" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Stop selecting features"><i class="fa fa-stop"></i>&nbsp;&nbsp;Stop selecting</button>-->
-                              <button id="displayStats" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Display Stats" disabled><i class="fa fa-table"></i>&nbsp;Display Stats</button>
+                              <button id="displayStats" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Display Stats" disabled><i class="fa fa-table"></i>&nbsp;Display <span class="hidden-xs">Stats</span></button>
                           </div>
                           <br>
                           <div class="btn-group" role="group" aria-label="..." style="padding-bottom: 5px">
