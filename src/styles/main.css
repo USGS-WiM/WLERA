@@ -15,17 +15,7 @@ body {
 
 
 @media (max-width: 767px) {
-    #geosearchButtonText {
-        display: none;
-    }
 
-    #printButtonText {
-        display: none;
-    }
-
-    #shareButtonText {
-        display: none;
-    }
 
     #measureLabel {
         display:none;
@@ -47,10 +37,40 @@ body {
         background: rgba(238, 238, 238, 0.7);
     }
 
+    #usgsLogo {
+        height:28px;
+    }
+
+    .navbar-btn {
+        margin-left: 3px !important;
+        padding: 4px;
+    }
+
 
     /*.basemapThumb {*/
     /*display: none;*/
     /*}*/
+}
+
+@media (max-width: 991px) {
+
+    #geosearchButtonText {
+        display: none;
+    }
+
+    #printButtonText {
+        display: none;
+    }
+
+    #shareButtonText {
+        display: none;
+    }
+
+    #aboutButtonText {
+        display:none
+    }
+    
+
 }
 
 .overflow-y-hidden {
@@ -401,6 +421,15 @@ a.lgi-zoom:hover {
     position:fixed;
     width:inherit;
 }
+
+.navbar-title {
+    font-size: 18px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    line-height: 18px;
+}
+
 
 .no-col-padding {
     padding: 0;

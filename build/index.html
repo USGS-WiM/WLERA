@@ -30,10 +30,12 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <span>
-                  <a class="navbar-brand" href="http://usgs.gov"><img height="38px" alt="USGS logo" src="images/USGS_ID_white.png"></a>
-                  <span class='hidden-xs navbar-brand navbar-title'>&nbsp;&nbsp;Western Lake Erie Restoration Assessment (WLERA)</span>
-              </span>
+              <a class="navbar-brand" href="http://usgs.gov">
+                  <img id="usgsLogo" alt="USGS logo" height="38px" src="images/USGS_ID_white.png">
+                  <!--<span class='hidden-xs' style='font-size:20px;display:inline-block;'>&nbsp;&nbsp;Western Lake Erie Restoration Assessment (WLERA)</span>-->
+              </a>
+              <p class="navbar-text hidden-xs navbar-title">Western Lake Erie Restoration Assessment</p>
+
           </div>
 
           <button id="geosearchNav" type="button" class="btn btn-primary navbar-btn pull-right">
@@ -51,9 +53,8 @@
               <span id="shareButtonText"> Share</span>
           </button>
 
-
           <button id="aboutNav" class="btn btn-default navbar-btn pull-right">
-              <i class="fa fa-question-circle"></i><span class="hidden-xs">&nbsp;&nbsp;About</span>
+              <i class="fa fa-question-circle"></i><span id="aboutButtonText">&nbsp;&nbsp;About</span>
           </button>
 
       </div>
