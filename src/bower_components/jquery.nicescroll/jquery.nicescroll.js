@@ -1,6 +1,6 @@
 /* jquery.nicescroll
--- version 3.6.0
--- copyright 2014-11-21 InuYaksa*2014
+-- version 3.6.6
+-- copyright 2015-11-17 InuYaksa*2015
 -- licensed under the MIT
 --
 -- http://nicescroll.areaaperta.com/
@@ -12,6 +12,9 @@
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as anonymous module.
     define(['jquery'], factory);
+  } else if (typeof exports === 'object') {
+    // Node/CommonJS.
+    module.exports = factory(require('jquery'));
   } else {
     // Browser globals.
     factory(jQuery);
@@ -31,7 +34,7 @@
   // http://stackoverflow.com/questions/2161159/get-script-path
   function getScriptPath() {
     var scripts = document.getElementsByTagName('script');
-    var path = scripts[scripts.length - 1].src.split('?')[0];
+    var path = scripts.length ? scripts[scripts.length - 1].src.split('?')[0] : '';
     return (path.split('/').length > 0) ? path.split('/').slice(0, -1).join('/') + '/' : '';
   }
 
@@ -133,6 +136,7 @@
     d.isie9 = d.isie && ("performance" in window) && (document.documentMode >= 9);
     d.isie10 = d.isie && ("performance" in window) && (document.documentMode == 10);
     d.isie11 = ("msRequestFullscreen" in _el) && (document.documentMode >= 11); // IE11+
+		d.isieedge = (navigator.userAgent.match(/Edge\/12\./));
 
     d.isie9mobile = /iemobile.9/i.test(_agent); //wp 7.1 mango
     if (d.isie9mobile) d.isie9 = false;
@@ -148,7 +152,7 @@
 
     d.cantouch = ("ontouchstart" in document.documentElement) || ("ontouchstart" in window); // detection for Chrome Touch Emulation
     d.hasmstouch = (window.MSPointerEvent || false); // IE10 pointer events
-    d.hasw3ctouch = (window.PointerEvent || false); //IE11 pointer events, following W3C Pointer Events spec
+    d.hasw3ctouch = (window.PointerEvent || false) && ((navigator.MaxTouchPoints > 0)||(navigator.msMaxTouchPoints > 0)); //IE11 pointer events, following W3C Pointer Events spec
 
     d.ismac = /^mac$/i.test(_platform);
 
@@ -228,7 +232,7 @@
 
     var self = this;
 
-    this.version = '3.6.0';
+    this.version = '3.6.6';
     this.name = 'nicescroll';
 
     this.me = me;
@@ -384,7 +388,8 @@
       var dd = self.delaylist[name];
       self.delaylist[name] = fn;
       if (!dd) {
-        setTimeout(function() {
+        self.debouncedelayed =  setTimeout(function() {
+					if (!self) return;
           var fn = self.delaylist[name];
           self.delaylist[name] = false;
           fn.call(self);
@@ -555,7 +560,7 @@
         return self.docscroll.scrollTop();
       };
       this.setScrollTop = function(val) {
-        return self.docscroll.scrollTop(val);
+        return setTimeout(function() {self.docscroll.scrollTop(val)}, 1);
       };
       this.getScrollLeft = function() {
         if (self.detected.ismozilla && self.isrtlmode)
@@ -563,7 +568,7 @@
         return self.docscroll.scrollLeft();
       };
       this.setScrollLeft = function(val) {
-        return self.docscroll.scrollLeft((self.detected.ismozilla && self.isrtlmode) ? -val : val);
+        return setTimeout(function() {self.docscroll.scrollLeft((self.detected.ismozilla && self.isrtlmode) ? -val : val)}, 1);
       };
     }
 
@@ -657,7 +662,7 @@
         var off = self.opt.railoffset;
         if (off) {
           if (off.top) pos.top += off.top;
-          if (self.rail.align && off.left) pos.left += off.left;
+          if (off.left) pos.left += off.left;
         }
         
         if (!self.railslocked) self.rail.css({
@@ -1484,11 +1489,9 @@
 
               return self.cancelEvent(e);
             }
-            /*              
             else {
-              self.checkarea = true;
+              self.checkarea = 0;
             }
-*/
           };
 
           if (cap.cantouch || self.opt.touchbehavior) {
@@ -1895,7 +1898,7 @@
           self.observerbody = new ClsMutationObserver(function(mutations) {
             mutations.forEach(function(mut){
               if (mut.type=="attributes") {
-                return ($("body").hasClass("modal-open")) ? self.hide() : self.show();  // Support for Bootstrap modal
+                return ($("body").hasClass("modal-open") && !$.contains($('.modal-dialog')[0],self.doc[0])) ? self.hide() : self.show();  // Support for Bootstrap modal; Added check if the nice scroll element is inside a modal
               }
             });  
             if (document.body.scrollHeight!=self.page.maxh) return self.lazyResize(30);
@@ -1948,7 +1951,10 @@
         //
 
         if (!self.ispage && self.opt.boxzoom) self.bind(window, "resize", self.resizeZoom);
-        if (self.istextarea) self.bind(self.win, "mouseup", self.lazyResize);
+				if (self.istextarea) {
+					self.bind(self.win, "keydown", self.lazyResize);
+					self.bind(self.win, "mouseup", self.lazyResize);
+				}
 
         //        self.checkrtlmode = true;
         self.lazyResize(30);
@@ -2190,7 +2196,7 @@
         self.scrollratio.y = 0;
         self.cursorheight = 0;
         self.setScrollTop(0);
-        self.rail.scrollable = false;
+        if (self.rail) self.rail.scrollable = false;
       } else {
         self.page.maxh -= (self.opt.railpadding.top + self.opt.railpadding.bottom);  //**
         self.rail.scrollable = true;
@@ -2203,10 +2209,12 @@
         self.scrollratio.x = 0;
         self.cursorwidth = 0;
         self.setScrollLeft(0);
-        self.railh.scrollable = false;
+        if (self.railh) {
+          self.railh.scrollable = false;
+        }
       } else {
-        self.page.maxw -= (self.opt.railpadding.left + self.opt.railpadding.right);  //**
-        self.railh.scrollable = true;
+          self.page.maxw -= (self.opt.railpadding.left + self.opt.railpadding.right);  //**
+          if (self.railh) self.railh.scrollable = (self.opt.horizrailenabled);
       }
 
       self.railslocked = (self.locked) || ((self.page.maxh == 0) && (self.page.maxw == 0));
@@ -2218,7 +2226,7 @@
       if (!self.hidden && !self.visibility) {
         self.showRail().showRailHr();
       }
-      else if (!self.hidden && !self.railh.visibility) self.showRailHr();
+      else if (self.railh && (!self.hidden && !self.railh.visibility)) self.showRailHr();
 
       if (self.istextarea && self.win.css('resize') && self.win.css('resize') != 'none') self.view.h -= 20;
 
@@ -2318,7 +2326,7 @@
       var el = ("jquery" in dom) ? dom[0] : dom;
 
       if (name == 'mousewheel') {
-        if (window.addEventListener||'onwheel' in document) { // modern brosers & IE9 detection fix
+        if ("onwheel" in self.win) { // modern brosers & IE9 detection fix
           self._bind(el, "wheel", fn, bubble || false);
         } else {
           var wname = (typeof document.onmousewheel != "undefined") ? "mousewheel" : "DOMMouseScroll"; // older IE/Firefox
@@ -2484,6 +2492,7 @@
     this.remove = function() {
       self.stop();
       if (self.cursortimeout) clearTimeout(self.cursortimeout);
+      if (self.debouncedelayed) clearTimeout(self.debouncedelayed);
       self.doZoomOut();
       self.unbindAll();
 

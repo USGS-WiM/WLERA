@@ -1,15 +1,21 @@
 {
   "name": "wlera",
+  "description": "western lake erie restoration assessment web application",
   "version": "0.0.1",
   "dependencies": {
     "jquery": "^2.1.3",
     "fontawesome": "^4.3.0",
     "jquery.nicescroll": "inuyaksa/jquery.nicescroll#~3.6.0",
     "bootstrap": "latest",
-    "bootstrap-sidebar": "^0.2.0",
-    "bootstrap-map-js": "latest"
+    "bootstrap-sidebar": "~0.2.2",
+    "bootstrap-map-js": "latest",
+    "themify-icons": "~0.1.0",
+    "bootstrap-confirmation2": "~2.1.3"
   },
+  "authors": [
+    "Blake Draper, USGS WiM"
+  ],
   "resolutions": {
-    "bootstrap": ">=3.2.0"
+    "bootstrap": "3.3.6"
   }
 }
