@@ -1205,7 +1205,13 @@ require([
             $("#zoomextent").click(function (e){
                 //logic to zoom to layer extent
                 var layerExtent = map.getLayer(layerToChange).fullExtent;
-                map.setExtent(layerExtent, new SpatialReference({ wkid:26917 }));
+                var extentProjectParams = new ProjectParameters();
+                extentProjectParams.outSR = new SpatialReference(102100);
+                extentProjectParams.geometries = [layerExtent];
+                geomService.project(extentProjectParams, function(projectedExtentObj) {
+                    var projectedExtent = projectedExtentObj[0];
+                    map.setExtent(projectedExtent, new SpatialReference({ wkid:102100 }))
+                });
             });
         });
 

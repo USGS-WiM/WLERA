@@ -1,3 +1,7 @@
 node_modules
 *.log
-bower_components
+/src/bower_components/**
+
+**/src/bower_components
+
+src/bower_components/
