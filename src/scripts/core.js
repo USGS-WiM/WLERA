@@ -7,8 +7,7 @@
 
 var wlera = wlera || {
         bookmarks: [
-            {"id":"ottawa-nwr", "name":"Ottawa NWR", "userCreated": false, spatialReference:{"wkid":102100}, "xmax":-9253627.864758775,"xmin":-9268896.161158718,"ymax":5109457.058192252,"ymin":5099759.110228584},
-            {"id":"erie-marsh", "name":"Erie Marsh", "userCreated": false, spatialReference:{"wkid":102100}, "xmax":-9281192.968084078,"xmin":-9296461.264484022,"ymax":5130611.005770145,"ymin":5120913.057806477}
+            {"id":"ottawa-nwr", "name":"Ottawa NWR", "userCreated": false, spatialReference:{"wkid":102100}, "xmax":-9253627.864758775,"xmin":-9268896.161158718,"ymax":5109457.058192252,"ymin":5099759.110228584}
         ],
         globals: {
 
