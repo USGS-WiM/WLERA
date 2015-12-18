@@ -104,7 +104,7 @@ require([
     //Add the dark theme which is customized further in the <style> tag at the top of this page
     domClass.add(popup.domNode, "dark");
 
-    map = Map('mapDiv', {
+    map = new Map('mapDiv', {
         basemap: 'gray',
         center: [-82.745, 41.699],
         spatialReference: 26917,
@@ -146,7 +146,7 @@ require([
 
     // Load bookmarks
     // Fall back to a single bookmark if no cookie
-    if ( bmJSON && bmJSON != 'null' && bmJSON.length > 4) {
+    if ( bmJSON && bmJSON !== 'null' && bmJSON.length > 4) {
         console.log('cookie: ', bmJSON, bmJSON.length);
         var bmarks = dojo.fromJson(bmJSON);
         array.forEach(bmarks, function(b) {
@@ -845,7 +845,7 @@ require([
 
         //////////////begin reference layers////////////////////////////////////
         ///dynamic parcels layer for display only
-        const parcelsDynLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcelsDyn", visible:false, minScale:100000} );
+        const parcelsDynLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "parcelsDyn", visible:true, minScale:100000} );
         parcelsDynLayer.setVisibleLayers([1]);
         mapLayers.push(parcelsDynLayer);
         mapLayerIds.push(parcelsDynLayer.id);
@@ -1027,7 +1027,7 @@ require([
         });
         //const aerialsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "aerials", visible:false} );
         //aerialsLayer.setVisibleLayers([2]);
-        var aerialsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/2", {id: "aerials", visible:false, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"], infoTemplate: aerialsPopup});
+        var aerialsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/2", {id: "aerials", visible:true, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"], infoTemplate: aerialsPopup});
         mapLayers.push(aerialsLayer);
         mapLayerIds.push(aerialsLayer.id);
         legendLayers.push({layer:aerialsLayer , title:"US Army Corps of Engineers Aerial Photos "});
@@ -1077,7 +1077,7 @@ require([
         hydroperiodLayer.inLegendLayers = false;
         //legendLayers.push ({layer:hydroperiodLayer, title: "P1 - Hydroperiod"});
 
-        const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "waterMask", visible:false} );
+        const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "waterMask", visible:true} );
         waterMaskLayer.setVisibleLayers([2]);
         mapLayers.push(waterMaskLayer);
         mapLayerIds.push(waterMaskLayer.id);

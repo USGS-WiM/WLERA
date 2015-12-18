@@ -7,7 +7,8 @@ var del = require('del');
 var wiredep = require('wiredep').stream;
 
 // Load plugins
-var $ = require('gulp-load-plugins')();
+var gulpLoadPlugins = require('gulp-load-plugins');
+var plugins = gulpLoadPlugins();
 
 //only get esri api if needed
 
@@ -23,9 +24,9 @@ var $ = require('gulp-load-plugins')();
 // Styles
 gulp.task('styles', function () {
     return gulp.src(['src/styles/main.css'])
-        .pipe($.autoprefixer('last 1 version'))
+        .pipe(plugins.autoprefixer('last 1 version'))
         .pipe(gulp.dest('src/styles'))
-        .pipe($.size());
+        .pipe(plugins.size());
 });
 
 // Icons
@@ -37,29 +38,30 @@ gulp.task('icons', function () {
 // Scripts
 gulp.task('scripts', function () {
     return gulp.src(['src/scripts/**/*.js'])
-        .pipe($.jshint('.jshintrc'))
-        .pipe($.jshint.reporter('default'))
-        .pipe($.size());
+        .pipe(plugins.jshint('.jshintrc'))
+        //.pipe(plugins.jshint.reporter('default'))
+        .pipe(plugins.jshint.reporter('jshint-stylish'))
+        .pipe(plugins.size());
 });
 
 // HTML
 gulp.task('html', ['styles', 'scripts', 'icons'], function () {
-    var jsFilter = $.filter('**/*.js');
-    var cssFilter = $.filter('**/*.css');
+
+    var jsFilter = plugins.filter('**/*.js');
+    var cssFilter = plugins.filter('**/*.css');
 
     return gulp.src('src/*.html')
-        .pipe($.useref.assets())
-        .pipe(jsFilter)
-        .pipe($.uglify())
-        .pipe(jsFilter.restore())
-        .pipe(cssFilter)
-        .pipe($.csso())
-        .pipe(cssFilter.restore())
-        .pipe($.useref.restore())
-        .pipe($.useref())
-        //.pipe(rename({ extname: '.min.js' }))
-        .pipe(gulp.dest('build'))
-        .pipe($.size());
+
+    .pipe(plugins.useref())
+    .pipe(jsFilter)
+    .pipe(plugins.uglify())
+    .pipe(jsFilter.restore())
+    .pipe(cssFilter)
+    .pipe(plugins.csso())
+    .pipe(cssFilter.restore())
+    //.pipe(rename({ extname: '.min.js' }))
+    .pipe(gulp.dest('build'))
+    .pipe(plugins.size());
 });
 
 // Images
@@ -68,7 +70,7 @@ gulp.task('images', function () {
         'src/images/**/*',
         'src/lib/images/*'])
         .pipe(gulp.dest('build/images'))
-        .pipe($.size());
+        .pipe(plugins.size());
 });
 
 // Clean
@@ -92,7 +94,7 @@ gulp.task('default', ['clean'], function () {
 
 // Connect
 gulp.task('connect', function(){
-    $.connect.server({
+    plugins.connect.server({
         root: 'src',
         port: 9000,
         livereload: true
@@ -131,7 +133,7 @@ gulp.task('watch', ['connect', 'serve'], function () {
         'src/images/**/*'
     ], function (event) {
         return gulp.src(event.path)
-            .pipe($.connect.reload());
+            .pipe(plugins.connect.reload());
     });
 
     // Watch .css files
