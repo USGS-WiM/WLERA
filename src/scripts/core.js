@@ -788,13 +788,16 @@ require([
         var navToolbar;
         var locator;
         var legendLayerInfos = [];
-        var customArea;
-        var selectionToolbar;
+        var customAreaDraw;
+        var parcelAreaDraw;
         var clickSelectionActive = false;
         var clickRemoveSelectionActive = false;
         var drawCustomActive = false;
         var customAreaSymbol;
         var customAreaGraphic;
+        var parcelAreaSymbol;
+        var parcelAreaGraphic;
+        var parcelDrawActive = false;
         var customAreaParams = { "inputPoly":null };
         var customAreaFeatureArray = [];
 
@@ -900,7 +903,7 @@ require([
         //end graphics layer based parcels query
 
         //instantiation of Draw element for custom area draw
-        customArea = new Draw(map);
+        customAreaDraw = new Draw(map);
         //jQuery selector variable assignment for the draw custom area button
         var drawCustom =  $('#drawCustom');
 
@@ -908,21 +911,21 @@ require([
             map.graphics.remove(customAreaGraphic);
             //if active, turn off. if not, turn on
             if (drawCustomActive){
-                customArea.finishDrawing();
-                customArea.deactivate();
+                customAreaDraw.finishDrawing();
+                customAreaDraw.deactivate();
                drawCustom.removeClass("active");
-               drawCustom.html('<span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area');
+               drawCustom.html('<span class="ti-pencil-alt2"></span>&nbsp;Draw');
                 drawCustomActive = false;
             } else if (!drawCustomActive) {
                drawCustom.addClass("active");
                drawCustom.html('<i class="fa fa-stop"></i>&nbsp;&nbsp;Stop drawing');
                 clickSelectionActive = false;
-                customArea.activate(Draw.POLYGON);
+                customAreaDraw.activate(Draw.POLYGON);
                 drawCustomActive = true;
             }
             //map.setMapCursor("auto");
             //clickSelectionActive = false;
-            //customArea.activate(Draw.POLYGON);
+            //customAreaDraw.activate(Draw.POLYGON);
             //selectionToolbar.activate(Draw.POLYGON);
         });
 
@@ -930,12 +933,12 @@ require([
         var selectParcels = $('#selectParcels');
         selectParcels.click(function(){
            drawCustom.removeClass("active");
-           drawCustom.html('<span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area');
+           drawCustom.html('<span class="ti-pencil-alt2"></span>&nbsp;Draw');
             drawCustomActive = false;
-            customArea.deactivate();
+            customAreaDraw.deactivate();
             if (clickSelectionActive) {
                 selectParcels.removeClass("active");
-                selectParcels.html('<span class="ti-plus"></span>&nbsp;&nbsp;Select Parcels');
+                selectParcels.html('<span class="ti-plus"></span>&nbsp;&nbsp;Click');
                 map.setMapCursor("auto");
                 clickSelectionActive = false;
             } else if (!clickSelectionActive) {
@@ -950,6 +953,7 @@ require([
         $('#clearSelection').click(function(){
             parcelsFeatLayer.clearSelection();
             map.graphics.remove(customAreaGraphic);
+            map.graphics.remove(parcelAreaGraphic);
             $("#displayStats").prop('disabled', true);
             $("#calculateStats").prop('disabled', true);
             //clear the feature set
@@ -962,14 +966,14 @@ require([
             $(this).button('loading');
             zonalStatsGP.execute(customAreaParams);
         });
-        on(customArea, "DrawEnd", function (customAreaGeometry) {
+        on(customAreaDraw, "DrawEnd", function (customAreaGeometry) {
             //var symbol = new SimpleFillSymbol("none", new SimpleLineSymbol("dashdot", new Color([255,0,0]), 2), new Color([255,255,0,0.25]));
             customAreaSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
             customAreaGraphic = new Graphic(customAreaGeometry,customAreaSymbol);
             map.graphics.add(customAreaGraphic);
-            customArea.deactivate();
+            customAreaDraw.deactivate();
             drawCustom.removeClass("active");
-            drawCustom.html('<span class="ti-pencil-alt2"></span>&nbsp;Draw Custom Area');
+            drawCustom.html('<span class="ti-pencil-alt2"></span>&nbsp;Draw');
             drawCustomActive = false;
             customAreaFeatureArray.push(customAreaGraphic);
             var featureSet = new FeatureSet();
@@ -977,6 +981,49 @@ require([
             customAreaParams = { "inputPoly":featureSet };
             $("#calculateStats").prop('disabled', false);
             //zonalStatsGP.execute(customAreaParams);
+        });
+
+        //instantiation of Draw element for parcel area draw
+        parcelAreaDraw = new Draw(map);
+        //jQuery selector variable assignment for the draw custom area button
+        var selectParcelsDraw =  $('#selectParcelsDraw');
+
+        ////////////////////////////////////////////////////////////////////////////////////
+        selectParcelsDraw.click(function(){
+            map.graphics.remove(parcelAreaGraphic);
+            //if active, turn off. if not, turn on
+            if (parcelDrawActive){
+                parcelAreaDraw.finishDrawing();
+                parcelAreaDraw.deactivate();
+                selectParcelsDraw.removeClass("active");
+                selectParcelsDraw.html('<span class="ti-pencil-alt2"></span>&nbsp;Draw');
+                parcelDrawActive = false;
+            } else if (!parcelDrawActive) {
+                selectParcelsDraw.addClass("active");
+                selectParcelsDraw.html('<i class="fa fa-stop"></i>&nbsp;&nbsp;Stop drawing');
+                clickSelectionActive = false;
+                parcelAreaDraw.activate(Draw.POLYGON);
+                parcelDrawActive = true;
+            }
+
+        });
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //below is for selecting parcels with a user-drawn polygon area
+        on(parcelAreaDraw, "DrawEnd", function (parcelAreaGeometry) {
+            parcelAreaSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
+            parcelAreaGraphic = new Graphic(parcelAreaGeometry,parcelAreaSymbol);
+            map.graphics.add(parcelAreaGraphic);
+            parcelAreaDraw.deactivate();
+
+            selectParcelsDraw.removeClass("active");
+            selectParcelsDraw.html('<span class="ti-pencil-alt2"></span>&nbsp;Draw');
+            drawCustomActive = false;
+
+            parcelQuery.geometry = parcelAreaGeometry;
+            parcelsFeatLayer.selectFeatures(parcelQuery,
+                FeatureLayer.SELECTION_ADD);
         });
 
         function displayCustomStatsResults (customStatsResults) {
@@ -987,13 +1034,7 @@ require([
             zonalStatsTable.append('<tr><td>' + results.MEAN.toFixed(4) + '</td><td>' + results.STD.toFixed(3) + '</td><td>' + results.MAX + '</td></tr>');
             $('#zonalStatsModal').modal('show');
         }
-        //below is for selecting parcels with a user-drawn polygon area
-        //on(selectionToolbar, "DrawEnd", function (geometry) {
-        //    selectionToolbar.deactivate();
-        //    parcelQuery.geometry = geometry;
-        //    parcelsFeatLayer.selectFeatures(parcelQuery,
-        //        FeatureLayer.SELECTION_ADD);
-        //});
+
         $('#displayStats').click(function(){
             $('#zonalStatsTable').html('<tr><th>Parcel ID</th><th>Hectares</th><th>Mean </th><th>Standard Deviation</th><th>Max</th></tr>');
             //if there are selected parcels, retrieve their zonal stats attributes and append to the table
@@ -1023,7 +1064,7 @@ require([
         const GLRIWetlandsLayer = new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "GLRIWetlands", visible:true, minScale: 100000, maxScale: 10000 } );
         GLRIWetlandsLayer.setVisibleLayers([4]);
         mapLayers.push(GLRIWetlandsLayer);
-        mapLayerIds.push(GLRIWetlandsLayer.id);
+        //mapLayerIds.push(GLRIWetlandsLayer.id);
         legendLayers.push({layer:GLRIWetlandsLayer, title:" "});
         GLRIWetlandsLayer.inLegendLayers = true;
 
@@ -1041,7 +1082,8 @@ require([
         });
         //const aerialsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "aerials", visible:false} );
         //aerialsLayer.setVisibleLayers([2]);
-        var aerialsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/2", {id: "aerials", visible:true, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"], infoTemplate: aerialsPopup});
+        var aerialsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/2", {id: "aerials", layerID: "aerials", visible:true, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"], infoTemplate: aerialsPopup});
+        aerialsLayer.id = "aerials";
         mapLayers.push(aerialsLayer);
         mapLayerIds.push(aerialsLayer.id);
         legendLayers.push({layer:aerialsLayer , title:"US Army Corps of Engineers Aerial Photos "});
@@ -1138,9 +1180,17 @@ require([
             }
         });
 
-        //checks to see which layers are visible on load, sets toggle to active
+        //checks to see which layers are visible on load, sets toggle to active (this only works for dynamic layers. feature layer ids are in a separate array)
         for(var j = 0; j < map.layerIds.length; j++) {
             var layer = map.getLayer(map.layerIds[j]);
+            if (layer.visible) {
+                $("#" + layer.id).button('toggle');
+                $("#" + layer.id).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
+            }
+        }
+        //repeat of the above layer vis check, this one for feature layers which only appear in the graphicsLayerIds array (thanks esri)
+        for(var j = 0; j < map.graphicsLayerIds.length; j++) {
+            var layer = map.getLayer(map.graphicsLayerIds[j]);
             if (layer.visible) {
                 $("#" + layer.id).button('toggle');
                 $("#" + layer.id).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
