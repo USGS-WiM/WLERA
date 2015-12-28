@@ -1013,6 +1013,20 @@ require([
         legendLayers.push({layer:studyAreaLayer , title:" "});
         studyAreaLayer.inLegendLayers = true;
 
+        const functionalWetlandsLayer = new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "funcWetlands", visible:true, minScale: 100000, maxScale: 10000 } );
+        functionalWetlandsLayer.setVisibleLayers([3]);
+        mapLayers.push(functionalWetlandsLayer);
+        mapLayerIds.push(functionalWetlandsLayer.id);
+        legendLayers.push({layer:functionalWetlandsLayer, title:" "});
+        functionalWetlandsLayer.inLegendLayers = true;
+
+        const GLRIWetlandsLayer = new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "GLRIWetlands", visible:true, minScale: 100000, maxScale: 10000 } );
+        GLRIWetlandsLayer.setVisibleLayers([4]);
+        mapLayers.push(GLRIWetlandsLayer);
+        mapLayerIds.push(GLRIWetlandsLayer.id);
+        legendLayers.push({layer:GLRIWetlandsLayer, title:" "});
+        GLRIWetlandsLayer.inLegendLayers = true;
+
         var aerialsPopup = new PopupTemplate({
             title: "U.S. ACOE Aerial Photo",
             mediaInfos: [{
