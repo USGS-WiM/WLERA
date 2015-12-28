@@ -143,6 +143,11 @@ body {
     /*text-align: left;*/
 /*}*/
 
+.btn-group {
+    margin-bottom: 5px;
+}
+
+
 
 .esriBookmarks {
     width: 100%;
