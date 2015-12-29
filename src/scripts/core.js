@@ -623,6 +623,17 @@ require([
         $('#aboutNav').click(function(){
             showAboutModal();
         });
+
+        $('#scaleAlertClose').click(function() {
+            $('#parcelSelectScaleAlert').hide();
+        });
+
+        $('#goToScale').click(function() {
+            $('#parcelSelectScaleAlert').hide();
+            var parcelsScale = map.getLayer('parcelsFeat').minScale;
+            map.setScale(parcelsScale);
+        });
+
         $("#html").niceScroll();
         //jQuery selector variable assignment for sidebar
         var sidebar = $("#sidebar");
@@ -856,7 +867,7 @@ require([
 
         ///parcels feature layer for selection/zonal stats calc
         //const parcelsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/1", {id: "parcels", visible:false, minScale:150000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"]});
-        const parcelsFeatLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/1", {id: "parcelsFeat", visible:true, minScale:150000, mode: FeatureLayer.MODE_SELECTION, outFields: ["*"]});
+        const parcelsFeatLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/1", {id: "parcelsFeat", visible:true, minScale:100000, mode: FeatureLayer.MODE_SELECTION, outFields: ["*"]});
         mapLayers.push(parcelsFeatLayer);
         mapLayerIds.push(parcelsFeatLayer.id);
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
@@ -988,9 +999,10 @@ require([
         //jQuery selector variable assignment for the draw custom area button
         var selectParcelsDraw =  $('#selectParcelsDraw');
 
-        ////////////////////////////////////////////////////////////////////////////////////
         selectParcelsDraw.click(function(){
             map.graphics.remove(parcelAreaGraphic);
+            var currentMapScale = map.getScale();
+            var parcelsScale = map.getLayer('parcelsFeat').minScale;
             //if active, turn off. if not, turn on
             if (parcelDrawActive){
                 parcelAreaDraw.finishDrawing();
@@ -999,16 +1011,17 @@ require([
                 selectParcelsDraw.html('<span class="ti-pencil-alt2"></span>&nbsp;Draw');
                 parcelDrawActive = false;
             } else if (!parcelDrawActive) {
-                selectParcelsDraw.addClass("active");
-                selectParcelsDraw.html('<i class="fa fa-stop"></i>&nbsp;&nbsp;Stop drawing');
-                clickSelectionActive = false;
-                parcelAreaDraw.activate(Draw.POLYGON);
-                parcelDrawActive = true;
+                if (currentMapScale > parcelsScale ){
+                    $('#parcelSelectScaleAlert').show();
+                } else {
+                    selectParcelsDraw.addClass("active");
+                    selectParcelsDraw.html('<i class="fa fa-stop"></i>&nbsp;&nbsp;Stop drawing');
+                    clickSelectionActive = false;
+                    parcelAreaDraw.activate(Draw.POLYGON);
+                    parcelDrawActive = true;
+                }
             }
-
         });
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////
 
         //below is for selecting parcels with a user-drawn polygon area
         on(parcelAreaDraw, "DrawEnd", function (parcelAreaGeometry) {
