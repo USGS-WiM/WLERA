@@ -45,7 +45,6 @@ body {
         padding: 4px;
     }
 
-
     /*.basemapThumb {*/
     /*display: none;*/
     /*}*/
@@ -68,7 +67,6 @@ body {
     #aboutButtonText {
         display:none
     }
-    
 
 }
 
@@ -146,8 +144,6 @@ body {
 .btn-group {
     margin-bottom: 5px;
 }
-
-
 
 .esriBookmarks {
     width: 100%;
@@ -229,6 +225,11 @@ body {
     padding-left: 2px;
 
 }
+
+#goToScale {
+    margin-top: 10px;
+}
+
 
 #homeButton {
     position: absolute;
@@ -465,6 +466,23 @@ a.lgi-zoom:hover {
 }
 .panel-heading a.collapsed:after {
     content:"\e080";
+}
+
+#parcelSelectScaleAlert {
+    position: absolute;
+    /*width: 425px;*/
+    width: 25%;
+    z-index:3;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+@media (max-width: 991px) {
+    #parcelSelectScaleAlert {
+        width: 75%;
+    }
 }
 
 .removeBookmarksButton {
