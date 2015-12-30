@@ -1,0 +1,30 @@
+@import 'variables.less';
+@import 'typography.less';
+
+@import 'main-nav.less';
+@import 'sidebar.less';
+@import 'map-elements.less';
+
+*{
+    outline: none;
+    transition: @transition;
+    &:hover{
+        outline: none;
+        transition: @transition;
+    }
+    &:focus{
+        outline: none;
+    }
+    &:active{
+        outline: none;
+    }
+}
+.focus{
+    outline: none !important;
+}
+body,
+html{
+    padding: 0;
+    margin: 0 auto;
+    font-family: @sans-font;
+}
