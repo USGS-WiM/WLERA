@@ -228,6 +228,13 @@ body {
 
 #goToScale {
     margin-top: 10px;
+    border: none;
+    font-weight: lighter;
+    letter-spacing: 0.5px;
+    border-radius: 0;
+    font-size: 9pt;
+    box-sizing: border-box;
+    padding: 12px;
 }
 
 

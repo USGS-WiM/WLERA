@@ -415,7 +415,7 @@ require([
     on(dom.byId('btnGeosearch'),'click', geosearch);
     // Optionally confine search to map extent
     function setSearchExtent (){
-        if (dom.byId('chkExtent').checked === 1) {
+        if (dom.byId('chkExtent').checked == 1) {
             geocoder.activeGeocoder.searchExtent = map.extent;
         } else {
             geocoder.activeGeocoder.searchExtent = null;
