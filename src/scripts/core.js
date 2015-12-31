@@ -931,7 +931,13 @@ require([
         var drawCustom =  $('#drawCustom');
 
         drawCustom.click(function(){
+            parcelsFeatLayer.clearSelection();
             map.graphics.remove(customAreaGraphic);
+            map.graphics.remove(parcelAreaGraphic);
+            $("#displayStats").prop('disabled', true);
+            $("#calculateStats").prop('disabled', true);
+            //clear the feature set
+            customAreaParams = { "inputPoly":null };
             //if active, turn off. if not, turn on
             if (drawCustomActive){
                 customAreaDraw.finishDrawing();
@@ -1037,7 +1043,7 @@ require([
 
         //below is for selecting parcels with a user-drawn polygon area
         on(parcelAreaDraw, "DrawEnd", function (parcelAreaGeometry) {
-            parcelAreaSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
+            parcelAreaSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([0, 0, 0, 0.1]));
             parcelAreaGraphic = new Graphic(parcelAreaGeometry,parcelAreaSymbol);
             map.graphics.add(parcelAreaGraphic);
             parcelAreaDraw.deactivate();
