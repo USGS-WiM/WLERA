@@ -114,8 +114,8 @@ require([
     });
 
     //esriConfig.defaults.geometryService = new esri.tasks.GeometryService("http://wlera.wimcloud.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
-    esriConfig.defaults.geometryService = new GeometryService("http://54.152.244.240:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
-    esri.config.defaults.io.corsEnabledServers.push("http://52.0.108.106:6080/");
+    esriConfig.defaults.geometryService = new GeometryService("http://54.164.188.167:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+    esri.config.defaults.io.corsEnabledServers.push("http://54.164.188.167:6080/");
 
     const home = new HomeButton({
         map: map
@@ -320,9 +320,21 @@ require([
         $(this).button('loading');
         printMap();
     });
-
+    //captures the enter key being pressed to print map
+    $("#print-title-form").on("keypress", function (e) {
+        if (e.keyCode == 13) {
+            $('#printExecuteButton').button('loading');
+            printMap();
+        }
+    });
     $('#bookmarkSaveButton').click(function () {
         saveUserBookmark();
+    });
+    //captures the enter key being pressed to save bookmark
+    $("#bookmark-title-form").on("keypress", function (e) {
+        if (e.keyCode == 13) {
+            saveUserBookmark();
+        }
     });
 
     $('#bookmarkDismissButton').click(function () {

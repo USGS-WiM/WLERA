@@ -136,14 +136,14 @@
               <div id="printModalBody" class="modal-body">
 
 
-                  <form id="print-title-form" class="form-group">
+                  <form id="print-title-form" class="form-group" onSubmit="return false;">
                       <label for="printTitle">Title </label>
                       <input class="form-control" id="printTitle" placeholder="Enter a title for your printout">
                   </form>
 
                   <form id="print-form" class="form-inline">
                       <button id="printExecuteButton" type="button" class="btn btn-success btn-fixed" data-loading-text="Printing..." > Print </button>
-                      <button id="printDismissButton" type="submit" class="btn btn-default btn-fixed" data-dismiss="modal"> Dismiss</button>
+                      <button id="printDismissButton" class="btn btn-default btn-fixed" data-dismiss="modal"> Dismiss</button>
                   </form>
 
                   <div id="printJobsDiv" style="margin-top: 5px;"><label>Print Jobs </label><p class="toRemove"> No print jobs yet</p></div>
@@ -182,7 +182,7 @@
 
                   <p>A bookmark will save your current map extent. Bookmarks are saved to local storage on your device for use in future sessions.</p>
 
-                  <form id="bookmark-title-form" class="form-group">
+                  <form id="bookmark-title-form" class="form-group" onSubmit="return false;">
                       <label for="bookmarkTitle">Map bookmark name </label>
                       <input class="form-control" id="bookmarkTitle" placeholder="Enter a name for your bookmark">
                   </form>
