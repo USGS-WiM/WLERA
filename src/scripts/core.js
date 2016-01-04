@@ -1043,7 +1043,7 @@ require([
 
         //below is for selecting parcels with a user-drawn polygon area
         on(parcelAreaDraw, "DrawEnd", function (parcelAreaGeometry) {
-            parcelAreaSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([0, 0, 0, 0.1]));
+            parcelAreaSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([25, 25, 255]), 2), new Color([0, 0, 0, 0.1]));
             parcelAreaGraphic = new Graphic(parcelAreaGeometry,parcelAreaSymbol);
             map.graphics.add(parcelAreaGraphic);
             parcelAreaDraw.deactivate();
