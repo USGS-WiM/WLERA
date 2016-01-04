@@ -20,7 +20,6 @@ var maxLegendHeight;
 var maxLegendDivHeight;
 var printCount = 0;
 var storageName = 'esrijsapi_mapmarks';
-var bmToDelete = "";
 //create global layers lookup
 var mapLayers = [];
 var mapLayerIds = [];
@@ -213,7 +212,6 @@ require([
         }
         array.forEach(userBMs, function (bmID) {
             $('#' + bmID).remove();
-            //$('#' + bmToDelete).remove();
         });
         //alert('Bookmarks Removed.');
     }
@@ -264,12 +262,11 @@ require([
         //retrieve current map extent (in map's spatial reference)
         var currentMapExtent = map.extent;
         //create a URL query string with extent
-        var shareQueryString = "?xmax=" + map.extent.xmax.toString() + "&xmin=" + map.extent.xmin.toString() + "&ymax=" + map.extent.ymax.toString() + "&ymin=" + map.extent.ymin.toString();
-        var encodedShareQueryString = "%3Fxmax=" + map.extent.xmax.toString() + "%26xmin=" + map.extent.xmin.toString() + "%26ymax=" + map.extent.ymax.toString() + "%26ymin=" + map.extent.ymin.toString();
+        var shareQueryString = "?xmax=" + currentMapExtent.xmax.toString() + "&xmin=" + currentMapExtent.xmin.toString() + "&ymax=" + currentMapExtent.ymax.toString() + "&ymin=" + currentMapExtent.ymin.toString();
+        var encodedShareQueryString = "%3Fxmax=" + currentMapExtent.xmax.toString() + "%26xmin=" + currentMapExtent.xmin.toString() + "%26ymax=" + currentMapExtent.ymax.toString() + "%26ymin=" + currentMapExtent.ymin.toString();
         //var cleanURL = document.location.href;
-        //below line for local testing only
-        var cleanURL = "http://54.164.126.49/WLERA/"
-
+        //below line for local testing only. replace with above line for production
+        var cleanURL = "http://wlera.wim.usgs.gov/WLERA/";
         var shareURL = cleanURL + shareQueryString;
         var encodedShareURL = cleanURL + encodedShareQueryString;
         console.log("Share URL is:" + shareURL);
@@ -293,7 +290,6 @@ require([
                 }
             });
         });
-
     }
 
     $('#shareNavButton').click(function(){
@@ -804,13 +800,6 @@ require([
         dom
     ) {
         var legendLayers = [];
-        var layersObject = [];
-        var layerArray = [];
-        var staticLegendImage;
-        var identifyTask, identifyParams;
-        var navToolbar;
-        var locator;
-        var legendLayerInfos = [];
         var customAreaDraw;
         var parcelAreaDraw;
         var clickSelectionActive = false;
@@ -1304,7 +1293,7 @@ require([
                 extentProjectParams.geometries = [layerExtent];
                 geomService.project(extentProjectParams, function(projectedExtentObj) {
                     var projectedExtent = projectedExtentObj[0];
-                    map.setExtent(projectedExtent, new SpatialReference({ wkid:102100 }))
+                    map.setExtent(projectedExtent, new SpatialReference({ wkid:102100 }));
                 });
             });
         });
