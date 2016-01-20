@@ -111,9 +111,9 @@ require([
         infoWindow: popup
     });
 
-    //esriConfig.defaults.geometryService = new esri.tasks.GeometryService("http://wlera.wimcloud.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
-    esriConfig.defaults.geometryService = new GeometryService("http://54.164.188.167:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
-    esri.config.defaults.io.corsEnabledServers.push("http://54.164.188.167:6080/");
+    //esriConfig.defaults.geometryService = new esri.tasks.GeometryService("http://wlera.wim.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+    esriConfig.defaults.geometryService = new GeometryService("http://wlera.wim.usgs.gov:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+    esri.config.defaults.io.corsEnabledServers.push("http://wlera.wim.usgs.gov:6080/");
 
     const home = new HomeButton({
         map: map
@@ -536,7 +536,7 @@ require([
         var docTitle = template.layoutOptions.titleText;
         printParams.template = template;
 
-        var printMap = new PrintTask("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+        var printMap = new PrintTask("http://wlera.wim.usgs.gov:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
         printMap.execute(printParams, printDone, printError);
 
         function printDone(event) {
@@ -640,6 +640,9 @@ require([
             var parcelsScale = map.getLayer('parcelsFeat').minScale;
             map.setScale(parcelsScale);
         });
+
+        $('#disclaimerModal').modal({backdrop: 'static'});
+        $('#disclaimerModal').modal('show');
 
         $("#html").niceScroll();
         //jQuery selector variable assignment for sidebar
@@ -812,8 +815,8 @@ require([
         var customAreaParams = { "inputPoly":null };
         var customAreaFeatureArray = [];
 
-        const mapServiceRoot= "http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/";
-        const geomService = new GeometryService("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+        const mapServiceRoot= "http://wlera.wim.usgs.gov:6080/arcgis/rest/services/WLERA/";
+        const geomService = new GeometryService("http://wlera.wim.usgs.gov:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
         const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "normalized", visible:true} );
         normRestorationIndexLayer.setVisibleLayers([0]);
@@ -976,7 +979,7 @@ require([
             //clear the feature set
             customAreaParams = { "inputPoly":null };
         });
-        zonalStatsGP = new Geoprocessor("http://wlera.wimcloud.usgs.gov:6080/arcgis/rest/services/WLERA/zonalStats/GPServer/WLERAZonalStats");
+        zonalStatsGP = new Geoprocessor("http://wlera.wim.usgs.gov:6080/arcgis/rest/services/WLERA/zonalStats/GPServer/WLERAZonalStats");
         zonalStatsGP.setOutputSpatialReference({wkid:102100});
         zonalStatsGP.on("execute-complete", displayCustomStatsResults);
         $('#calculateStats').click(function () {
