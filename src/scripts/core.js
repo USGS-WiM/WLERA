@@ -520,16 +520,16 @@ require([
         //if user does not provide title, use default. otherwise apply user title
         if (userTitle === "") {
             template.layoutOptions = {
-                "titleText": "Western Lake Erie Restoration Assessment",
+                "titleText": "Western Lake Erie Restoration Assessment - Provisional Data",
                 "authorText" : "Western Lake Erie Restoration Assessment (WLERA)",
                 "copyrightText": "This page was produced by the WLERA web application at [insert app URL]",
                 "legendLayers": [legendLayer]
             };
         } else {
             template.layoutOptions = {
-                "titleText": userTitle,
+                "titleText": userTitle + " - Provisional Data",
                 "authorText" : "Western Lake Erie Restoration Assessment (WLERA)",
-                "copyrightText": "This page was produced by the WLERA web application at [insert app URL]",
+                "copyrightText": "This page was produced by the WLERA web application at wlera.wim.usgs.gov/wlera",
                 "legendLayers": [legendLayer]
             };
         }
@@ -1155,7 +1155,7 @@ require([
         hydroperiodLayer.inLegendLayers = false;
         //legendLayers.push ({layer:hydroperiodLayer, title: "P1 - Hydroperiod"});
 
-        const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "waterMask", visible:true} );
+        const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "restorationModel/MapServer", {id: "waterMask", visible:true, opacity: 0.75} );
         waterMaskLayer.setVisibleLayers([2]);
         mapLayers.push(waterMaskLayer);
         mapLayerIds.push(waterMaskLayer.id);

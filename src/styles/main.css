@@ -45,6 +45,10 @@ body {
         padding: 4px;
     }
 
+    #sidebar-ornament{
+        display:none;
+    }
+
     /*.basemapThumb {*/
     /*display: none;*/
     /*}*/
@@ -587,4 +591,49 @@ input[type="checkbox"], input[type="radio"] {
     background-image: url("http://js.arcgis.com/3.13/dijit/themes/claro/form/images/buttonArrows.png");
     background-repeat: no-repeat;
     background-position: -51px 53%;
+}
+
+
+.wetland-pic {
+    background:
+            /*linear-gradient(*/
+                    /*rgba(0, 0, 0, 0.6),*/
+                    /*rgba(0, 0, 0, 0.6)*/
+            /*),*/
+            linear-gradient(
+                    rgba(236, 238, 243, 0.7),
+                    rgba(236, 238, 243, 0.7)
+            ),
+            url(../images/wlePic.JPG);
+    background-size: cover;
+    /*width: 300px;*/
+    width: 100%;
+    height: auto;
+    /*margin: 10px 0 0 10px;*/
+    margin: 0px;
+    position: relative;
+    float: left;
+    padding-bottom: 10px;
+}
+
+.sidebar-pic-content p {
+    padding: 10px;
+    color: #333333;
+    font-size: 12px;
+    margin: 0;
+    text-align:left;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.tabText {
+    padding:10px;
+}
+
+.aboutTabLogos {
+    padding:5px;
+}
+
+.tab-content {
+    padding: 0 !important;
+    color: black !important;
 }

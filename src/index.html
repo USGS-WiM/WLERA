@@ -119,16 +119,45 @@
               </div>
               <div id="aboutModalBody" class="modal-body">
                   <ul class="nav nav-tabs" id="aboutModalTabs">
-                      <li role="presentation"><a id="aboutTab" href="#aboutTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About the application</a></li>
-                      <li role="presentation" class="active"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
-                      <li role="presentation"><a id="contactTab" href="#contactTabPane" data-toggle="tab"><i class="fa fa-exclamation-circle"></i>&nbsp;Contact</a></li>
+                      <li role="presentation" class="active"><a id="aboutTab" href="#aboutTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About the application</a></li>
+                      <li role="presentation"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
+                      <li role="presentation"><a id="contactTab" href="#contactTabPane" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Contact</a></li>
                   </ul>
                   <div class="tab-content">
-                      <div role="tabpanel" class="tab-pane" id="aboutTabPane"></br>
-                          <p style="color:black; font-size: larger">The Western Lake Erie Restoration Assessment web application is developed by the Wisconsin Internet Mapping (WiM) group.</p>
-                          <p>WLERA project information goes here</p>
+                      <div role="tabpanel" class="tab-pane active about-tab-content" id="aboutTabPane"></br>
+
+                          <div class="wetland-pic tabText">
+                              <p>The Western Lake Erie Restoration Assessment (WLERA) model was co-developed by investigators in the Environmental Studies Program at the New College of Florida in
+                              Sarasota, Florida and the USGS - Great Lakes Science Center in Ann Arbor, Michigan. The web mapping application for interfacing with the WLERA model was developed
+                              by programmers at the Wisconsin Internet Mapping Group.</p>
+
+                              <p>The WLERA is a geodesign framework for measuring the potential to restore coastal wetlands in the Great Lakes basin. This framework is based on the expert coupling of
+                              multiple criteria decision analysis and geographic information systems. Experts included regional wetland ecologists, biologists, planners and geographers from federal,
+                              state, academic and non- governmental organizations. Criteria include historical water levels, topography, soils, mapped wetlands, managed lands, and impervious and
+                              non-impervious development on the landscape. The WLERA data and kernel analysis are organized in ArcGIS 10.3 geodatabases and python applications.</p>
+
+                              <p>Within the 195,621 ha study area between the mouths of the Detroit River, MI and Black River, OH, the WLERA normalized composite index model identified over 7,500
+                              hectares of areas highly suitable for coastal wetland habitat restoration. The model results 1) range from 0-100 (green to red) with increasing values representing
+                              higher potential for restoration 2) have a pyramided spatial resolution of 1 meter at the lowest level, and 3) can be aggregated by any irregular area, including
+                              individual land ownership parcel boundaries or custom boundaries created with the Area Summary Tool in the web mapping application. Areas with the highest
+                              restorability class (greater than 80) coincided with 10 areas currently selected by GLRI for restoration in WLE. As the region continues to restore coastal wetland
+                              habitats, this tool and analysis will support restoration decisions.</p>
+
+                              <p>The development of the WLERA has been supported by the Great Lakes Restoration Initiative, the Upper Midwest and Great Lakes Landscape Conservation Cooperative and the University of Michigan Water Center.</p>
+
+                          </div>
+                          <br>
+
+                          <span>
+                              <img src="images/USGS_ID_green.png" alt="..."  style="width: 200px" class="aboutTabLogos">
+                              <img src="images/NCF_logo.jpg" alt="..."  style="width: 200px" class="aboutTabLogos">
+                              <img src="images/glri-logo.jpg" alt="..."  style="width: 200px" class="aboutTabLogos">
+                              <img src="images/Logo_UMGL.jpg" alt="..."  style="width: 200px" class="aboutTabLogos">
+                          </span>
+
+
                       </div>
-                      <div role="tabpanel" class="tab-pane active" id="disclaimerTabPane"></br>
+                      <div role="tabpanel" class="tab-pane tabText" id="disclaimerTabPane"></br>
                           <h3>Data Limitations</h3>
                           <p>Data are provisional and are subject to revision until thoroughly reviewed and approved.</p>
                           <p>Provisional data may be inaccurate due to input data or physical changes on the landscape. Subsequent review based on field inspections and analysis may result in significant revisions to the data.</p>
@@ -136,8 +165,32 @@
                           <p>Data users are cautioned to consider carefully the provisional nature of the information before using it for decisions that concern personal or public safety or the conduct of business that involves substantial monetary or operational consequences.</p>
 
                       </div>
-                      <div role="tabpanel" class="tab-pane" id="contactTabPane"></br>
-                          Project contact info here.
+                      <div role="tabpanel" class="tab-pane tabText" id="contactTabPane"></br>
+                          <p>
+                              <label>New College of Florida</label><br>
+                              <span>Justin Saarinen, Geographer<br>jsaarinen@ncf.edu</span>
+                          </p>
+
+                          <p>
+                              <label>USGS Great Lakes Science Center</label><br>
+                              <span>Kurt Kowalski, Wetland Ecologist<br>kkowalski@usgs.gov</span>
+                          </p>
+
+                          <p>
+                              <label>USGS WiM</label><br>
+                              <span>Blake Draper, Software Developer<br>bdraper@usgs.gov</span><br><br>
+                              <span>Hans Vraga, Project Manager<br>hvraga@usgs.gov</span>
+                          </p>
+
+                          <p><h4><a href="https://lccnetwork.org/group/coastal-conservation-working-group" target="_blank">Upper Midwest and Great Lakes LCC Coastal Conservation Working Group</a></h4></p>
+
+
+                          <img src="images/USGS_ID_green.png" alt="..."  style="width: 200px">
+                          <img src="images/NCF_logo.jpg" alt="..."  style="width: 200px">
+                          <img src="images/glri-logo.jpg" alt="..."  style="width: 200px">
+                          <img src="images/Logo_UMGL.jpg" alt="..."  style="width: 200px">
+
+
                       </div>
                   </div>
               </div>
@@ -406,6 +459,18 @@
                       </div>
                   </div>
               </div>
+
+              <div id="sidebar-ornament" class="wetland-pic sidebar-pic-content">
+                  <p>Play around! This is an interactive web mapping application to help you make decisions about restoring coastal wetlands in Western Lake Erie.
+                  Turn layers on & off to understand how they relate to restoration decisions, scale in and out, change basemaps, and use the Area Summary Tool if you are interested in a particular area.</p>
+
+                  <p>The Great Lakes Restoration Initiative and the Upper Midwest and Great Lakes Landscape Conservation Cooperative supported the development of this website.</p>
+                  <img src="images/USGS_ID_white.png" alt="..."  style="width: 100px">
+                  <img src="images/NCF_4winds.png" alt="..."  style="width: 100px">
+                  <img src="images/glri-logo.jpg" alt="..." class="img-rounded" style="width: 100px">
+                  <img src="images/Logo_UMGL.jpg" alt="..."  class="img-rounded" style="width: 100px">
+              </div>
+
               <div class="identification pull-right">powered by  <a href="http://wim.usgs.gov/" target="_blank">WiM</a></div>
 
           </div>
