@@ -108,6 +108,7 @@ require([
         spatialReference: 26917,
         zoom: 10,
         logo: false,
+        minZoom: 9,
         infoWindow: popup
     });
 
@@ -509,8 +510,14 @@ require([
             height: 400,
             dpi: 300
         };
+        ////5 lines below get zoom level and set the zoomFactor for the specfic layout template (mainly for graticule)
+        var mapZoomLevel = map.getZoom();
+        var zoomFactor = "";
+        if (mapZoomLevel >= 9 ){zoomFactor = "9";}
+        if (mapZoomLevel >= 11) {zoomFactor = "11";}
+        if (mapZoomLevel >= 15) {zoomFactor = "15";}
         template.format = "PDF";
-        template.layout = "Letter ANSI A Landscape";
+        template.layout = "Letter ANSI A LandscapeWLERA" + zoomFactor;
         template.preserveScale = false;
         var legendLayer = new LegendLayer();
         legendLayer.layerId = "normalized";
