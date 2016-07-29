@@ -519,7 +519,7 @@ require([
         template.showAttribution = false;
         template.format = "PDF";
         //custom template stored on AGS server instance at C:\Program Files\ArcGIS\Server\Templates\ExportWebMapTemplates
-        template.layout = "Letter ANSI A LandscapeWLERA" + zoomFactor;
+        template.layout = "Letter ANSI A LandscapeGLCWRA" + zoomFactor;
         template.preserveScale = false;
         var legendLayer = new LegendLayer();
         legendLayer.layerId = "normalized";
