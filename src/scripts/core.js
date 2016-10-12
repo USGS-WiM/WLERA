@@ -266,7 +266,7 @@ require([
         var encodedShareQueryString = "%3Fxmax=" + currentMapExtent.xmax.toString() + "%26xmin=" + currentMapExtent.xmin.toString() + "%26ymax=" + currentMapExtent.ymax.toString() + "%26ymin=" + currentMapExtent.ymin.toString();
         //var cleanURL = document.location.href;
         //below line for local testing only. replace with above line for production
-        var cleanURL = "http://wlera.wim.usgs.gov/WLERA/";
+        var cleanURL = "http://glcwra.wim.usgs.gov/WLERA/";
         var shareURL = cleanURL + shareQueryString;
         var encodedShareURL = cleanURL + encodedShareQueryString;
         console.log("Share URL is:" + shareURL);
@@ -531,14 +531,14 @@ require([
             template.layoutOptions = {
                 "titleText": "Western Lake Erie Restoration Assessment - Provisional Data",
                 "authorText" : "Western Lake Erie Restoration Assessment (WLERA)",
-                "copyrightText": "This page was produced by the WLERA web application at wlera.wim.usgs.gov/wlera",
+                "copyrightText": "This page was produced by the WLERA web application at glcwra.wim.usgs.gov/wlera",
                 "legendLayers": [legendLayer]
             };
         } else {
             template.layoutOptions = {
                 "titleText": userTitle + " - Provisional Data",
                 "authorText" : "Western Lake Erie Restoration Assessment (WLERA)",
-                "copyrightText": "This page was produced by the WLERA web application at wlera.wim.usgs.gov/wlera",
+                "copyrightText": "This page was produced by the WLERA web application at glcwra.wim.usgs.gov/wlera",
                 "legendLayers": [legendLayer]
             };
         }
