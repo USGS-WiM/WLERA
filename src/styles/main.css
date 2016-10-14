@@ -637,3 +637,6 @@ input[type="checkbox"], input[type="radio"] {
     padding: 0 !important;
     color: black !important;
 }
+.arcgisSearch .searchGroup .searchInput {
+    width:350px;
+}
