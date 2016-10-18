@@ -735,28 +735,28 @@ require([
         const mapServiceRoot= "http://gis.wim.usgs.gov/arcgis/rest/services/GLCWRA/";
         const geomService = new GeometryService("http://gis.wim.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
-        const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "normalized", visible:true} );
+        const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "normalized", visible:true, opacity: 1} );
         normRestorationIndexLayer.setVisibleLayers([0]);
         mapLayers.push(normRestorationIndexLayer);
         mapLayerIds.push(normRestorationIndexLayer.id);
         legendLayers.push ({layer:normRestorationIndexLayer, title:" "});
         normRestorationIndexLayer.inLegendLayers = true;
 
-        const dikesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_hydroCondition/MapServer", {id: "dikes", visible:false, minScale:100000} );
+        const dikesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_hydroCondition/MapServer", {id: "dikes", visible:false, minScale:100000, opacity: 0.90} );
         dikesLayer.setVisibleLayers([2]);
         mapLayers.push(dikesLayer);
         mapLayerIds.push(dikesLayer.id);
         dikesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:dikesLayer, title: "Dikes"});
 
-        const degFlowlinesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_hydroCondition/MapServer", {id: "degFlowlines", visible:false, minScale:100000} );
+        const degFlowlinesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_hydroCondition/MapServer", {id: "degFlowlines", visible:false, minScale:100000, opacity: 1} );
         degFlowlinesLayer.setVisibleLayers([1]);
         mapLayers.push(degFlowlinesLayer);
         mapLayerIds.push(degFlowlinesLayer.id);
         degFlowlinesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:degFlowlinesLayer, title: "Degree flowlines"});
 
-        const culvertsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_hydroCondition/MapServer", {id: "culverts", visible:false, minScale:100000} );
+        const culvertsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_hydroCondition/MapServer", {id: "culverts", visible:false, minScale:100000, opacity: 1} );
         culvertsLayer.setVisibleLayers([0]);
         mapLayers.push(culvertsLayer);
         mapLayerIds.push(culvertsLayer.id);
@@ -765,7 +765,7 @@ require([
 
         //////////////begin reference layers////////////////////////////////////
         ///dynamic parcels layer for display only
-        const parcelsDynLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_reference/MapServer", {id: "parcelsDyn", visible:true, minScale:100000} );
+        const parcelsDynLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_reference/MapServer", {id: "parcelsDyn", visible:true, minScale:100000, opacity: 1} );
         parcelsDynLayer.setVisibleLayers([4]);
         mapLayers.push(parcelsDynLayer);
         mapLayerIds.push(parcelsDynLayer.id);
@@ -974,14 +974,14 @@ require([
             }
         });
 
-        const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_reference/MapServer", {id: "studyArea", visible:true} );
+        const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_reference/MapServer", {id: "studyArea", visible:true, opacity:1} );
         studyAreaLayer.setVisibleLayers([0]);
         mapLayers.push(studyAreaLayer);
         mapLayerIds.push(studyAreaLayer.id);
         legendLayers.push({layer:studyAreaLayer , title:" "});
         studyAreaLayer.inLegendLayers = true;
 
-        const GLRIWetlandsLayer = new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_reference/MapServer", {id: "GLRIWetlands", visible:true, minScale: 100000, maxScale: 10000 } );
+        const GLRIWetlandsLayer = new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_reference/MapServer", {id: "GLRIWetlands", visible:true, minScale: 100000, maxScale: 10000, opacity:1 } );
         GLRIWetlandsLayer.setVisibleLayers([2]);
         mapLayers.push(GLRIWetlandsLayer);
         //mapLayerIds.push(GLRIWetlandsLayer.id);
@@ -1011,42 +1011,42 @@ require([
         ////end reference layers////////////////////////////////////////
 
         ///parameters group
-        const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "landuse", visible:false} );
+        const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "landuse", visible:false, opacity:1} );
         landuseLayer .setVisibleLayers([8]);
         mapLayers.push(landuseLayer );
         mapLayerIds.push(landuseLayer.id);
         landuseLayer.inLegendLayers = false;
         //legendLayers.push ({layer:landuseLayer , title: "P6 - Landuse"});
 
-        const imperviousSurfacesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "imperviousSurfaces", visible:false} );
+        const imperviousSurfacesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "imperviousSurfaces", visible:false, opacity:1} );
         imperviousSurfacesLayer.setVisibleLayers([7]);
         mapLayers.push(imperviousSurfacesLayer);
         mapLayerIds.push(imperviousSurfacesLayer.id);
         imperviousSurfacesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:imperviousSurfacesLayer, title: "P5 - Impervious Surfaces"});
 
-        const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "conservedLands", visible:false} );
+        const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "conservedLands", visible:false, opacity:1} );
         conservedLandsLayer.setVisibleLayers([6]);
         mapLayers.push(conservedLandsLayer);
         mapLayerIds.push(conservedLandsLayer.id);
         conservedLandsLayer.inLegendLayers = false;
         //legendLayers.push ({layer:conservedLandsLayer, title: "P4 - Conserved Lands"});
 
-        const flowlineLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "flowline", visible:false} );
+        const flowlineLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "flowline", visible:false, opacity:1} );
         flowlineLayer.setVisibleLayers([5]);
         mapLayers.push(flowlineLayer);
         mapLayerIds.push(flowlineLayer.id);
         flowlineLayer.inLegendLayers = false;
         //legendLayers.push ({layer:flowlineLayer, title: "P3 - Flowline"});
 
-        const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "wetsoils", visible:false} );
+        const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "wetsoils", visible:false, opacity:1} );
         wetsoilsLayer.setVisibleLayers([4]);
         mapLayers.push(wetsoilsLayer);
         mapLayerIds.push(wetsoilsLayer.id);
         wetsoilsLayer.inLegendLayers = false;
         //legendLayers.push ({layer:wetsoilsLayer, title: "P2 - Wetsoils"});
 
-        const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "hydroperiod", visible:false} );
+        const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "hydroperiod", visible:false, opacity:1} );
         hydroperiodLayer.setVisibleLayers([3]);
         mapLayers.push(hydroperiodLayer);
         mapLayerIds.push(hydroperiodLayer.id);
