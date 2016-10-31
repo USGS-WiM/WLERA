@@ -569,20 +569,59 @@ require([
            $("#sidebar").getNiceScroll().resize();
         });
 
+        /////logic dealing with legend resizing (older)
+        // //jQuery selector variable assignment for legendCollapse control
+        // var legendCollapse =  $('#legendCollapse');
+        // //jQuery selector variable assignment for legendElement div
+        // var legendElement = $('#legendElement');
+        // $("#legendDiv").niceScroll();
+        // maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
+        // legendElement.css('max-height', maxLegendHeight);
+        // legendCollapse.on('shown.bs.collapse', function () {
+        //     $('#legendLabel').show();
+        //    maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
+        //    legendElement.css('max-height', maxLegendHeight);
+        //    maxLegendDivHeight = (legendElement.height()) - parseInt($('#legendHeading').css("height").replace('px',''));
+        //    $('#legendDiv').css('max-height', maxLegendDivHeight);
+        // });
+
         /////logic dealing with legend resizing
         //jQuery selector variable assignment for legendCollapse control
         var legendCollapse =  $('#legendCollapse');
         //jQuery selector variable assignment for legendElement div
         var legendElement = $('#legendElement');
-        $("#legendDiv").niceScroll();
+        //jQuery selector variable assignment for legendDiv div
+        var legendDiv= $('#legendDiv');
+
+        $("#legendDiv").niceScroll({autohidemode: false});
+        //set maxLegendHeight var to 95% height of map div
         maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
+
+        //set max heights for all to the maxLegendHeight
         legendElement.css('max-height', maxLegendHeight);
+        legendCollapse.css('max-height', maxLegendHeight);
+        legendDiv.css('max-height', maxLegendHeight);
+
+        //listener for when legend collapse is opened
         legendCollapse.on('shown.bs.collapse', function () {
+            //show the legend label, which may have been hidden if screen was small
             $('#legendLabel').show();
-           maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
-           legendElement.css('max-height', maxLegendHeight);
-           maxLegendDivHeight = (legendElement.height()) - parseInt($('#legendHeading').css("height").replace('px',''));
-           $('#legendDiv').css('max-height', maxLegendDivHeight);
+
+            //establish maxLegendHeight var as 95% of total map div height, updated in case window size changed since load
+            maxLegendHeight =  ($('#mapDiv').height()) * 0.90;
+
+            ///order, top to bottom: legendElement > legendCollapse > legendDiv
+            //set max heights for all to the new maxLegendHeight
+            legendElement.css('max-height', maxLegendHeight);
+            legendCollapse.css('max-height', maxLegendHeight);
+            legendDiv.css('max-height', maxLegendHeight);
+
+            legendElement.css('height', maxLegendHeight);
+            legendCollapse.css('height', maxLegendHeight);
+
+            maxLegendDivHeight = (legendElement.height()) - parseInt($('#legendHeading').css("height").replace('px',''));
+            legendDiv.css('height', maxLegendDivHeight);
+
         });
         legendCollapse.on('hide.bs.collapse', function () {
            legendElement.css('height', 'initial');
@@ -590,6 +629,8 @@ require([
                 $('#legendLabel').hide();
             }
         });
+        //end legend logic
+
         //jQuery selector for measurement tool control
         var measurementCollapse = $('#measurementCollapse');
         measurementCollapse.on('shown.bs.collapse', function () {
@@ -735,29 +776,29 @@ require([
         const mapServiceRoot= "http://gis.wim.usgs.gov/arcgis/rest/services/GLCWRA/";
         const geomService = new GeometryService("http://gis.wim.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
-        const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "normalized", visible:true, opacity: 1} );
-        normRestorationIndexLayer.setVisibleLayers([0]);
+        const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "normalized", visible:true, opacity: 1} );
+        normRestorationIndexLayer.setVisibleLayers([5]);
         mapLayers.push(normRestorationIndexLayer);
         mapLayerIds.push(normRestorationIndexLayer.id);
         legendLayers.push ({layer:normRestorationIndexLayer, title:" "});
         normRestorationIndexLayer.inLegendLayers = true;
 
-        const dikesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_hydroCondition/MapServer", {id: "dikes", visible:false, minScale:100000, opacity: 0.90} );
-        dikesLayer.setVisibleLayers([2]);
+        const dikesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "dikes", visible:false, minScale:100000, opacity: 0.90} );
+        dikesLayer.setVisibleLayers([17]);
         mapLayers.push(dikesLayer);
         mapLayerIds.push(dikesLayer.id);
         dikesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:dikesLayer, title: "Dikes"});
 
-        const degFlowlinesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_hydroCondition/MapServer", {id: "degFlowlines", visible:false, minScale:100000, opacity: 1} );
-        degFlowlinesLayer.setVisibleLayers([1]);
+        const degFlowlinesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "degFlowlines", visible:false, minScale:100000, opacity: 1} );
+        degFlowlinesLayer.setVisibleLayers([16]);
         mapLayers.push(degFlowlinesLayer);
         mapLayerIds.push(degFlowlinesLayer.id);
         degFlowlinesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:degFlowlinesLayer, title: "Degree flowlines"});
 
-        const culvertsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_hydroCondition/MapServer", {id: "culverts", visible:false, minScale:100000, opacity: 1} );
-        culvertsLayer.setVisibleLayers([0]);
+        const culvertsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "culverts", visible:false, minScale:100000, opacity: 1} );
+        culvertsLayer.setVisibleLayers([15]);
         mapLayers.push(culvertsLayer);
         mapLayerIds.push(culvertsLayer.id);
         culvertsLayer.inLegendLayers = false;
@@ -765,15 +806,15 @@ require([
 
         //////////////begin reference layers////////////////////////////////////
         ///dynamic parcels layer for display only
-        const parcelsDynLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_reference/MapServer", {id: "parcelsDyn", visible:true, minScale:100000, opacity: 1} );
-        parcelsDynLayer.setVisibleLayers([4]);
+        const parcelsDynLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "parcelsDyn", visible:true, minScale:100000, opacity: 1} );
+        parcelsDynLayer.setVisibleLayers([1]);
         mapLayers.push(parcelsDynLayer);
         mapLayerIds.push(parcelsDynLayer.id);
         parcelsDynLayer.inLegendLayers = false;
 
         ///parcels feature layer for selection/zonal stats calc
-        //const parcelsLayer = new FeatureLayer(mapServiceRoot + "reference/MapServer/1", {id: "parcels", visible:false, minScale:150000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"]});
-        const parcelsFeatLayer = new FeatureLayer(mapServiceRoot + "WLERA_reference/MapServer/4", {id: "parcelsFeat", visible:true, minScale:100000, mode: FeatureLayer.MODE_SELECTION, outFields: ["*"]});
+        //const parcelsLayer = new FeatureLayer(mapServiceRoot + "WLERA/MapServer/1", {id: "parcels", visible:false, minScale:150000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"]});
+        const parcelsFeatLayer = new FeatureLayer(mapServiceRoot + "WLERA/MapServer/1", {id: "parcelsFeat", visible:true, minScale:100000, mode: FeatureLayer.MODE_SELECTION, outFields: ["*"]});
         mapLayers.push(parcelsFeatLayer);
         mapLayerIds.push(parcelsFeatLayer.id);
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
@@ -974,19 +1015,26 @@ require([
             }
         });
 
-        const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_reference/MapServer", {id: "studyArea", visible:true, opacity:1} );
+        const studyAreaLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "studyArea", visible:true, opacity:1} );
         studyAreaLayer.setVisibleLayers([0]);
         mapLayers.push(studyAreaLayer);
         mapLayerIds.push(studyAreaLayer.id);
         legendLayers.push({layer:studyAreaLayer , title:" "});
         studyAreaLayer.inLegendLayers = true;
 
-        const GLRIWetlandsLayer = new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_reference/MapServer", {id: "GLRIWetlands", visible:true, minScale: 100000, maxScale: 10000, opacity:1 } );
-        GLRIWetlandsLayer.setVisibleLayers([2]);
+        const GLRIWetlandsLayer = new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "GLRIWetlands", visible:true, minScale: 100000, maxScale: 10000, opacity:1 } );
+        GLRIWetlandsLayer.setVisibleLayers([4]);
         mapLayers.push(GLRIWetlandsLayer);
         //mapLayerIds.push(GLRIWetlandsLayer.id);
         legendLayers.push({layer:GLRIWetlandsLayer, title:" "});
         GLRIWetlandsLayer.inLegendLayers = true;
+
+        const lakeLevelStationsLayer = new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "stations", visible:false } );
+        lakeLevelStationsLayer.setVisibleLayers([3]);
+        mapLayers.push(lakeLevelStationsLayer);
+        //mapLayerIds.push(GLRIWetlandsLayer.id);
+        legendLayers.push({layer:lakeLevelStationsLayer, title:" "});
+        lakeLevelStationsLayer.inLegendLayers = true;
 
         var aerialsPopup = new PopupTemplate({
             title: "U.S. ACOE Aerial Photo",
@@ -1002,7 +1050,7 @@ require([
         });
         //const aerialsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "aerials", visible:false} );
         //aerialsLayer.setVisibleLayers([2]);
-        var aerialsLayer = new FeatureLayer(mapServiceRoot + "WLERA_reference/MapServer/1", {id: "aerials", layerID: "aerials", visible:false, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"], infoTemplate: aerialsPopup});
+        var aerialsLayer = new FeatureLayer(mapServiceRoot + "WLERA/MapServer/2", {id: "aerials", layerID: "aerials", visible:false, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"], infoTemplate: aerialsPopup});
         aerialsLayer.id = "aerials";
         mapLayers.push(aerialsLayer);
         mapLayerIds.push(aerialsLayer.id);
@@ -1011,54 +1059,54 @@ require([
         ////end reference layers////////////////////////////////////////
 
         ///parameters group
-        const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "landuse", visible:false, opacity:1} );
-        landuseLayer .setVisibleLayers([8]);
+        const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "landuse", visible:false, opacity:1} );
+        landuseLayer .setVisibleLayers([13]);
         mapLayers.push(landuseLayer );
         mapLayerIds.push(landuseLayer.id);
         landuseLayer.inLegendLayers = false;
         //legendLayers.push ({layer:landuseLayer , title: "P6 - Landuse"});
 
-        const imperviousSurfacesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "imperviousSurfaces", visible:false, opacity:1} );
-        imperviousSurfacesLayer.setVisibleLayers([7]);
+        const imperviousSurfacesLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "imperviousSurfaces", visible:false, opacity:1} );
+        imperviousSurfacesLayer.setVisibleLayers([12]);
         mapLayers.push(imperviousSurfacesLayer);
         mapLayerIds.push(imperviousSurfacesLayer.id);
         imperviousSurfacesLayer.inLegendLayers = false;
         //legendLayers.push ({layer:imperviousSurfacesLayer, title: "P5 - Impervious Surfaces"});
 
-        const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "conservedLands", visible:false, opacity:1} );
-        conservedLandsLayer.setVisibleLayers([6]);
+        const conservedLandsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "conservedLands", visible:false, opacity:1} );
+        conservedLandsLayer.setVisibleLayers([11]);
         mapLayers.push(conservedLandsLayer);
         mapLayerIds.push(conservedLandsLayer.id);
         conservedLandsLayer.inLegendLayers = false;
         //legendLayers.push ({layer:conservedLandsLayer, title: "P4 - Conserved Lands"});
 
-        const flowlineLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "flowline", visible:false, opacity:1} );
-        flowlineLayer.setVisibleLayers([5]);
+        const flowlineLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "flowline", visible:false, opacity:1} );
+        flowlineLayer.setVisibleLayers([10]);
         mapLayers.push(flowlineLayer);
         mapLayerIds.push(flowlineLayer.id);
         flowlineLayer.inLegendLayers = false;
         //legendLayers.push ({layer:flowlineLayer, title: "P3 - Flowline"});
 
-        const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "wetsoils", visible:false, opacity:1} );
-        wetsoilsLayer.setVisibleLayers([4]);
+        const wetsoilsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "wetsoils", visible:false, opacity:1} );
+        wetsoilsLayer.setVisibleLayers([9]);
         mapLayers.push(wetsoilsLayer);
         mapLayerIds.push(wetsoilsLayer.id);
         wetsoilsLayer.inLegendLayers = false;
         //legendLayers.push ({layer:wetsoilsLayer, title: "P2 - Wetsoils"});
 
-        const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "hydroperiod", visible:false, opacity:1} );
-        hydroperiodLayer.setVisibleLayers([3]);
+        const hydroperiodLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "hydroperiod", visible:false, opacity:1} );
+        hydroperiodLayer.setVisibleLayers([8]);
         mapLayers.push(hydroperiodLayer);
         mapLayerIds.push(hydroperiodLayer.id);
         hydroperiodLayer.inLegendLayers = false;
         //legendLayers.push ({layer:hydroperiodLayer, title: "P1 - Hydroperiod"});
 
-        const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA_restorationModel/MapServer", {id: "waterMask", visible:true, opacity: 0.75} );
-        waterMaskLayer.setVisibleLayers([2]);
+        const waterMaskLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "waterMask", visible:true, opacity: 0.75} );
+        waterMaskLayer.setVisibleLayers([7]);
         mapLayers.push(waterMaskLayer);
         mapLayerIds.push(waterMaskLayer.id);
-        waterMaskLayer.inLegendLayers = false;
-        //legendLayers.push ({layer:waterMaskLayer, title: "P0 - Water Mask"});
+        waterMaskLayer.inLegendLayers = true;
+        legendLayers.push ({layer:waterMaskLayer, title: ""});
         /////end parameters group
 
         map.addLayers(mapLayers);
