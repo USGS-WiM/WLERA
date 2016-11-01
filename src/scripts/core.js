@@ -101,8 +101,9 @@ require([
     var useLocalStorage = supports_local_storage();
     var popup = new Popup({
     }, domConstruct.create("div"));
-    //Add the dark theme which is customized further in the <style> tag at the top of this page
-    domClass.add(popup.domNode, "dark");
+    //popup dark theme
+    //domClass.add(popup.domNode, "dark");
+    domClass.add(popup.domNode);
 
     map = new Map('mapDiv', {
         basemap: 'gray',
@@ -730,6 +731,7 @@ require([
         "esri/Color",
         "esri/dijit/Popup",
         "esri/dijit/PopupTemplate",
+        "esri/InfoTemplate",
         'dojo/query',
         'dojo/dom'
     ], function(
@@ -756,6 +758,7 @@ require([
         Color,
         Popup,
         PopupTemplate,
+        InfoTemplate,
         query,
         dom
     ) {
@@ -1035,6 +1038,17 @@ require([
         //mapLayerIds.push(GLRIWetlandsLayer.id);
         legendLayers.push({layer:lakeLevelStationsLayer, title:" "});
         lakeLevelStationsLayer.inLegendLayers = true;
+
+        var vegPopup = new InfoTemplate();
+        vegPopup.setTitle("Wetland Biological Integrity");
+        vegPopup.setContent( "<div style='text-align: left'><b>Wetland:</b>  ${name}<br/><b>Wetland class:</b> ${class}<br/><b>Veg IBI value:</b> ${VegIBI}<br/>More information available from the Great Lakes Coastal Wetlands Monitoring Program: <a href='http://greatlakeswetlands.org' target='_blank'>greatlakeswetlands.org</a></div>");
+
+        var vegLayer = new FeatureLayer("https://services5.arcgis.com/ed839pyDNWVlk9KK/ArcGIS/rest/services/CWMP_Vegetation_IBI/FeatureServer/0", {id: "veg", layerID: "veg", visible:false, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"], infoTemplate: vegPopup});
+        vegLayer.id = "veg";
+        mapLayers.push(vegLayer);
+        mapLayerIds.push(vegLayer.id);
+        legendLayers.push({layer:vegLayer , title:""});
+        vegLayer.inLegendLayers = true;
 
         var aerialsPopup = new PopupTemplate({
             title: "U.S. ACOE Aerial Photo",

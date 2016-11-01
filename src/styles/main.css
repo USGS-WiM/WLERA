@@ -640,3 +640,7 @@ input[type="checkbox"], input[type="radio"] {
 .arcgisSearch .searchGroup .searchInput {
     width:350px;
 }
+
+#drawingNote {
+    font-size: x-small;
+}
