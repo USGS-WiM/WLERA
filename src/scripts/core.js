@@ -559,8 +559,22 @@ require([
             map.setScale(parcelsScale);
         });
 
-        $('#disclaimerModal').modal({backdrop: 'static'});
-        $('#disclaimerModal').modal('show');
+        $("#IEwarnContinue").click(function () {
+            $('#disclaimerModal').modal({backdrop: 'static'});
+            $('#disclaimerModal').modal('show');
+        });
+
+        if(navigator.userAgent.indexOf('MSIE')!==-1 || navigator.appVersion.indexOf('Trident/') > 0){
+            $("#IEwarningModal").modal('show');
+        } else {
+            $('#disclaimerModal').modal({backdrop: 'static'});
+            $('#disclaimerModal').modal('show');
+        }
+
+        //collpase legend on load if small screen (saves real estate)
+        if ( $(window).width() < 767) {
+            $('#legendCollapse').addClass('collapse');
+        }
 
         $("#html").niceScroll();
         //jQuery selector variable assignment for sidebar
@@ -707,6 +721,8 @@ require([
             confirmAutoOpen  : false
         });
     });
+
+
     require([
         'esri/dijit/Legend',
         'esri/tasks/locator',
@@ -1178,117 +1194,160 @@ require([
                 $("#" + layer.id).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
             }
         }
-        //toggles the visibility of corresponding layer and status of toggle button on click.
-        $("button.lyrTog").click(function(e) {
-            //toggle checkmark and button state
-            $(this).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
-            $(this).button('toggle');
-            e.preventDefault();
-            e.stopPropagation();
-            var layer =   map.getLayer($(this).attr('id'));
-            ////layer toggle
-            if (layer.visible) {
-                layer.setVisibility(false);
-            } else {
-                layer.setVisibility(true);
-                //add to legend layers object if not there already(this prevents waiting for all to load on init)
-                if (layer.inLegendLayers === false) {
-                    legendLayers.push({layer: layer, title: " "});
-                    layer.inLegendLayers = true;
-                    legend.refresh();
+
+
+        $(document).ready(function() {
+
+            //toggles the visibility of corresponding layer and status of toggle button on click.
+            $("button.lyrTog").click(function (e) {
+                //toggle checkmark and button state
+                $(this).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
+                $(this).button('toggle');
+                e.preventDefault();
+                e.stopPropagation();
+                var layer = map.getLayer($(this).attr('id'));
+                ////layer toggle
+                if (layer.visible) {
+                    layer.setVisibility(false);
+                } else {
+                    layer.setVisibility(true);
+                    //add to legend layers object if not there already(this prevents waiting for all to load on init)
+                    if (layer.inLegendLayers === false) {
+                        legendLayers.push({layer: layer, title: " "});
+                        layer.inLegendLayers = true;
+                        legend.refresh();
+                    }
                 }
-            }
-        });
-        //toggles the icons of the group toggle buttons on click
-        $('#hydroConditionGroup, #parametersGroup, #4scaleGroup').on('hide.bs.collapse', function () {
-            var groupToggleID = $(this)[0].id.replace('Group', '');
-            $(("#"+ groupToggleID)).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
-            $(("#"+ groupToggleID)).find('i.chevron').toggleClass('fa-chevron-right fa-chevron-down');
+            });
+            //toggles the icons of the group toggle buttons on click
+            $('#hydroConditionGroup, #parametersGroup, #4scaleGroup').on('hide.bs.collapse', function () {
+                var groupToggleID = $(this)[0].id.replace('Group', '');
+                $(("#" + groupToggleID)).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
+                $(("#" + groupToggleID)).find('i.chevron').toggleClass('fa-chevron-right fa-chevron-down');
 
-            var buttonGroupID = $(this).attr('id') + "Buttons";
-            $("#" + buttonGroupID).button('toggle');
+                var buttonGroupID = $(this).attr('id') + "Buttons";
+                $("#" + buttonGroupID).button('toggle');
 
-        });
-        $('#hydroConditionGroup, #parametersGroup, #4scaleGroup').on('show.bs.collapse', function () {
-            var groupToggleID = $(this)[0].id.replace('Group', '');
-            $(("#"+ groupToggleID)).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
-            $(("#"+ groupToggleID)).find('i.chevron').toggleClass('fa-chevron-right fa-chevron-down');
-        });
+            });
+            $('#hydroConditionGroup, #parametersGroup, #4scaleGroup').on('show.bs.collapse', function () {
+                var groupToggleID = $(this)[0].id.replace('Group', '');
+                $(("#" + groupToggleID)).find('i.checkBoxIcon').toggleClass('fa-check-square-o fa-square-o');
+                $(("#" + groupToggleID)).find('i.chevron').toggleClass('fa-chevron-right fa-chevron-down');
+            });
 
-        $(".zoomto").hover(function (e) {
+            $(".zoomto").hover(function (event) {
 
-            $(".zoomDialog").remove();
-            var layerToChange = this.parentNode.id;
-            var zoomDialogMarkup = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" id="zoomscale" class="list-group-item lgi-zoom zoomscale">Zoom to scale</a> <a id="zoomcenter" href="#" class="list-group-item lgi-zoom zoomcenter">Zoom to center</a><a id="zoomextent" href="#" class="list-group-item lgi-zoom zoomextent">Zoom to extent</a></div></div>');
-            $("body").append(zoomDialogMarkup);
-
-            $(".zoomDialog").css('left', event.clientX-80);
-            $(".zoomDialog").css('top', event.clientY-5);
-
-            $(".zoomDialog").mouseleave(function() {
                 $(".zoomDialog").remove();
-            });
+                var layerToChange = this.id.replace("zoom", "");
+                var zoomDialogMarkup = $('<div class="zoomDialog"><label class="zoomClose pull-right">X</label><br><div class="list-group"><a href="#" id="zoomscale" class="list-group-item lgi-zoom zoomscale">Zoom to scale</a> <a id="zoomcenter" href="#" class="list-group-item lgi-zoom zoomcenter">Zoom to center</a><a id="zoomextent" href="#" class="list-group-item lgi-zoom zoomextent">Zoom to extent</a></div></div>');
+                $("body").append(zoomDialogMarkup);
 
-            $(".zoomClose").click(function() {
-                $(".zoomDialog").remove();
-            });
+                $(".zoomDialog").css('left', event.clientX - 80);
+                $(".zoomDialog").css('top', event.clientY - 5);
 
-            $('#zoomscale').click(function (e) {
-                //logic to zoom to layer scale
-                var layerMinScale = map.getLayer(layerToChange).minScale;
-                map.setScale(layerMinScale);
-            });
+                $(".zoomDialog").mouseleave(function () {
+                    $(".zoomDialog").remove();
+                });
 
-            $("#zoomcenter").click(function (e){
-                //logic to zoom to layer center
-                //var layerCenter = map.getLayer(layerToChange).fullExtent.getCenter();
-                //map.centerAt(layerCenter);
-                var dataCenter = new Point(-83.208084,41.628103, new SpatialReference({wkid:4326}));
-                map.centerAt(dataCenter);
-            });
+                $(".zoomClose").click(function () {
+                    $(".zoomDialog").remove();
+                });
 
-            $("#zoomextent").click(function (e){
-                //logic to zoom to layer extent
-                var layerExtent = map.getLayer(layerToChange).fullExtent;
-                var extentProjectParams = new ProjectParameters();
-                extentProjectParams.outSR = new SpatialReference(102100);
-                extentProjectParams.geometries = [layerExtent];
-                geomService.project(extentProjectParams, function(projectedExtentObj) {
-                    var projectedExtent = projectedExtentObj[0];
-                    map.setExtent(projectedExtent, new SpatialReference({ wkid:102100 }));
+                $('#zoomscale').click(function (e) {
+                    //logic to zoom to layer scale
+                    var layerMinScale = map.getLayer(layerToChange).minScale;
+                    if (layerMinScale > 0 ){map.setScale(layerMinScale);} else {console.log("No minimum scale for layer.")};
+                });
+
+                $("#zoomcenter").click(function (e) {
+                    //logic to zoom to layer center
+                    //var layerCenter = map.getLayer(layerToChange).fullExtent.getCenter();
+                    //map.centerAt(layerCenter);
+                    var dataCenter = new Point(-83.208084, 41.628103, new SpatialReference({wkid: 4326}));
+                    map.centerAt(dataCenter);
+                });
+
+                $("#zoomextent").click(function (e) {
+                    //logic to zoom to layer extent
+                    var layerExtent = map.getLayer(layerToChange).fullExtent;
+                    var extentProjectParams = new ProjectParameters();
+                    extentProjectParams.outSR = new SpatialReference(102100);
+                    extentProjectParams.geometries = [layerExtent];
+                    geomService.project(extentProjectParams, function (projectedExtentObj) {
+                        var projectedExtent = projectedExtentObj[0];
+                        map.setExtent(projectedExtent, new SpatialReference({wkid: 102100}));
+                    });
                 });
             });
+
+            $(".opacity").hover(function (event) {
+                $(".opacitySlider").remove();
+                var layerToChange = this.id.replace("opacity", "");
+                var currOpacity = map.getLayer(layerToChange).opacity;
+                var sliderMarkup = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');
+                $("body").append(sliderMarkup);
+
+                var slider = $("#slider");
+                slider[0].value = currOpacity * 100;
+                $(".opacitySlider").css('left', event.clientX - 180);
+                $(".opacitySlider").css('top', event.clientY - 5);
+                $(".opacitySlider").mouseleave(function () {
+                    $(".opacitySlider").remove();
+                });
+                $(".opacityClose").click(function () {
+                    $(".opacitySlider").remove();
+                });
+                slider.change(function (event) {
+                    //get the value of the slider with this call
+                    var o = (slider[0].value) / 100;
+                    console.log("o: " + o);
+                    $("#opacityValue").html("Opacity: " + o);
+                    map.getLayer(layerToChange).setOpacity(o);
+                    //here I am just specifying the element to change with a "made up" attribute (but don't worry, this is in the HTML specs and supported by all browsers).
+                    //var e = '#' + $(this).attr('data-wjs-element');
+                    //$(e).css('opacity', o)
+                });
+            });
+
+
+
+            // $("#opacitystations").hover(function () {
+            //
+            //     alert("stations a hovered")
+            //
+            //     $(".opacitySlider").remove();
+            //     var layerToChange = this.parentNode.id;
+            //     var currOpacity = map.getLayer(layerToChange).opacity;
+            //     var sliderMarkup = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');
+            //     $("body").append(sliderMarkup);
+            //
+            //     var slider = $("#slider");
+            //     slider[0].value = currOpacity * 100;
+            //     $(".opacitySlider").css('left', event.clientX - 180);
+            //     $(".opacitySlider").css('top', event.clientY - 5);
+            //     $(".opacitySlider").mouseleave(function () {
+            //         $(".opacitySlider").remove();
+            //     });
+            //     $(".opacityClose").click(function () {
+            //         $(".opacitySlider").remove();
+            //     });
+            //     slider.change(function (event) {
+            //         //get the value of the slider with this call
+            //         var o = (slider[0].value) / 100;
+            //         console.log("o: " + o);
+            //         $("#opacityValue").html("Opacity: " + o);
+            //         map.getLayer(layerToChange).setOpacity(o);
+            //         //here I am just specifying the element to change with a "made up" attribute (but don't worry, this is in the HTML specs and supported by all browsers).
+            //         //var e = '#' + $(this).attr('data-wjs-element');
+            //         //$(e).css('opacity', o)
+            //     });
+            // });
+
+
         });
 
-        $(".opacity").hover(function () {
 
-            $(".opacitySlider").remove();
-            var layerToChange = this.parentNode.id;
-            var currOpacity = map.getLayer(layerToChange).opacity;
-            var sliderMarkup = $('<div class="opacitySlider"><label id="opacityValue">Opacity: ' + currOpacity + '</label><label class="opacityClose pull-right">X</label><input id="slider" type="range"></div>');
-            $("body").append(sliderMarkup);
 
-            var slider = $("#slider");
-            slider[0].value = currOpacity*100;
-            $(".opacitySlider").css('left', event.clientX-180);
-            $(".opacitySlider").css('top', event.clientY-5);
-            $(".opacitySlider").mouseleave(function() {
-                $(".opacitySlider").remove();
-            });
-            $(".opacityClose").click(function() {
-                $(".opacitySlider").remove();
-            });
-            slider.change(function(event) {
-                //get the value of the slider with this call
-                var o = (slider[0].value)/100;
-                console.log("o: " + o);
-                $("#opacityValue").html("Opacity: " + o);
-                map.getLayer(layerToChange).setOpacity(o);
-                //here I am just specifying the element to change with a "made up" attribute (but don't worry, this is in the HTML specs and supported by all browsers).
-                //var e = '#' + $(this).attr('data-wjs-element');
-                //$(e).css('opacity', o)
-            });
-        });
         var legend = new Legend({
             map: map,
             layerInfos: legendLayers
