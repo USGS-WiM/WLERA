@@ -511,6 +511,27 @@ a.lgi-zoom:hover {
     text-align: center;
 }
 
+[class*="col-btn"] {
+    background-color: #FFFFFF;
+    border: 1px solid #E7E7E7;
+    text-align: center;
+    border: none;
+}
+
+[class*="col-btn-extras"] {
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 9px 1.8em 8px 0;
+}
+
+.container-btn {
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
 #sidebar {
     top: 50px;
     padding-bottom: 50px;
@@ -644,3 +665,12 @@ input[type="checkbox"], input[type="radio"] {
 #drawingNote {
     font-size: x-small;
 }
+
+.esriLegendServiceLabel{
+    display: none;
+}
+
+#IEwarningModal {
+    display:none;
+}
+
