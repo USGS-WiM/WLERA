@@ -571,7 +571,7 @@ require([
             $('#disclaimerModal').modal('show');
         }
 
-        //collpase legend on load if small screen (saves real estate)
+        //collapse legend on load if small screen (saves real estate)
         if ( $(window).width() < 767) {
             $('#legendCollapse').addClass('collapse');
         }
@@ -940,11 +940,12 @@ require([
             $("#displayStats").prop('disabled', true);
             $("#calculateStats").prop('disabled', true);
             //clear the feature set and the customFeatureArray
-            customAreaParams = { "inputPoly":null };
+            customAreaParams = { "inputPoly":null};
             customAreaFeatureArray = [];
             console.log("Length  of input poly array: " + customAreaParams.inputPoly.features.length)
         });
         zonalStatsGP = new Geoprocessor("http://gis.wim.usgs.gov/arcgis/rest/services/GLCWRA/WLERAZonalStats/GPServer/WLERAZonalStats");
+        //zonalStatsGP = new Geoprocessor("http://gis.wim.usgs.gov/arcgis/rest/services/GLCWRA/ZSTest/GPServer/ZSTest");
         zonalStatsGP.setOutputSpatialReference({wkid:102100});
         zonalStatsGP.on("execute-complete", displayCustomStatsResults);
         $('#calculateStats').click(function () {
@@ -955,6 +956,7 @@ require([
             //var symbol = new SimpleFillSymbol("none", new SimpleLineSymbol("dashdot", new Color([255,0,0]), 2), new Color([255,255,0,0.25]));
             customAreaSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.5]));
             customAreaGraphic = new Graphic(customAreaGeometry,customAreaSymbol);
+            customAreaGraphic.setAttributes({"ZONE_ID": 1});
             map.graphics.add(customAreaGraphic);
             customAreaDraw.deactivate();
             drawCustom.removeClass("active");
@@ -963,7 +965,9 @@ require([
             customAreaFeatureArray.push(customAreaGraphic);
             var featureSet = new FeatureSet();
             featureSet.features = customAreaFeatureArray;
-            customAreaParams = { "inputPoly":featureSet };
+            //customAreaParams = { "inputPoly":featureSet };
+            customAreaParams = { "in_zone_data":featureSet,  "zone_field": "ZONE_ID" };
+            //customAreaParams = { "in_zone_data":featureSet,  "zone_field": "OBJECTID" };
             $("#calculateStats").prop('disabled', false);
             //zonalStatsGP.execute(customAreaParams);
         });
@@ -1023,11 +1027,13 @@ require([
         }
 
         $('#displayStats').click(function(){
-            $('#zonalStatsTable').html('<tr><th>Parcel ID</th><th>Hectares</th><th>Mean </th><th>Standard Deviation</th><th>Max</th></tr>');
+            //$('#zonalStatsTable').html('<tr><th>Parcel ID</th><th>Hectares</th><th>Mean </th><th>Standard Deviation</th><th>Max</th></tr>');
+            $('#zonalStatsTable').html('<tr><th>Parcel ID</th><th>Mean </th><th>Standard Deviation</th><th>Max</th></tr>');
             //if there are selected parcels, retrieve their zonal stats attributes and append to the table
             if (map.getLayer('parcelsFeat').getSelectedFeatures().length > 0) {
                 $.each(map.getLayer('parcelsFeat').getSelectedFeatures(), function() {
-                    $('#zonalStatsTable').append('<tr><td>' + this.attributes.PARCELS_ID + '</td><td>' + this.attributes.Hec.toFixed(3) + '</td><td>' + this.attributes.MEAN.toFixed(4) + '</td><td>' + this.attributes.STD.toFixed(3) + '</td><td>' + this.attributes.stat_MAX + '</td></tr>');
+                    //$('#zonalStatsTable').append('<tr><td>' + this.attributes.PARCELS_ID + '</td><td>' + this.attributes.Hec.toFixed(3) + '</td><td>' + this.attributes.MEAN.toFixed(4) + '</td><td>' + this.attributes.STD.toFixed(4) + '</td><td>' + this.attributes.stat_MAX.toFixed(4) + '</td></tr>');
+                    $('#zonalStatsTable').append('<tr><td>' + this.attributes.PARCELS_ID + '</td><td>' + this.attributes.MEAN.toFixed(4) + '</td><td>' + this.attributes.STD.toFixed(4) + '</td><td>' + this.attributes.stat_MAX.toFixed(4) + '</td></tr>');
                     //$('#zonalStatsTable').append('<tr><td>' + this.attributes.P_ID + '</td><td>' + this.attributes.Hec + '</td><td>' + this.attributes.MEAN + '</td><td>' + this.attributes.STD + '</td><td>' + this.attributes.MAX + '</td></tr>');
                     $('#zonalStatsModal').modal('show');
                 });
