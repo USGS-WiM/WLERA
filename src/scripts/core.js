@@ -115,9 +115,8 @@ require([
         infoWindow: popup
     });
 
-    //esriConfig.defaults.geometryService = new esri.tasks.GeometryService("http://wlera.wim.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
-    esriConfig.defaults.geometryService = new GeometryService("http://gis.wim.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
-    esri.config.defaults.io.corsEnabledServers.push("http://gis.wim.usgs.gov/");
+    esriConfig.defaults.geometryService = new GeometryService("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+    esri.config.defaults.io.corsEnabledServers.push("https://gis.wim.usgs.gov/");
 
     const home = new HomeButton({
         map: map
@@ -269,7 +268,7 @@ require([
         var encodedShareQueryString = "%3Fxmax=" + currentMapExtent.xmax.toString() + "%26xmin=" + currentMapExtent.xmin.toString() + "%26ymax=" + currentMapExtent.ymax.toString() + "%26ymin=" + currentMapExtent.ymin.toString();
         //var cleanURL = document.location.href;
         //below line for local testing only. replace with above line for production
-        var cleanURL = "http://glcwra.wim.usgs.gov/WLERA/";
+        var cleanURL = "https://glcwra.wim.usgs.gov/WLERA/";
         var shareURL = cleanURL + shareQueryString;
         var encodedShareURL = cleanURL + encodedShareQueryString;
         console.log("Share URL is:" + shareURL);
@@ -373,7 +372,7 @@ require([
         $('#longitude').html(geographicMapCenter.x.toFixed(4));
     });
 
-    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('http://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer', {visible: false});
+    var nationalMapBasemap = new ArcGISTiledMapServiceLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer', {visible: false});
     map.addLayer(nationalMapBasemap);
     //on clicks to swap basemap. visibility toggling is required for nat'l map b/c it is not technically a basemap, but a tiled layer.
     on(dom.byId('btnStreets'), 'click', function () {
@@ -454,7 +453,7 @@ require([
         var docTitle = template.layoutOptions.titleText;
         printParams.template = template;
 
-        var printMap = new PrintTask("http://gis.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
+        var printMap = new PrintTask("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task");
         printMap.execute(printParams, printDone, printError);
 
         function printDone(event) {
@@ -792,8 +791,8 @@ require([
         var customAreaParams = { "inputPoly":null };
         var customAreaFeatureArray = [];
 
-        const mapServiceRoot= "http://gis.wim.usgs.gov/arcgis/rest/services/GLCWRA/";
-        const geomService = new GeometryService("http://gis.wim.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+        const mapServiceRoot= "https://gis.wim.usgs.gov/arcgis/rest/services/GLCWRA/";
+        const geomService = new GeometryService("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
         const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "normalized", visible:true, opacity: 1} );
         normRestorationIndexLayer.setVisibleLayers([5]);
@@ -944,8 +943,8 @@ require([
             customAreaFeatureArray = [];
             console.log("Length  of input poly array: " + customAreaParams.inputPoly.features.length)
         });
-        zonalStatsGP = new Geoprocessor("http://gis.wim.usgs.gov/arcgis/rest/services/GLCWRA/WLERAZonalStats/GPServer/WLERAZonalStats");
-        //zonalStatsGP = new Geoprocessor("http://gis.wim.usgs.gov/arcgis/rest/services/GLCWRA/ZSTest/GPServer/ZSTest");
+        zonalStatsGP = new Geoprocessor("https://gis.wim.usgs.gov/arcgis/rest/services/GLCWRA/WLERAZonalStats/GPServer/WLERAZonalStats");
+        //zonalStatsGP = new Geoprocessor("https://gis.wim.usgs.gov/arcgis/rest/services/GLCWRA/ZSTest/GPServer/ZSTest");
         zonalStatsGP.setOutputSpatialReference({wkid:102100});
         zonalStatsGP.on("execute-complete", displayCustomStatsResults);
         $('#calculateStats').click(function () {
