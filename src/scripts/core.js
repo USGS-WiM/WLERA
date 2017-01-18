@@ -1314,7 +1314,10 @@ require([
                 });
             });
 
-
+                // Google Analytics active listener for locate button on map           
+                $('#locateButton').click(function(e) {  
+                    ga('send','event','Map Button','click','Find My Location');
+                });
 
             // $("#opacitystations").hover(function () {
             //
