@@ -55,7 +55,6 @@
 
             ga('create', 'UA-61219868-15', 'auto');
             ga('send', 'pageview');
-
         </script>
 
 </head>
@@ -82,7 +81,7 @@
               <span id="geosearchButtonText"> Geosearch</span>
           </button>
 
-          <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','Navbar','click','Print')">
+          <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','Navbar','click','Print')" onclick="ga('send', 'timing', 'navbar', 'load', 3549, 'Print Product')">
               <span class="glyphicon glyphicon-print"></span>
               <span id="printButtonText"> Print</span>
           </button>
@@ -719,7 +718,7 @@
                           <label for="customSelectBtnGroup">Custom Area</label><br>
                           <div id="customSelectBtnGroup" class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">
                               <button id="drawCustom" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Draw custom area" onclick="ga('send','event','Sidebar','click','Draw Custom Area')"><span class="ti-pencil-alt2"></span>&nbsp;Draw <span class="hidden-xs"></span></button>
-                              <button id="calculateStats" type="button" class="btn btn-success" data-toggle="tooltip" data-loading-text="<i class='fa fa-cog fa-spin'></i>&nbsp;Calculating..." data-placement="top" title="Calculate" disabled onclick="ga('send','event','Sidebar','click','Calculate Stats')"><i class="fa fa-cogs"></i>&nbsp;Calculate <span class="hidden-xs">Stats</span></button>
+                              <button id="calculateStats" type="button" class="btn btn-success" data-toggle="tooltip" data-loading-text="<i class='fa fa-cog fa-spin'></i>&nbsp;Calculating..." data-placement="top" title="Calculate" disabled onclick="ga('send','event','Sidebar','click','Calculate Stats')" onclick="ga('send', 'timing', 'Calculating', 'load', 3549, 'Calculating Area Stats')"><i class="fa fa-cogs"></i>&nbsp;Calculate <span class="hidden-xs">Stats</span></button>
                           </div>
                           <br>
                           <label for="parcelSelectBtnGroup">Select Parcels</label><br>
