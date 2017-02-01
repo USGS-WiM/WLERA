@@ -46,6 +46,7 @@
         <script src="scripts/core.js"></script>
         <!-- endbuild -->
 
+        <!-- Google Analytics -->    
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -54,7 +55,6 @@
 
             ga('create', 'UA-61219868-15', 'auto');
             ga('send', 'pageview');
-
         </script>
 
 </head>
@@ -81,7 +81,7 @@
               <span id="geosearchButtonText"> Geosearch</span>
           </button>
 
-          <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right">
+          <button id="printNavButton" type="button" class="btn btn-primary navbar-btn pull-right" onclick="ga('send','event','Navbar','click','Print')" onclick="ga('send', 'timing', 'navbar', 'load', 3549, 'Print Product')">
               <span class="glyphicon glyphicon-print"></span>
               <span id="printButtonText"> Print</span>
           </button>
@@ -91,7 +91,7 @@
               <span id="shareButtonText"> Share</span>
           </button>
 
-          <button id="aboutNav" class="btn btn-default navbar-btn pull-right">
+          <button id="aboutNav" class="btn btn-default navbar-btn pull-right" onclick="ga('send','event','Navbar','click','About')">
               <i class="fa fa-question-circle"></i><span id="aboutButtonText">&nbsp;&nbsp;About</span>
           </button>
 
@@ -134,7 +134,7 @@
                     <p>Data users are cautioned to consider carefully the provisional nature of the information before using it for decisions that concern personal or public safety or the conduct of business that involves substantial monetary or operational consequences.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ga('send','event','Disclaimer','click','Close')">Close</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -150,10 +150,10 @@
               <div id="aboutModalBody" class="modal-body">
                   <ul class="nav nav-tabs" id="aboutModalTabs">
                       <li role="presentation" class="active"><a id="aboutTab" href="#aboutTabPane" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;About the application</a></li>
-                      <li role="presentation"><a id="metadataTab" href="#metadataTabPane" data-toggle="tab"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Layer Information</a></li>
-                      <li role="presentation"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
-                      <li role="presentation"><a id="contactTab" href="#contactTabPane" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Contact</a></li>
-                      <li role="presentation"><a id="updatesTab" href="#updatesTabPane" data-toggle="tab"><i class="fa fa-newspaper-o" aria-hidden="true"></i></i>&nbsp;Get Updated</a></li>
+                      <li role="presentation"><a id="metadataTab" href="#metadataTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Layer Information')"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Layer Information</a></li>
+                      <li role="presentation"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Disclaimer')"><i class="fa fa-exclamation-circle"></i>&nbsp;Disclaimer</a></li>
+                      <li role="presentation"><a id="contactTab" href="#contactTabPane" data-toggle="tab"onclick="ga('send','event','About Modal','click','Contact')"><i class="fa fa-envelope"></i>&nbsp;Contact</a></li>
+                      <li role="presentation"><a id="updatesTab" href="#updatesTabPane" data-toggle="tab" onclick="ga('send','event','About Modal','click','Get Updated')"><i class="fa fa-newspaper-o" aria-hidden="true"></i></i>&nbsp;Get Updated</a></li>
                   </ul>
                   <div class="tab-content">
                       <div role="tabpanel" class="tab-pane active about-tab-content" id="aboutTabPane"></br>
@@ -281,7 +281,7 @@
 
                       </div>
                       <div role="tabpanel" class="tab-pane tabText" id="updatesTabPane"></br>
-                          <p>This application and the others in the GLCWRA project will be improved with additional features throughout 2017. To receive email updates of future feature additions and other improvements to this application, along with periodic news regarding latest efforts to improve coastal resilience in the region, please join the <a href='https://greatlakeslcc.org/content/join-upper-midwest-and-great-lakes-lcc-coastal-conservation-community' target='_blank'>Upper Midwest and Great Lakes LCC Coastal Conservation Community mailing list. <i class="fa fa-external-link" aria-hidden="true"></i></a> </p>
+                          <p>This application and the others in the GLCWRA project will be improved with additional features throughout 2017. To receive email updates of future feature additions and other improvements to this application, along with periodic news regarding latest efforts to improve coastal resilience in the region, please join the <a href='https://greatlakeslcc.org/content/join-upper-midwest-and-great-lakes-lcc-coastal-conservation-community' target='_blank' onclick="ga('send','event','About Modal','click','Link to LCC Mailing list')">Upper Midwest and Great Lakes LCC Coastal Conservation Community mailing list. <i class="fa fa-external-link" aria-hidden="true"></i></a> </p>
                       </div>
                   </div>
               </div>
@@ -360,10 +360,10 @@
               </div>
               <div id="shareModalBody" class="modal-body">
                   <p>Create a short, shareable link for your current extent using Bitly</p>
-                  <button id="showShortLinkButton" type="button" class="btn btn-default btn-fixed btn-sm btn-share"> Generate shortened Bitly link</button><br>
+                  <button id="showShortLinkButton" type="button" class="btn btn-default btn-fixed btn-sm btn-share" onclick="ga('send','event','Share modal','click','Generate Bitly Link')"> Generate shortened Bitly link</button><br>
                   <span id="bitlyURL"></span>
                   <hr>
-                  <button id="showFullLinkButton" type="button" class="btn btn-default btn-fixed btn-sm btn-share"> Display full link</button><br>
+                  <button id="showFullLinkButton" type="button" class="btn btn-default btn-fixed btn-sm btn-share" onclick="ga('send','event','Share modal','click','Display Full Link')"> Display full link</button><br>
                   <span id="fullShareURL"></span>
               </div>
           </div><!-- /.modal-content -->
@@ -435,7 +435,7 @@
                           <div class="row">
                               <div class="col-xs-9 col-btn">
                                   <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                      <button id="normalized" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;WLERA Composite Index</button>
+                                      <button id="normalized" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Restoration Model','click','WLERA Composite Index')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;WLERA Composite Index</button>
                                   </div>
                               </div>
                               <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -453,7 +453,7 @@
                                   <div class="row">
                                       <div class="col-xs-9 col-btn">
                                           <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                              <button id="waterMask" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Water Mask (P0</button>
+                                              <button id="waterMask" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Parameter','click','Water Mask (P0)')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Water Mask (P0</button>
                                           </div>
                                       </div>
                                       <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -466,7 +466,7 @@
                                   <div class="row">
                                       <div class="col-xs-9 col-btn">
                                           <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                              <button id="hydroperiod" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Hydroperiod (P1)</button>
+                                              <button id="hydroperiod" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Parameter','click','Hydroperiod (P1)')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Hydroperiod (P1)</button>
                                           </div>
                                       </div>
                                       <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -480,7 +480,7 @@
                                   <div class="row">
                                       <div class="col-xs-9 col-btn">
                                           <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                              <button id="wetsoils" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Wetsoils (P2)</button>
+                                              <button id="wetsoils" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"  onclick="ga('send','event','Layer - Parameter','click','Wetsoils (P2)')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Wetsoils (P2)</button>
                                           </div>
                                       </div>
                                       <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -493,7 +493,7 @@
                                   <div class="row">
                                       <div class="col-xs-9 col-btn">
                                           <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                              <button id="flowline" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;Flowline (P3)</button>
+                                              <button id="flowline" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Parameter','click','Flowline (P3)')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;Flowline (P3)</button>
                                           </div>
                                       </div>
                                       <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -506,7 +506,7 @@
                                   <div class="row">
                                       <div class="col-xs-9 col-btn">
                                           <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                              <button id="conservedLands" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Conserved Lands (P4)</button>
+                                              <button id="conservedLands" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"  onclick="ga('send','event','Layer - Parameter','click','Conservered Lands (P4)')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Conserved Lands (P4)</button>
                                           </div>
                                       </div>
                                       <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -519,7 +519,7 @@
                                   <div class="row">
                                       <div class="col-xs-9 col-btn">
                                           <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                              <button id="imperviousSurfaces" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Impervious Surfaces (P5)</button>
+                                              <button id="imperviousSurfaces" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Parameter','click','Impervious Surfaces (P5)')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Impervious Surfaces (P5)</button>
                                           </div>
                                       </div>
                                       <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -533,7 +533,7 @@
                                   <div class="row">
                                       <div class="col-xs-9 col-btn">
                                           <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                              <button id="landuse" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Landuse (P6)</button>
+                                              <button id="landuse" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Parameter','click','Landuse (P6)')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Landuse (P6)</button>
                                           </div>
                                       </div>
                                       <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -554,7 +554,7 @@
                           <div class="row">
                               <div class="col-xs-9 col-btn">
                                   <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                      <button id="studyArea" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Study Area Boundary</button>
+                                      <button id="studyArea" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Reference','click','Study Area Boundary')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Study Area Boundary</button>
                                   </div>
                               </div>
                               <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -569,7 +569,7 @@
                           <div class="row">
                               <div class="col-xs-9 col-btn">
                                   <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                      <button id="parcelsDyn" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Land Parcels</button>
+                                      <button id="parcelsDyn" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Reference','click','Land Parcels')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Land Parcels</button>
                                   </div>
                               </div>
                               <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -583,7 +583,7 @@
                           <div class="row">
                               <div class="col-xs-9 col-btn">
                                   <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                      <button id="aerials" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Oblique Aerial Imagery</button>
+                                      <button id="aerials" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Reference','click','Oblique Aerial Imagery')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Oblique Aerial Imagery</button>
                                   </div>
                               </div>
                               <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -598,7 +598,7 @@
                           <div class="row">
                               <div class="col-xs-9 col-btn">
                                   <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                      <button id="stations" type="button"  class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Lake Level Stations</button>
+                                      <button id="stations" type="button"  class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Reference','click','Lake Level Stations')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Lake Level Stations</button>
                                   </div>
                               </div>
                               <div class="col-xs-3 col-btn col-btn-extras">
@@ -613,7 +613,7 @@
                           <div class="row">
                               <div class="col-xs-9 col-btn">
                                   <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                      <button id="GLRIWetlands" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;GLRI Wetland Restoration Areas</button>
+                                      <button id="GLRIWetlands" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Reference','click','GLRI Wetland Restoration Areas')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;GLRI Wetland Restoration Areas</button>
                                   </div>
                               </div>
                               <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -628,7 +628,7 @@
                           <div class="row">
                               <div class="col-xs-9 col-btn">
                                   <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                      <button id="veg" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Wetland Biological Integrity</button>
+                                      <button id="veg" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Reference','click','Wetland Biological Integrity')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Wetland Biological Integrity</button>
                                   </div>
                               </div>
                               <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -646,7 +646,7 @@
                                   <div class="row">
                                       <div class="col-xs-9 col-btn">
                                           <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                              <button id="culverts" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Culverts</button>
+                                              <button id="culverts" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Hydro Conditioning','click','Culverts')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Culverts</button>
                                           </div>
                                       </div>
                                       <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -659,7 +659,7 @@
                                   <div class="row">
                                       <div class="col-xs-9 col-btn">
                                           <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                              <button id="degFlowlines" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Degree Flowlines</button>
+                                              <button id="degFlowlines" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"  onclick="ga('send','event','Layer - Hydro Conditioning','click','Degree Flowlines')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Degree Flowlines</button>
                                           </div>
                                       </div>
                                       <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -672,7 +672,7 @@
                                   <div class="row">
                                       <div class="col-xs-9 col-btn">
                                           <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
-                                              <button id="dikes" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Dikes</button>
+                                              <button id="dikes" type="button" class="btn btn-default lyrTog" aria-pressed="true" style="font-weight: bold;text-align: left" onclick="ga('send','event','Layer - Hydro Conditioning','click','Dikes')"><i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Dikes</button>
                                           </div>
                                       </div>
                                       <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
@@ -717,8 +717,8 @@
                           <p>Calculate restoration suitability statistics for custom area or selected parcels</p>
                           <label for="customSelectBtnGroup">Custom Area</label><br>
                           <div id="customSelectBtnGroup" class="btn-group " role="group" aria-label="..." style="padding-bottom: 5px">
-                              <button id="drawCustom" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Draw custom area"><span class="ti-pencil-alt2"></span>&nbsp;Draw <span class="hidden-xs"></span></button>
-                              <button id="calculateStats" type="button" class="btn btn-success" data-toggle="tooltip" data-loading-text="<i class='fa fa-cog fa-spin'></i>&nbsp;Calculating..." data-placement="top" title="Calculate" disabled><i class="fa fa-cogs"></i>&nbsp;Calculate <span class="hidden-xs">Stats</span></button>
+                              <button id="drawCustom" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Draw custom area" onclick="ga('send','event','Sidebar','click','Draw Custom Area')"><span class="ti-pencil-alt2"></span>&nbsp;Draw <span class="hidden-xs"></span></button>
+                              <button id="calculateStats" type="button" class="btn btn-success" data-toggle="tooltip" data-loading-text="<i class='fa fa-cog fa-spin'></i>&nbsp;Calculating..." data-placement="top" title="Calculate" disabled onclick="ga('send','event','Sidebar','click','Calculate Stats')" onclick="ga('send', 'timing', 'Calculating', 'load', 3549, 'Calculating Area Stats')"><i class="fa fa-cogs"></i>&nbsp;Calculate <span class="hidden-xs">Stats</span></button>
                           </div>
                           <br>
                           <label for="parcelSelectBtnGroup">Select Parcels</label><br>
@@ -726,7 +726,7 @@
                               <button id="selectParcels" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Click to select | Hold Shift to deselect"><span class="ti-plus"></span>&nbsp;&nbsp;Click <span class="hidden-xs"></span></button>
                               <button id="selectParcelsDraw" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Draw polygon to select parcels"><span class="ti-pencil-alt2"></span>&nbsp;&nbsp;Draw <span class="hidden-xs"></span></button>
                               <!--<button id="stopSelection" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Stop selecting features"><i class="fa fa-stop"></i>&nbsp;&nbsp;Stop selecting</button>-->
-                              <button id="displayStats" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Display Stats" disabled><i class="fa fa-table"></i>&nbsp;Display <span class="hidden-xs">Stats</span></button>
+                              <button id="displayStats" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Display Stats" disabled onclick="ga('send','event','Sidebar','click','Display Stats')"><i class="fa fa-table"></i>&nbsp;Display <span class="hidden-xs">Stats</span></button>
                           </div>
                           <br>
                           <div class="btn-group" role="group" aria-label="..." style="padding-bottom: 5px">
@@ -753,7 +753,7 @@
                               </table>
                           </div>
                           <div class="btn-group " role="group" aria-label="...">
-                              <button id="addBookmarkButton" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Add bookmark"><i class="fa fa-plus"></i></button>
+                              <button id="addBookmarkButton" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Add bookmark" onclick="ga('send','event','Sidebar','click','Add Bookmark')"><i class="fa fa-plus"></i></button>
                               <button id="removeBookmarksButton" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Delete all user bookmarks"><i class="fa fa-trash"></i></button>
                           </div>
                       </div>
@@ -811,7 +811,7 @@
 
               <div id="homeButton"></div>
 
-              <div id="locateButton"></div>
+              <div id="locateButton" onclick="ga('send','event','Map Button','click','Find My Location')"></div>
 
               <div id="latLngScale" class="latLngScale">
                   <span class="hover-content"> <b>Map scale </b></span>
