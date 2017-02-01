@@ -1023,6 +1023,22 @@ require([
             zonalStatsTable.html('<tr><th>Mean </th><th>Standard Deviation</th><th>Max</th></tr>');
             zonalStatsTable.append('<tr><td>' + results.MEAN.toFixed(4) + '</td><td>' + results.STD.toFixed(3) + '</td><td>' + results.MAX + '</td></tr>');
             $('#zonalStatsModal').modal('show');
+
+            
+            var startTime = getTimestampMilliseconds();
+            var endTime = getTimestampMilliseconds();
+            var duration = endTime - startTime;
+
+            function getTimestampMilliseconds() {
+                if (window.performance) {
+                    return window.performance.now();            
+            }
+                else {
+                    return new Date().getMilliseconds;
+                    }
+                }
+
+            window.ga('send','timing','calulation','load','duration')
         }
 
         $('#displayStats').click(function(){
@@ -1314,7 +1330,10 @@ require([
                 });
             });
 
-
+                // Google Analytics active listener for locate button on map           
+                $('#locateButton').click(function(e) {  
+                    ga('send','event','Map Button','click','Find My Location');
+                });
 
             // $("#opacitystations").hover(function () {
             //
