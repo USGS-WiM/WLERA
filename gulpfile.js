@@ -56,21 +56,20 @@ gulp.task('scripts', function () {
 // HTML
 gulp.task('html', ['styles', 'scripts', 'icons'], function () {
 
-    var jsFilter = plugins.filter('**/*.js');
-    var cssFilter = plugins.filter('**/*.css');
+    var jsFilter = plugins.filter('**/*.js', {restore: true});
+    var cssFilter = plugins.filter('**/*.css', {restore: true});
 
     return gulp.src('src/*.html')
-
-    .pipe(plugins.useref())
-    .pipe(jsFilter)
-    .pipe(plugins.uglify())
-    .pipe(jsFilter.restore())
-    .pipe(cssFilter)
-    .pipe(plugins.csso())
-    .pipe(cssFilter.restore())
-    //.pipe(rename({ extname: '.min.js' }))
-    .pipe(gulp.dest('build'))
-    .pipe(plugins.size());
+        .pipe(plugins.useref())
+        .pipe(jsFilter)
+        //.pipe(plugins.uglify())
+        .pipe(jsFilter.restore)
+        .pipe(cssFilter)
+        .pipe(plugins.csso())
+        .pipe(cssFilter.restore)
+        //.pipe(rename({ extname: '.min.js' }))
+        .pipe(gulp.dest('build'))
+        .pipe(plugins.size());
 });
 
 // Images

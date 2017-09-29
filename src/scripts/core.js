@@ -824,7 +824,7 @@ require([
 
         //////////////begin reference layers////////////////////////////////////
         ///dynamic parcels layer for display only
-        const parcelsDynLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "parcelsDyn", visible:true, minScale:100000, opacity: 1} );
+        const parcelsDynLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "parcelsDyn", visible:false, minScale:100000, opacity: 1} );
         parcelsDynLayer.setVisibleLayers([1]);
         mapLayers.push(parcelsDynLayer);
         mapLayerIds.push(parcelsDynLayer.id);
@@ -884,6 +884,7 @@ require([
         var drawCustom =  $('#drawCustom');
 
         drawCustom.click(function(){
+            customAreaFeatureArray = [];
             parcelsFeatLayer.clearSelection();
             map.graphics.remove(customAreaGraphic);
             map.graphics.remove(parcelAreaGraphic);
@@ -964,8 +965,9 @@ require([
             customAreaFeatureArray.push(customAreaGraphic);
             var featureSet = new FeatureSet();
             featureSet.features = customAreaFeatureArray;
-            //customAreaParams = { "inputPoly":featureSet };
-            customAreaParams = { "in_zone_data":featureSet,  "zone_field": "ZONE_ID" };
+            //the variable below that featureSet is assigned to is critical for the service. it is defined by the service itself.
+            //at one point it was renamed to "in_zone_data" and when it switched back to "inputPoly" the service call broke for all 3 apps.
+            customAreaParams = { "inputPoly":featureSet,  "zone_field": "ZONE_ID" };
             //customAreaParams = { "in_zone_data":featureSet,  "zone_field": "OBJECTID" };
             $("#calculateStats").prop('disabled', false);
             //zonalStatsGP.execute(customAreaParams);
@@ -1084,7 +1086,7 @@ require([
         vegLayer.id = "veg";
         mapLayers.push(vegLayer);
         mapLayerIds.push(vegLayer.id);
-        legendLayers.push({layer:vegLayer , title:""});
+        legendLayers.push({layer:vegLayer , title:"Wetland Biological Integrity (IBI score)"});
         vegLayer.inLegendLayers = true;
 
         var aerialsPopup = new PopupTemplate({
@@ -1101,7 +1103,7 @@ require([
         });
         //const aerialsLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "reference/MapServer", {id: "aerials", visible:false} );
         //aerialsLayer.setVisibleLayers([2]);
-        var aerialsLayer = new FeatureLayer(mapServiceRoot + "WLERA/MapServer/2", {id: "aerials", layerID: "aerials", visible:false, minScale:100000, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"], infoTemplate: aerialsPopup});
+        var aerialsLayer = new FeatureLayer(mapServiceRoot + "WLERA/MapServer/2", {id: "aerials", layerID: "aerials", visible:false, mode: FeatureLayer.MODE_ONDEMAND, outFields: ["*"], infoTemplate: aerialsPopup});
         aerialsLayer.id = "aerials";
         mapLayers.push(aerialsLayer);
         mapLayerIds.push(aerialsLayer.id);
@@ -1234,7 +1236,8 @@ require([
                     layer.setVisibility(true);
                     //add to legend layers object if not there already(this prevents waiting for all to load on init)
                     if (layer.inLegendLayers === false) {
-                        legendLayers.push({layer: layer, title: " "});
+                        //legendLayers.push({layer: layer, title: " "});
+                        legendLayers.push({layer: layer});
                         layer.inLegendLayers = true;
                         legend.refresh();
                     }
@@ -1376,6 +1379,7 @@ require([
             map: map,
             layerInfos: legendLayers
         }, "legendDiv");
+        legend.refresh(legendLayers);
         legend.startup();
     });//end of require statement containing legend building code
 });

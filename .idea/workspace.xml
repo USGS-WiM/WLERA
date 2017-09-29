@@ -2,9 +2,158 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d6a551b0-60a4-4d29-83ff-ffd2d1b96aa8" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/bower_components/jquery.nicescroll/jquery.nicescroll.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/bower_components/jquery/MIT-LICENSE.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/css/swap.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/data/accepts.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/data/var/data_priv.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/data/var/data_user.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/sizzle/dist/sizzle.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/sizzle/dist/sizzle.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/sizzle/dist/sizzle.min.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/var/strundefined.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/fonts/FontAwesome.otf" afterPath="$PROJECT_DIR$/build/fonts/FontAwesome.otf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/fonts/fontawesome-webfont.eot" afterPath="$PROJECT_DIR$/build/fonts/fontawesome-webfont.eot" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/fonts/fontawesome-webfont.ttf" afterPath="$PROJECT_DIR$/build/fonts/fontawesome-webfont.ttf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/fonts/fontawesome-webfont.woff" afterPath="$PROJECT_DIR$/build/fonts/fontawesome-webfont.woff" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/fonts/fontawesome-webfont.woff2" afterPath="$PROJECT_DIR$/build/fonts/fontawesome-webfont.woff2" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/fonts/FontAwesome.otf" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/fonts/FontAwesome.otf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/fonts/fontawesome-webfont.eot" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/fonts/fontawesome-webfont.eot" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/fonts/fontawesome-webfont.ttf" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/fonts/fontawesome-webfont.ttf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/fonts/fontawesome-webfont.woff" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/fonts/fontawesome-webfont.woff" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/fonts/fontawesome-webfont.woff2" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/fonts/fontawesome-webfont.woff2" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/fonts/fontawesome-webfont.svg" afterPath="$PROJECT_DIR$/build/fonts/fontawesome-webfont.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/fonts/themify.svg" afterPath="$PROJECT_DIR$/build/fonts/themify.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/scripts/combined.js" afterPath="$PROJECT_DIR$/build/scripts/combined.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/scripts/vendor.js" afterPath="$PROJECT_DIR$/build/scripts/vendor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/styles/main.css" afterPath="$PROJECT_DIR$/build/styles/main.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/styles/vendor.css" afterPath="$PROJECT_DIR$/build/styles/vendor.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="$PROJECT_DIR$/gulpfile.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/.bower.json" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/.bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/.gitignore" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/.npmignore" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/.npmignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/bower.json" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/css/font-awesome.css" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/css/font-awesome.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/css/font-awesome.css.map" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/css/font-awesome.css.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/css/font-awesome.min.css" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/css/font-awesome.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/fonts/fontawesome-webfont.svg" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/fonts/fontawesome-webfont.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/less/animated.less" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/less/animated.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/less/bordered-pulled.less" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/less/bordered-pulled.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/less/core.less" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/less/core.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/less/fixed-width.less" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/less/fixed-width.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/less/font-awesome.less" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/less/font-awesome.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/less/icons.less" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/less/icons.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/less/larger.less" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/less/larger.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/less/list.less" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/less/list.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/less/mixins.less" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/less/mixins.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/less/path.less" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/less/path.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/less/rotated-flipped.less" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/less/rotated-flipped.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/less/stacked.less" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/less/stacked.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/less/variables.less" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/less/variables.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_animated.scss" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_animated.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_bordered-pulled.scss" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_bordered-pulled.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_core.scss" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_core.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_fixed-width.scss" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_fixed-width.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_icons.scss" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_icons.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_larger.scss" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_larger.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_list.scss" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_list.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_mixins.scss" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_mixins.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_path.scss" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_path.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_rotated-flipped.scss" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_rotated-flipped.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_stacked.scss" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_stacked.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_variables.scss" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/_variables.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/font-awesome.scss" afterPath="$PROJECT_DIR$/src/bower_components/fontawesome/scss/font-awesome.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery.nicescroll/.bower.json" afterPath="$PROJECT_DIR$/src/bower_components/jquery.nicescroll/.bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery.nicescroll/MIT.LICENSE" afterPath="$PROJECT_DIR$/src/bower_components/jquery.nicescroll/MIT.LICENSE" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery.nicescroll/README.md" afterPath="$PROJECT_DIR$/src/bower_components/jquery.nicescroll/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery.nicescroll/bower.json" afterPath="$PROJECT_DIR$/src/bower_components/jquery.nicescroll/bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery.nicescroll/dist/jquery.nicescroll.min.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery.nicescroll/dist/jquery.nicescroll.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery.nicescroll/jquery.nicescroll.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery.nicescroll/jquery.nicescroll.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/.bower.json" afterPath="$PROJECT_DIR$/src/bower_components/jquery/.bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/bower.json" afterPath="$PROJECT_DIR$/src/bower_components/jquery/bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/dist/jquery.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/dist/jquery.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/dist/jquery.min.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/dist/jquery.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/dist/jquery.min.map" afterPath="$PROJECT_DIR$/src/bower_components/jquery/dist/jquery.min.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/jsonp.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/jsonp.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/load.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/load.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/parseJSON.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/parseJSON.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/parseXML.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/parseXML.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/script.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/script.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/var/nonce.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/var/nonce.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/var/rquery.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/var/rquery.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/xhr.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/ajax/xhr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/attributes.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/attributes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/attributes/attr.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/attributes/attr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/attributes/classes.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/attributes/classes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/attributes/prop.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/attributes/prop.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/attributes/support.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/attributes/support.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/attributes/val.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/attributes/val.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/callbacks.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/callbacks.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/core.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/core.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/core/access.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/core/access.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/core/init.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/core/init.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/core/parseHTML.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/core/parseHTML.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/core/ready.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/core/ready.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/core/var/rsingleTag.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/core/var/rsingleTag.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/css.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/css.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/css/addGetHookIf.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/css/addGetHookIf.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/css/curCSS.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/css/curCSS.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/css/defaultDisplay.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/css/defaultDisplay.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/css/hiddenVisibleSelectors.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/css/hiddenVisibleSelectors.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/css/support.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/css/support.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/css/var/cssExpand.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/css/var/cssExpand.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/css/var/getStyles.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/css/var/getStyles.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/css/var/isHidden.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/css/var/isHidden.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/css/var/rmargin.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/css/var/rmargin.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/css/var/rnumnonpx.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/css/var/rnumnonpx.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/data.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/data.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/data/Data.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/data/Data.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/deferred.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/deferred.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/deprecated.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/deprecated.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/dimensions.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/dimensions.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/effects.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/effects.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/effects/Tween.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/effects/Tween.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/effects/animatedSelector.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/effects/animatedSelector.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/event.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/event.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/event/ajax.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/event/ajax.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/event/alias.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/event/alias.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/event/support.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/event/support.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/exports/amd.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/exports/amd.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/exports/global.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/exports/global.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/intro.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/intro.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/jquery.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/jquery.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/manipulation.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/manipulation.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/manipulation/_evalUrl.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/manipulation/_evalUrl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/manipulation/support.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/manipulation/support.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/manipulation/var/rcheckableType.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/manipulation/var/rcheckableType.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/offset.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/offset.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/outro.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/outro.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/queue.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/queue.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/queue/delay.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/queue/delay.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/selector-native.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/selector-native.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/selector-sizzle.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/selector-sizzle.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/selector.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/selector.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/serialize.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/serialize.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/traversing.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/traversing.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/traversing/findFilter.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/traversing/findFilter.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/traversing/var/rneedsContext.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/traversing/var/rneedsContext.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/var/arr.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/var/arr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/var/class2type.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/var/class2type.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/var/concat.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/var/concat.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/var/hasOwn.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/var/hasOwn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/var/indexOf.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/var/indexOf.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/var/pnum.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/var/pnum.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/var/push.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/var/push.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/var/rnotwhite.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/var/rnotwhite.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/var/slice.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/var/slice.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/var/support.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/var/support.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/var/toString.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/var/toString.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bower_components/jquery/src/wrap.js" afterPath="$PROJECT_DIR$/src/bower_components/jquery/src/wrap.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scripts/core.js" afterPath="$PROJECT_DIR$/src/scripts/core.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/styles/main.css" afterPath="$PROJECT_DIR$/src/styles/main.css" />
     </list>
     <ignored path="WLERA.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,8 +176,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10064">
-              <caret line="593" column="63" lean-forward="false" selection-start-line="593" selection-start-column="57" selection-end-line="593" selection-end-column="63" />
+            <state relative-caret-position="271">
+              <caret line="719" column="60" lean-forward="false" selection-start-line="719" selection-start-column="60" selection-end-line="719" selection-end-column="60" />
               <folding>
                 <element signature="n#style#0;n#button#0;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#span#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -78,6 +227,7 @@
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="e#65574#65580#0" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#1;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#2;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -90,59 +240,49 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="layers.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/scripts/layers.js">
+      <file leaf-file-name="gulpfile.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gulpfile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="1275">
+              <caret line="75" column="33" lean-forward="false" selection-start-line="75" selection-start-column="33" selection-end-line="75" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="core.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="core.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/scripts/core.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="1210" column="35" lean-forward="false" selection-start-line="1210" selection-start-column="35" selection-end-line="1210" selection-end-column="35" />
+            <state relative-caret-position="568">
+              <caret line="907" column="13" lean-forward="false" selection-start-line="907" selection-start-column="13" selection-end-line="907" selection-end-column="13" />
               <folding>
-                <marker date="1485980905297" expanded="true" signature="9445:9478" ph="..." />
-                <marker date="1485980905297" expanded="true" signature="17016:17022" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="17022:17028" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="37086:37092" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="37290:37296" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="37296:37302" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="37949:37955" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="38200:38206" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="38206:38212" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="38469:38475" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="38475:38481" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="40548:40554" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="41895:41901" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="42259:42265" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="42265:42271" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="43117:43123" ph=" " />
-                <marker date="1485980905297" expanded="true" signature="47338:47354" ph="..." />
+                <marker date="1505241601006" expanded="true" signature="9445:9478" ph="..." />
+                <marker date="1505241601006" expanded="true" signature="17016:17022" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="17022:17028" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="37128:37134" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="37332:37338" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="37338:37344" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="37991:37997" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="38242:38248" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="38248:38254" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="38511:38517" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="38517:38523" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="40590:40596" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="42143:42149" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="42507:42513" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="42513:42519" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="43365:43371" ph=" " />
+                <marker date="1505241601006" expanded="true" signature="47586:47602" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/package.json">
+      <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/styles/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/build/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="625">
-              <caret line="69" column="19" lean-forward="true" selection-start-line="69" selection-start-column="19" selection-end-line="69" selection-end-column="19" />
+            <state relative-caret-position="10812">
+              <caret line="636" column="0" lean-forward="false" selection-start-line="636" selection-start-column="0" selection-end-line="636" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -151,38 +291,18 @@
       <file leaf-file-name="bower.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bower.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+            <state relative-caret-position="357">
+              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/styles/main.css">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8789">
-              <caret line="517" column="1" lean-forward="false" selection-start-line="517" selection-start-column="1" selection-end-line="517" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/styles/base.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="1" lean-forward="false" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="variables.less" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/less/variables.less">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="21" lean-forward="false" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
+            <state relative-caret-position="204">
+              <caret line="12" column="21" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -193,6 +313,29 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>ga</find>
+      <find>print</find>
+      <find>customAreaParams</find>
+      <find>parcels</find>
+      <find>parcelslayer</find>
+      <find>calculate</find>
+      <find>calculatestats</find>
+      <find>uglify</find>
+      <find>arcgis</find>
+      <find>title</find>
+      <find>legendlayers =</find>
+      <find>layerinfos</find>
+      <find>GLRI Wetland Restoration Areas</find>
+      <find>aerial</find>
+      <find>legendlayers</find>
+      <find>index of</find>
+      <find>label</find>
+      <find>customareagraphic</find>
+      <find>displaycustom</find>
+      <find>displaycustomstats</find>
+      <find>customareafeaturearray</find>
+      <find>draw</find>
+      <find>drawcustom</find>
+      <find>#drawcustom</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -211,14 +354,14 @@
         <option value="$PROJECT_DIR$/src/less/sidebar.less" />
         <option value="$PROJECT_DIR$/src/less/base.less" />
         <option value="$PROJECT_DIR$/build/styles/base.css" />
-        <option value="$PROJECT_DIR$/gulpfile.js" />
         <option value="$PROJECT_DIR$/.jshintrc" />
-        <option value="$PROJECT_DIR$/src/styles/main.css" />
-        <option value="$PROJECT_DIR$/src/scripts/core.js" />
         <option value="$PROJECT_DIR$/src/styles/base.css" />
         <option value="$PROJECT_DIR$/src/less/variables.less" />
         <option value="$PROJECT_DIR$/src/index.html" />
+        <option value="$PROJECT_DIR$/gulpfile.js" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/src/styles/main.css" />
+        <option value="$PROJECT_DIR$/src/scripts/core.js" />
       </list>
     </option>
   </component>
@@ -237,10 +380,10 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="2150" />
-    <option name="y" value="357" />
-    <option name="width" value="2576" />
-    <option name="height" value="1456" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -257,6 +400,71 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WLERA" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WLERA" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WLERA" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WLERA" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WLERA" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WLERA" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="styles" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WLERA" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WLERA" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="Scope">
         <subPane subId="Changed Files">
           <PATH>
@@ -343,35 +551,6 @@
             <PATH_ELEMENT USER_OBJECT="styles">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scratches" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WLERA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WLERA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WLERA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WLERA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="build" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -536,19 +715,31 @@
       <workItem from="1483543472449" duration="666000" />
       <workItem from="1483647702903" duration="1666000" />
       <workItem from="1484332641995" duration="4777000" />
-      <workItem from="1485981075286" duration="874000" />
+      <workItem from="1485981075286" duration="1471000" />
+      <workItem from="1486142609256" duration="5000" />
+      <workItem from="1486146181881" duration="512000" />
+      <workItem from="1486232867732" duration="599000" />
+      <workItem from="1486243422919" duration="598000" />
+      <workItem from="1486480537994" duration="12000" />
+      <workItem from="1487112008826" duration="599000" />
+      <workItem from="1487351228838" duration="90000" />
+      <workItem from="1488569976350" duration="876000" />
+      <workItem from="1489435433171" duration="121000" />
+      <workItem from="1500330054212" duration="9468000" />
+      <workItem from="1504896122389" duration="5919000" />
+      <workItem from="1505170622430" duration="4352000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="164039000" />
+    <option name="totallyTimeSpent" value="187787000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="2150" y="357" width="2576" height="1456" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09140625" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17291667" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -657,6 +848,7 @@
             <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#65574#65580#0" expanded="true" />
             <element signature="n#style#0;n#img#0;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#1;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#2;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -673,23 +865,23 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1485980905297" expanded="true" signature="9445:9478" ph="..." />
-            <marker date="1485980905297" expanded="true" signature="17016:17022" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="17022:17028" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37086:37092" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37290:37296" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37296:37302" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37949:37955" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38200:38206" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38206:38212" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38469:38475" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38475:38481" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="40548:40554" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="41895:41901" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="42259:42265" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="42265:42271" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="43117:43123" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="47338:47354" ph="..." />
+            <marker date="1505241601006" expanded="true" signature="9445:9478" ph="..." />
+            <marker date="1505241601006" expanded="true" signature="17016:17022" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="17022:17028" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37128:37134" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37332:37338" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37338:37344" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37991:37997" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38242:38248" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38248:38254" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38511:38517" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38517:38523" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="40590:40596" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42143:42149" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42507:42513" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42513:42519" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="43365:43371" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="47586:47602" ph="..." />
           </folding>
         </state>
       </provider>
@@ -754,6 +946,7 @@
             <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#65574#65580#0" expanded="true" />
             <element signature="n#style#0;n#img#0;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#1;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#2;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -770,23 +963,23 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1485980905297" expanded="true" signature="9445:9478" ph="..." />
-            <marker date="1485980905297" expanded="true" signature="17016:17022" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="17022:17028" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37086:37092" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37290:37296" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37296:37302" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37949:37955" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38200:38206" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38206:38212" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38469:38475" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38475:38481" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="40548:40554" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="41895:41901" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="42259:42265" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="42265:42271" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="43117:43123" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="47338:47354" ph="..." />
+            <marker date="1505241601006" expanded="true" signature="9445:9478" ph="..." />
+            <marker date="1505241601006" expanded="true" signature="17016:17022" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="17022:17028" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37128:37134" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37332:37338" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37338:37344" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37991:37997" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38242:38248" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38248:38254" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38511:38517" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38517:38523" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="40590:40596" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42143:42149" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42507:42513" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42513:42519" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="43365:43371" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="47586:47602" ph="..." />
           </folding>
         </state>
       </provider>
@@ -851,6 +1044,7 @@
             <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#65574#65580#0" expanded="true" />
             <element signature="n#style#0;n#img#0;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#1;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#2;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -867,23 +1061,23 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1485980905297" expanded="true" signature="9445:9478" ph="..." />
-            <marker date="1485980905297" expanded="true" signature="17016:17022" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="17022:17028" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37086:37092" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37290:37296" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37296:37302" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37949:37955" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38200:38206" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38206:38212" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38469:38475" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38475:38481" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="40548:40554" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="41895:41901" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="42259:42265" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="42265:42271" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="43117:43123" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="47338:47354" ph="..." />
+            <marker date="1505241601006" expanded="true" signature="9445:9478" ph="..." />
+            <marker date="1505241601006" expanded="true" signature="17016:17022" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="17022:17028" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37128:37134" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37332:37338" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37338:37344" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37991:37997" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38242:38248" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38248:38254" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38511:38517" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38517:38523" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="40590:40596" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42143:42149" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42507:42513" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42513:42519" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="43365:43371" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="47586:47602" ph="..." />
           </folding>
         </state>
       </provider>
@@ -948,6 +1142,7 @@
             <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#65574#65580#0" expanded="true" />
             <element signature="n#style#0;n#img#0;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#1;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#2;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -964,23 +1159,23 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1485980905297" expanded="true" signature="9445:9478" ph="..." />
-            <marker date="1485980905297" expanded="true" signature="17016:17022" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="17022:17028" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37086:37092" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37290:37296" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37296:37302" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37949:37955" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38200:38206" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38206:38212" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38469:38475" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38475:38481" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="40548:40554" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="41895:41901" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="42259:42265" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="42265:42271" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="43117:43123" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="47338:47354" ph="..." />
+            <marker date="1505241601006" expanded="true" signature="9445:9478" ph="..." />
+            <marker date="1505241601006" expanded="true" signature="17016:17022" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="17022:17028" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37128:37134" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37332:37338" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37338:37344" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37991:37997" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38242:38248" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38248:38254" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38511:38517" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38517:38523" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="40590:40596" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42143:42149" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42507:42513" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42513:42519" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="43365:43371" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="47586:47602" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1184,13 +1379,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gulpfile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="782">
-          <caret line="46" column="10" lean-forward="false" selection-start-line="46" selection-start-column="3" selection-end-line="46" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/bower_components/jquery/bower.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1198,19 +1386,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/styles/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8789">
-          <caret line="517" column="1" lean-forward="false" selection-start-line="517" selection-start-column="1" selection-end-line="517" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/styles/base.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="1" lean-forward="false" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1218,7 +1397,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="21" lean-forward="false" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1230,10 +1408,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/build/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1054">
+          <caret line="62" column="96" lean-forward="false" selection-start-line="62" selection-start-column="96" selection-end-line="62" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="21" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gulpfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1275">
+          <caret line="75" column="33" lean-forward="false" selection-start-line="75" selection-start-column="33" selection-end-line="75" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bower.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/styles/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10812">
+          <caret line="636" column="0" lean-forward="false" selection-start-line="636" selection-start-column="0" selection-end-line="636" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10064">
-          <caret line="593" column="63" lean-forward="false" selection-start-line="593" selection-start-column="57" selection-end-line="593" selection-end-column="63" />
+        <state relative-caret-position="271">
+          <caret line="719" column="60" lean-forward="false" selection-start-line="719" selection-start-column="60" selection-end-line="719" selection-end-column="60" />
           <folding>
             <element signature="n#style#0;n#button#0;n#div#0;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#span#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1283,6 +1501,7 @@
             <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#12;n#div#1;n#div#0;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#65574#65580#0" expanded="true" />
             <element signature="n#style#0;n#img#0;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#1;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#2;n#div#4;n#div#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1296,51 +1515,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/scripts/core.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="1210" column="35" lean-forward="false" selection-start-line="1210" selection-start-column="35" selection-end-line="1210" selection-end-column="35" />
+        <state relative-caret-position="568">
+          <caret line="907" column="13" lean-forward="false" selection-start-line="907" selection-start-column="13" selection-end-line="907" selection-end-column="13" />
           <folding>
-            <marker date="1485980905297" expanded="true" signature="9445:9478" ph="..." />
-            <marker date="1485980905297" expanded="true" signature="17016:17022" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="17022:17028" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37086:37092" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37290:37296" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37296:37302" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="37949:37955" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38200:38206" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38206:38212" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38469:38475" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="38475:38481" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="40548:40554" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="41895:41901" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="42259:42265" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="42265:42271" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="43117:43123" ph=" " />
-            <marker date="1485980905297" expanded="true" signature="47338:47354" ph="..." />
+            <marker date="1505241601006" expanded="true" signature="9445:9478" ph="..." />
+            <marker date="1505241601006" expanded="true" signature="17016:17022" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="17022:17028" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37128:37134" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37332:37338" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37338:37344" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="37991:37997" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38242:38248" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38248:38254" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38511:38517" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="38517:38523" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="40590:40596" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42143:42149" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42507:42513" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="42513:42519" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="43365:43371" ph=" " />
+            <marker date="1505241601006" expanded="true" signature="47586:47602" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bower.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="625">
-          <caret line="69" column="19" lean-forward="true" selection-start-line="69" selection-start-column="19" selection-end-line="69" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
