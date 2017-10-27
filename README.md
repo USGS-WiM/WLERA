@@ -1,3 +1,4 @@
+![WiM](wimlogo.png)
 # WLERA
 
 The Western Lake Erie Restoration Assessment (WLERA) model was co-developed by investigators in the Environmental Studies Program at the New College of Florida in Sarasota, Florida and the USGS - Great Lakes Science Center in Ann Arbor, Michigan. The web mapping application for interfacing with the WLERA model was developed by programmers at the Wisconsin Internet Mapping Group.
@@ -32,7 +33,7 @@ Deploy to AWS S3 bucket glcwra.wim.usgs.gov, wlera directory
 
 Please read [CONTRIBUTING.md]() for details on the process for submitting pull requests to us. Please read [CODE_OF_CONDUCT.md]() for details on adhering by the [USGS Code of Scientific Conduct](https://www2.usgs.gov/fsp/fsp_code_of_scientific_conduct.asp).
 
-####Semver versioning/release tags
+#### Semver versioning/release tags
 
 Advance the version when adding features, fixing bugs or making minor enhancement. Follow semver principles. To add tag in git,  type `git tag v{major}.{minor}.{patch}`. Example: `git tag v2.0.5`
 

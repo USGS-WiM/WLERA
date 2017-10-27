@@ -437,14 +437,14 @@ require([
         //if user does not provide title, use default. otherwise apply user title
         if (userTitle === "") {
             template.layoutOptions = {
-                "titleText": "Western Lake Erie Restoration Assessment - Provisional Data",
+                "titleText": "Western Lake Erie Restoration Assessment",
                 "authorText" : "Western Lake Erie Restoration Assessment (WLERA)",
                 "copyrightText": "This page was produced by the WLERA web application at glcwra.wim.usgs.gov/wlera",
                 "legendLayers": [legendLayer]
             };
         } else {
             template.layoutOptions = {
-                "titleText": userTitle + " - Provisional Data",
+                "titleText": userTitle,
                 "authorText" : "Western Lake Erie Restoration Assessment (WLERA)",
                 "copyrightText": "This page was produced by the WLERA web application at glcwra.wim.usgs.gov/wlera",
                 "legendLayers": [legendLayer]
