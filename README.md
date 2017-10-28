@@ -9,7 +9,7 @@ Within the 195,621 ha study area between the mouths of the Detroit River, MI and
 
 The development of the WLERA has been supported by the Great Lakes Restoration Initiative, the Upper Midwest and Great Lakes Landscape Conservation Cooperative and the University of Michigan Water Center.
 ___
-##Developer Instructions
+## Developer Instructions
 
 run `npm install` AND `bower install` to get dependencies after first cloning
 
