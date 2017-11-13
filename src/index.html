@@ -5,7 +5,7 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge;" />
-        <link rel="shortcut icon" href="favicon.ico"/>
+        <link rel="shortcut icon" id="favicon" type="image/png" href="images/favicon-dark.png" />
         <!--<link rel="stylesheet" href="bower_components/esri/themes/claro/claro.css">-->
         <!-- build:css styles/vendor.css -->
         <!-- bower:css -->
@@ -20,6 +20,7 @@
         <!-- CSS for the mapping components -->
         <link rel="stylesheet" href="https://js.arcgis.com/3.13/dijit/themes/claro/claro.css">
         <link rel="stylesheet" href="https://js.arcgis.com/3.13/esri/css/esri.css">
+        <link rel="stylesheet" href="https://txpub.usgs.gov/DSS/search_api/2.0/api/search_api.css"/>
         <!-- build:css styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
@@ -37,6 +38,7 @@
         <!-- endbuild -->
 
         <script src="https://js.arcgis.com/3.13/"></script>
+        <script type="text/javascript" src="https://txpub.usgs.gov/DSS/search_api/2.0/api/search_api.min.js"></script>
 
         <!-- build:js scripts/combined.js -->
         <!-- bs-confirm is a small, single js doc library used as confirm on removeBookmarksButton. distinct from bootstrap-confirmation. -->
@@ -297,33 +299,44 @@
   </div><!-- /.modal -->
 
 
-  <div class="modal fade overflow-y-hidden" id="geosearchModal" style="display: none;" aria-hidden="true">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                  <h4 class="modal-title">Geosearch</h4>
-              </div>
-              <div class="modal-body">
-                  <div class="form-group">
-                      <div id="geosearch"><div id="sapi_searchTextBoxDiv"></div></div>
-                  </div>
-                  <form id="geosearch-form" class="form-inline">
-                      <div class="checkbox">
-                          <!--<label>-->
-                              <!--<input id="chkExtent" type="checkbox"> Search in Map Only-->
-                          <!--</label>-->
-                      </div>
-                      <!--<button id="btnGeosearch" type="button" class="btn btn-success btn-fixed" data-dismiss="modal"> Go </button>-->
-                      <!--<button id="btnDismiss" type="submit" class="btn btn-default close" data-dismiss="modal">Close</button>-->
-                  </form>
-              </div>
-              <div class="modal-footer">
-                  <button id="btnDismiss" type="submit" class="btn btn-default close" data-dismiss="modal">Close</button>
-              </div>
-          </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-  </div>
+    <div class="modal fade overflow-y-hidden" id="geosearchModal" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title">Geosearch</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div id="geosearch"></div>
+                    </div>
+                    <form id="geosearch-form" class="form-inline">
+                        <!--<div class="checkbox">
+                            <label>
+                                <input id="chkExtent" type="checkbox"> Search in Map Only
+                            </label>
+                        </div>-->
+
+                        <div class="search-help">
+                            <b>Supported Search Strings:</b>
+                            <code>GNIS locations</code>
+                            <code>USGS Sites</code>
+                            <code>Zip Codes</code>
+                            <code>Area Codes</code>
+                            <code>States</code>
+                            <code>Lat/Long (ie. '43.9,-72.1')</code>
+                            <code>Street Address</code>
+                            <br/>
+                            <br/> Search provided by
+                            <a href="https://txpub.usgs.gov/dss/search_api/2.0/" target="_blank">USGS Search JavaScript API</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 
   <div class="modal fade overflow-y-hidden" id="printModal" style="display: none;" aria-hidden="true">
       <div class="modal-dialog">

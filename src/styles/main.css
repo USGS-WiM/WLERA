@@ -673,3 +673,41 @@ input[type="checkbox"], input[type="radio"] {
     display:none;
 }
 
+/* Geosearch Modal Styling */
+
+.search-help{
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding-top: 15px;
+    font-size: 12px;
+  }
+  .search-help b{
+    display: block;
+    margin: 0 auto;
+    font-size: 14px;
+    margin-bottom: 8px;
+    margin-top: 25px;
+  }
+  .search-help code{
+    display: inline-block;
+    margin: 2px;
+  }
+
+  #geosearch{
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+  
+  }
+  .geosearch-form-buttons{
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+  .geosearch-form-buttons button{
+    margin: 0 5px;
+  }
+
