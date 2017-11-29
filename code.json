@@ -3,7 +3,7 @@
     "name": "WLERA",
     "organization": "U.S. Geological Survey",
     "description": "Web interface for the Western Lake Erie Restoration Area of the Great Lakes Coastal Restoration Assessment project",
-    "version": "v0.0.0",
+    "version": "v1.0.0",
     "status": "Production",
 
     "permissions": {
@@ -59,7 +59,7 @@
     ],
     "date": {
       "lastModified": "2017-10-27",
-      "metadataLastUpdated": "2017-10-28"
+      "metadataLastUpdated": "2017-11-29"
     }
   }
 ]
