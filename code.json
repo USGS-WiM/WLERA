@@ -18,7 +18,7 @@
 
     "homepageURL": "https://wim.usgs.gov",
     "downloadURL": "https://github.com/USGS-WiM/WLERA/archive/master.zip",
-    "disclaimerURL": "https://github.com/USGS-WiM/WLERA/blob/master/LICENSE.md",
+    "disclaimerURL": "https://github.com/USGS-WiM/WLERA/blob/master/DISCLAIMER.md",
     "repositoryUrl": "https://github.com/USGS-WiM/WLERA",
     "vcs": "git",
 
