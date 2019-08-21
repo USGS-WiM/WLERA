@@ -32,6 +32,7 @@ require([
     "esri/dijit/Measurement",
     "esri/dijit/Bookmarks",
     'esri/layers/ArcGISTiledMapServiceLayer',
+    'esri/layers/ImageParameters',
     'esri/dijit/Geocoder',
     "esri/dijit/Search",
     "esri/dijit/Popup",
@@ -69,6 +70,7 @@ require([
     Measurement,
     Bookmarks,
     ArcGISTiledMapServiceLayer,
+    ImageParameters,
     Geocoder,
     Search,
     Popup,
@@ -109,9 +111,8 @@ require([
         basemap: 'gray',
         center: [-82.745, 41.699],
         spatialReference: 26917,
-        zoom: 10,
+        zoom: 8,
         logo: false,
-        minZoom: 9,
         infoWindow: popup
     });
 
@@ -793,6 +794,7 @@ require([
 
         const mapServiceRoot= "https://gis.wim.usgs.gov/arcgis/rest/services/GLCWRA/";
         const geomService = new GeometryService("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+        const sparrowServices = "https://sparrowtest.wim.usgs.gov/arcgis/rest/services/SparrowMidwest/SparrowMidwest/MapServer/"
 
         const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "normalized", visible:true, opacity: 1} );
         normRestorationIndexLayer.setVisibleLayers([5]);
@@ -837,6 +839,8 @@ require([
         mapLayerIds.push(parcelsFeatLayer.id);
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
         parcelsFeatLayer.inLegendLayers = false;
+
+        
 
         var parcelQuery = new Query();
         parcelQuery.outSpatialReference = map.spatialReference;
@@ -1077,6 +1081,21 @@ require([
         //mapLayerIds.push(GLRIWetlandsLayer.id);
         legendLayers.push({layer:lakeLevelStationsLayer, title:" "});
         lakeLevelStationsLayer.inLegendLayers = true;
+        
+        /*LAYER DEFS FOR ADDED SPARROW LAYERS */
+        const layerDefs=[];
+        const definitionString = "GP3 IN ('04100011-Sandusky', '04100010-Cedar-Portage','04100008-Blanchard','04100009-Lower Maumee','04100007-Auglaize','04100005-Upper Maumee','04100004-St Marys','04100003-St Joseph','04100006-Tiffin','04100001-Ottawa-Stony','04100002-Raisin','04110001-Black-Rocky','04100012-Huron-Vermilion')";
+        layerDefs[0] = definitionString;
+        layerDefs[1] = definitionString;
+        layerDefs[9] = definitionString;
+        layerDefs[10] = definitionString;
+        
+        const phosHuc8Layer = new ArcGISDynamicMapServiceLayer(sparrowServices, { id: "phosHuc8", visible: true, opacity: 0.75 });
+        phosHuc8Layer.setLayerDefinitions(layerDefs);
+        phosHuc8Layer.setVisibleLayers([1]);
+        mapLayers.push(phosHuc8Layer);
+        mapLayerIds.push(phosHuc8Layer.id); 
+        legendLayers.push({ layer: phosHuc8Layer, title: "Phosphorus HUC8" });
 
         var vegPopup = new InfoTemplate();
         vegPopup.setTitle("Wetland Biological Integrity");

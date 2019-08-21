@@ -17,7 +17,7 @@ var plugins = gulpLoadPlugins();
     var esrislurp = require('esrislurp');
     gulp.task('download-esri-api', function(cb) {
         esrislurp('src/lib/esri', '3.13', 'false', cb);
-    });
+    }); 
 
 
 //copy leaflet images
