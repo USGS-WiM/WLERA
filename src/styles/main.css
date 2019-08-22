@@ -644,6 +644,21 @@ input[type="checkbox"], input[type="radio"] {
     font-family: 'Open Sans', sans-serif;
 }
 
+.fa-check-square-o:before{
+    content: "\f046";
+}
+/* *:before, *:after{
+    box-sizing: border-box;
+} */
+
+.fa {
+    display: inline-block;
+    font: 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
 .tabText {
     padding:10px;
 }

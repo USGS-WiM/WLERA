@@ -6,7 +6,7 @@
     "jquery": "^2.1.3",
     "fontawesome": "^4.3.0",
     "jquery.nicescroll": "inuyaksa/jquery.nicescroll#~3.6.0",
-    "bootstrap": "latest",
+    "bootstrap": "3.3.7",
     "bootstrap-sidebar": "~0.2.2",
     "bootstrap-map-js": "latest",
     "themify-icons": "~0.1.0",
