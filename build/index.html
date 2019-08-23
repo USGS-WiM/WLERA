@@ -92,27 +92,6 @@
         </div><!-- /.modal-dialog -->
     </div>
 
-    <div class="modal fade" id="disclaimerModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                    <!--<h4 class="modal-title">{Event Name} Data Viewer</h4>-->
-                    <h4>Western Lake Erie Restoration Assessment Web App</h4><i class="fa fa-exclamation-triangle fa-lg"></i> Please read the following message before continuing.
-                </div>
-                <div class="modal-body">
-                    <!--<h4>Welcome to the {Event Name} Data Viewer</h4><b>Please read the following message before continuing.</b>-->
-                    <p>Data are provisional and are subject to revision as the analysis is refined and new data products are added.</p>
-                    <p>Provisional data may be inaccurate due to input data or physical changes on the landscape. Subsequent review based on field inspections and analysis may result in significant revisions to the data.</p>
-                    <p>The data are being provided to meet the need for timely best science and are released on the condition that neither the USGS nor the U.S. Government may be held liable for any damages resulting from authorized or unauthorized use of the information. </p>
-                    <p>Data users are cautioned to consider carefully the provisional nature of the information before using it for decisions that concern personal or public safety or the conduct of business that involves substantial monetary or operational consequences.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div>
 
   <div id="aboutModal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog  modal-lg">
@@ -515,6 +494,69 @@
                                       </div>
                                   </div>
                               </div>
+                            <!--NEW ITEMS IN PARAMETERES-->
+                            <div class="container-fluid container-btn">
+                                <div class="row">
+                                    <div class="col-xs-9 col-btn">
+                                        <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
+                                            <button id="phosCat" type="button" class="btn btn-default lyrTog" aria-pressed="true"
+                                                style="font-weight: bold;text-align: left"
+                                                onclick="ga('send','event','Layer - Parameter','click','Landuse (P6)')"><i
+                                                    class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Catchment Phosphorus</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
+                                        <span id="catP" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid container-btn">
+                                <div class="row">
+                                    <div class="col-xs-9 col-btn">
+                                        <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
+                                            <button id="phosHuc8" type="button" class="btn btn-default lyrTog" aria-pressed="true"
+                                                style="font-weight: bold;text-align: left"
+                                                onclick="ga('send','event','Layer - Parameter','click','Landuse (P6)')"><i
+                                                    class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;HUC8 Phosphorus</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
+                                        <span id="huc8P" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span>
+                                    </div>
+                                </div>
+                            </div> 
+
+                            <div class="container-fluid container-btn">
+                                <div class="row">
+                                    <div class="col-xs-9 col-btn">
+                                        <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
+                                            <button id="nitroCat" type="button" class="btn btn-default lyrTog" aria-pressed="true"
+                                                style="font-weight: bold;text-align: left">
+                                                <i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;Catchments Nitrogen</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
+                                        <span id="catNitro" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid container-btn">
+                                <div class="row">
+                                    <div class="col-xs-9 col-btn">
+                                        <div class="btn-group-vertical lyrTogDiv" style="cursor: pointer;" data-toggle="buttons">
+                                            <button id="nitroHuc8" type="button" class="btn btn-default lyrTog" aria-pressed="true"
+                                                style="font-weight: bold;text-align: left">
+                                                <i class="checkBoxIcon fa fa-square-o"></i>&nbsp;&nbsp;HUC8 Nitrogen</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 col-btn col-btn-extras" style="height: 100%">
+                                        <span id="Huc8Nitro" class="glyphspan glyphicon glyphicon-adjust pull-right opacity"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <!--END NEW ITEMS IN PARAMETERES-->
 
                           </div>
                       </div>

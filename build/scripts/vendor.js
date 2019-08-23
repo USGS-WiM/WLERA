@@ -12442,10 +12442,646 @@ if (typeof jQuery === 'undefined') {
   });
 }(jQuery);
 
+define(["esri/map","esri/arcgis/utils","esri/geometry/Point","dojo/_base/declare","dojo/on","dojo/touch","dojo/dom","dojo/_base/lang","dojo/dom-style","dojo/query","dojo/NodeList-traverse","dojo/dom-class","dojo/domReady!"],function(a,b,c,d,e,f,g,h,i,j,k,l){"use strict";return{create:function(a,b){var c,d;return a&&b?(c=new this._smartResizer(a,b),d=c.createMap(),d._smartResizer=c,d):void 0},createWebMap:function(a,b,c){var d,e;return b&&c?(d=new this._smartResizer(b,c),e=d.createWebMap(a)):void 0},destroy:function(a){function b(a){if(a._handles)for(var b=a._handles.length;b--;)a._handles[b].remove(),a._handles.splice(b,1)}a&&a._smartResizer&&b(a._smartResizer)},_smartResizer:d(null,{constructor:function(a,b){this._map=null,this._autoRecenterDelay=50,this._popupRecenterDelayer=150,this._popupPosition="top",this._popupBlocked=!1,this._visible=!0,this._visibilityTimer=null,this._mapDeferred=null,this._autoRecenter=b.autoRecenter||!0,this._responsiveResize=b.responsiveResize||!0,this._mapDivId=a,this._mapDiv=g.byId(a),this._mapStyle=i.get(this._mapDiv),this._options=h.mixin(b,{}),this._handles=[]},createMap:function(){return this._setMapDiv(!1),this._responsiveResize&&h.mixin(this._options,{smartNavigation:!1,autoResize:!1}),this._map=new a(this._mapDivId,this._options),this._setPopup(),this._bindEvents(),this._mapDiv.__map=this._map,this._map},createWebMap:function(a){var c,d,e;return this._setMapDiv(!1),this._options.hasOwnProperty("mapOptions")||(this._options.mapOptions={}),this._responsiveResize&&h.mixin(this._options.mapOptions,{smartNavigation:!1,autoResize:!1}),c=b.createMap(a,this._mapDivId,this._options),this._mapDeferred=c,d=this,e=function(a){this._map=a.map,this._setPopup(),this._bindEvents(),this._mapDiv.__map=this._map,this._smartResizer=d},this._mapDeferred.then(h.hitch(this,e)),c},_setPopup:function(){l.add(this._map.infoWindow.domNode,"light")},_setTouchBehavior:function(){this._options.hasOwnProperty("scrollWheelZoom")&&this._options.scrollWheelZoom?this._map.enableScrollWheelZoom():this._map.disableScrollWheelZoom(),e(j(".esriPopup .titleButton.close"),f.press,h.hitch(this,function(){this._map.infoWindow.hide()}))},_bindEvents:function(){var a,b,c,d,f,g,i;this._map&&(a=function(){this._setTouchBehavior()},this._map.loaded?h.hitch(this,a).call():this._handles.push(e(this._map,"load",h.hitch(this,a))),b=function(){this._map.infoWindow.anchor=this._popupPosition;var a=function(a){var b=a._map.infoWindow.location;b&&!a._popupBlocked&&(a._popupBlocked=!0,window.setTimeout(function(){a._repositionMapForInfoWin(b),a._popupBlocked=!1},a._popupRecenterDelayer))};this.counter=0,this._map.on("click",h.hitch(this,function(){this._map.infoWindow.isShowing&&a(this)})),e(this._map.graphics,"click",h.hitch(this,function(){a(this)})),e(this._map.infoWindow,"show",h.hitch(this,function(){a(this)}))},this._map.loaded?h.hitch(this,b).call():this._handles.push(e(this._map,"load",h.hitch(this,b))),c=function(a,b,c){return function(){function e(){c||a.apply(f,g),d=null}var f=this,g=arguments;d?clearTimeout(d):c&&a.apply(f,g),d=setTimeout(e,b||100)}},f=c(this._setMapDiv,100,!1),this._handles.push(e(window,"resize",h.hitch(this,f))),this._autoRecenter&&(g=function(){this._map.__resizeCenter=this._map.extent.getCenter(),i=function(){this._map.centerAt(this._map.__resizeCenter)},setTimeout(h.hitch(this,i),this._autoRecenterDelay)},this._handles.push(e(this._map,"resize",h.hitch(this,g)))))},_getMapDivVisibility:function(){return this._mapDiv.clientHeight>0||this._mapDiv.clientWidth>0},_checkVisibility:function(){var a=this._getMapDivVisibility();this._visible!==a&&a&&this._setMapDiv(!0)},_controlVisibilityTimer:function(a){a?this._visibilityTimer=setInterval(h.hitch(this,function(){this._checkVisibility()}),200):this._visibilityTimer&&(clearInterval(this._visibilityTimer),this._visibilityTimer=null)},_setMapDiv:function(a){if(this._mapDivId&&this._responsiveResize){var b,c,d,e,f,g,h,j,k;b=this._getMapDivVisibility(),this._visible!==b&&(this._visible=b,this._controlVisibilityTimer(!b)),this._visible&&(c=document.documentElement.clientHeight,d=document.body.clientHeight,e=c-d,f=this._calcMapHeight(),g=this._calcColumnHeight(f),h=f+e,j=0,k=!1,g>f?(j=e>0?g+e:g,k=!0):(j=g>h?g:h,k=!1),i.set(this._mapDivId,{height:j+"px",width:"auto"}),this._map&&a&&this._visible&&(this._map.resize(),this._map.reposition()))}},_calcMapHeight:function(){var a=this._mapStyle,b=parseInt(a.paddingTop,10)+parseInt(a.paddingBottom,10)||0,c=parseInt(a.marginTop,10)+parseInt(a.marginBottom,10)||0,d=parseInt(a.borderTopWidth,10)+parseInt(a.borderBottomWidth,10)||0,e=b+c+d+this._mapDiv.clientHeight;return e},_calcColumnHeight:function(){var a,b,c,d=0,e=j(this._mapDiv).closest(".row").children("[class*='col']");if(e.length)for(a=0;a<e.length;a++)b=e[a],c=j("#"+this._mapDivId,b).length>0,b.clientHeight>d&&!c&&(d=b.clientHeight);return d},_repositionMapForInfoWin:function(a){var b=new c(this._map.extent.xmax,this._map.extent.ymax,this._map.spatialReference),d=new c(this._map.extent.getCenter()),e=this._map.toScreen(b),f=this._map.toScreen(d),g=this._map.toScreen(a),h=10,i=3,j=this._map.infoWindow.domNode.childNodes[0],k=j.clientWidth,l=j.clientHeight+this._map.infoWindow.marginTop,m=g.x-k/2,n=g.x+k/2,o=0>m-h,p=n>e.x-h,q=this._map.infoWindow.offsetY,r=g.y-l-q,s=0>r-i;o?f.x-=Math.abs(m)+h<h?h:Math.abs(m)+h:p&&(f.x+=n-e.x+h),s&&(f.y+=r-i),(p||o||s)&&(d=this._map.toMap(f),this._map.centerAt(d))}})}});
+/* To avoid CSS expressions while still supporting IE 7 and IE 6, use this script */
+/* The script tag referring to this file must be placed before the ending body tag. */
+
+/* Use conditional comments in order to target IE 7 and older:
+	<!--[if lt IE 8]><!-->
+	<script src="ie7/ie7.js"></script>
+	<!--<![endif]-->
+*/
+
+(function() {
+	function addIcon(el, entity) {
+		var html = el.innerHTML;
+		el.innerHTML = '<span style="font-family: \'themify\'">' + entity + '</span>' + html;
+	}
+	var icons = {
+		'ti-wand': '&#xe600;',
+		'ti-volume': '&#xe601;',
+		'ti-user': '&#xe602;',
+		'ti-unlock': '&#xe603;',
+		'ti-unlink': '&#xe604;',
+		'ti-trash': '&#xe605;',
+		'ti-thought': '&#xe606;',
+		'ti-target': '&#xe607;',
+		'ti-tag': '&#xe608;',
+		'ti-tablet': '&#xe609;',
+		'ti-star': '&#xe60a;',
+		'ti-spray': '&#xe60b;',
+		'ti-signal': '&#xe60c;',
+		'ti-shopping-cart': '&#xe60d;',
+		'ti-shopping-cart-full': '&#xe60e;',
+		'ti-settings': '&#xe60f;',
+		'ti-search': '&#xe610;',
+		'ti-zoom-in': '&#xe611;',
+		'ti-zoom-out': '&#xe612;',
+		'ti-cut': '&#xe613;',
+		'ti-ruler': '&#xe614;',
+		'ti-ruler-pencil': '&#xe615;',
+		'ti-ruler-alt': '&#xe616;',
+		'ti-bookmark': '&#xe617;',
+		'ti-bookmark-alt': '&#xe618;',
+		'ti-reload': '&#xe619;',
+		'ti-plus': '&#xe61a;',
+		'ti-pin': '&#xe61b;',
+		'ti-pencil': '&#xe61c;',
+		'ti-pencil-alt': '&#xe61d;',
+		'ti-paint-roller': '&#xe61e;',
+		'ti-paint-bucket': '&#xe61f;',
+		'ti-na': '&#xe620;',
+		'ti-mobile': '&#xe621;',
+		'ti-minus': '&#xe622;',
+		'ti-medall': '&#xe623;',
+		'ti-medall-alt': '&#xe624;',
+		'ti-marker': '&#xe625;',
+		'ti-marker-alt': '&#xe626;',
+		'ti-arrow-up': '&#xe627;',
+		'ti-arrow-right': '&#xe628;',
+		'ti-arrow-left': '&#xe629;',
+		'ti-arrow-down': '&#xe62a;',
+		'ti-lock': '&#xe62b;',
+		'ti-location-arrow': '&#xe62c;',
+		'ti-link': '&#xe62d;',
+		'ti-layout': '&#xe62e;',
+		'ti-layers': '&#xe62f;',
+		'ti-layers-alt': '&#xe630;',
+		'ti-key': '&#xe631;',
+		'ti-import': '&#xe632;',
+		'ti-image': '&#xe633;',
+		'ti-heart': '&#xe634;',
+		'ti-heart-broken': '&#xe635;',
+		'ti-hand-stop': '&#xe636;',
+		'ti-hand-open': '&#xe637;',
+		'ti-hand-drag': '&#xe638;',
+		'ti-folder': '&#xe639;',
+		'ti-flag': '&#xe63a;',
+		'ti-flag-alt': '&#xe63b;',
+		'ti-flag-alt-2': '&#xe63c;',
+		'ti-eye': '&#xe63d;',
+		'ti-export': '&#xe63e;',
+		'ti-exchange-vertical': '&#xe63f;',
+		'ti-desktop': '&#xe640;',
+		'ti-cup': '&#xe641;',
+		'ti-crown': '&#xe642;',
+		'ti-comments': '&#xe643;',
+		'ti-comment': '&#xe644;',
+		'ti-comment-alt': '&#xe645;',
+		'ti-close': '&#xe646;',
+		'ti-clip': '&#xe647;',
+		'ti-angle-up': '&#xe648;',
+		'ti-angle-right': '&#xe649;',
+		'ti-angle-left': '&#xe64a;',
+		'ti-angle-down': '&#xe64b;',
+		'ti-check': '&#xe64c;',
+		'ti-check-box': '&#xe64d;',
+		'ti-camera': '&#xe64e;',
+		'ti-announcement': '&#xe64f;',
+		'ti-brush': '&#xe650;',
+		'ti-briefcase': '&#xe651;',
+		'ti-bolt': '&#xe652;',
+		'ti-bolt-alt': '&#xe653;',
+		'ti-blackboard': '&#xe654;',
+		'ti-bag': '&#xe655;',
+		'ti-move': '&#xe656;',
+		'ti-arrows-vertical': '&#xe657;',
+		'ti-arrows-horizontal': '&#xe658;',
+		'ti-fullscreen': '&#xe659;',
+		'ti-arrow-top-right': '&#xe65a;',
+		'ti-arrow-top-left': '&#xe65b;',
+		'ti-arrow-circle-up': '&#xe65c;',
+		'ti-arrow-circle-right': '&#xe65d;',
+		'ti-arrow-circle-left': '&#xe65e;',
+		'ti-arrow-circle-down': '&#xe65f;',
+		'ti-angle-double-up': '&#xe660;',
+		'ti-angle-double-right': '&#xe661;',
+		'ti-angle-double-left': '&#xe662;',
+		'ti-angle-double-down': '&#xe663;',
+		'ti-zip': '&#xe664;',
+		'ti-world': '&#xe665;',
+		'ti-wheelchair': '&#xe666;',
+		'ti-view-list': '&#xe667;',
+		'ti-view-list-alt': '&#xe668;',
+		'ti-view-grid': '&#xe669;',
+		'ti-uppercase': '&#xe66a;',
+		'ti-upload': '&#xe66b;',
+		'ti-underline': '&#xe66c;',
+		'ti-truck': '&#xe66d;',
+		'ti-timer': '&#xe66e;',
+		'ti-ticket': '&#xe66f;',
+		'ti-thumb-up': '&#xe670;',
+		'ti-thumb-down': '&#xe671;',
+		'ti-text': '&#xe672;',
+		'ti-stats-up': '&#xe673;',
+		'ti-stats-down': '&#xe674;',
+		'ti-split-v': '&#xe675;',
+		'ti-split-h': '&#xe676;',
+		'ti-smallcap': '&#xe677;',
+		'ti-shine': '&#xe678;',
+		'ti-shift-right': '&#xe679;',
+		'ti-shift-left': '&#xe67a;',
+		'ti-shield': '&#xe67b;',
+		'ti-notepad': '&#xe67c;',
+		'ti-server': '&#xe67d;',
+		'ti-quote-right': '&#xe67e;',
+		'ti-quote-left': '&#xe67f;',
+		'ti-pulse': '&#xe680;',
+		'ti-printer': '&#xe681;',
+		'ti-power-off': '&#xe682;',
+		'ti-plug': '&#xe683;',
+		'ti-pie-chart': '&#xe684;',
+		'ti-paragraph': '&#xe685;',
+		'ti-panel': '&#xe686;',
+		'ti-package': '&#xe687;',
+		'ti-music': '&#xe688;',
+		'ti-music-alt': '&#xe689;',
+		'ti-mouse': '&#xe68a;',
+		'ti-mouse-alt': '&#xe68b;',
+		'ti-money': '&#xe68c;',
+		'ti-microphone': '&#xe68d;',
+		'ti-menu': '&#xe68e;',
+		'ti-menu-alt': '&#xe68f;',
+		'ti-map': '&#xe690;',
+		'ti-map-alt': '&#xe691;',
+		'ti-loop': '&#xe692;',
+		'ti-location-pin': '&#xe693;',
+		'ti-list': '&#xe694;',
+		'ti-light-bulb': '&#xe695;',
+		'ti-Italic': '&#xe696;',
+		'ti-info': '&#xe697;',
+		'ti-infinite': '&#xe698;',
+		'ti-id-badge': '&#xe699;',
+		'ti-hummer': '&#xe69a;',
+		'ti-home': '&#xe69b;',
+		'ti-help': '&#xe69c;',
+		'ti-headphone': '&#xe69d;',
+		'ti-harddrives': '&#xe69e;',
+		'ti-harddrive': '&#xe69f;',
+		'ti-gift': '&#xe6a0;',
+		'ti-game': '&#xe6a1;',
+		'ti-filter': '&#xe6a2;',
+		'ti-files': '&#xe6a3;',
+		'ti-file': '&#xe6a4;',
+		'ti-eraser': '&#xe6a5;',
+		'ti-envelope': '&#xe6a6;',
+		'ti-download': '&#xe6a7;',
+		'ti-direction': '&#xe6a8;',
+		'ti-direction-alt': '&#xe6a9;',
+		'ti-dashboard': '&#xe6aa;',
+		'ti-control-stop': '&#xe6ab;',
+		'ti-control-shuffle': '&#xe6ac;',
+		'ti-control-play': '&#xe6ad;',
+		'ti-control-pause': '&#xe6ae;',
+		'ti-control-forward': '&#xe6af;',
+		'ti-control-backward': '&#xe6b0;',
+		'ti-cloud': '&#xe6b1;',
+		'ti-cloud-up': '&#xe6b2;',
+		'ti-cloud-down': '&#xe6b3;',
+		'ti-clipboard': '&#xe6b4;',
+		'ti-car': '&#xe6b5;',
+		'ti-calendar': '&#xe6b6;',
+		'ti-book': '&#xe6b7;',
+		'ti-bell': '&#xe6b8;',
+		'ti-basketball': '&#xe6b9;',
+		'ti-bar-chart': '&#xe6ba;',
+		'ti-bar-chart-alt': '&#xe6bb;',
+		'ti-back-right': '&#xe6bc;',
+		'ti-back-left': '&#xe6bd;',
+		'ti-arrows-corner': '&#xe6be;',
+		'ti-archive': '&#xe6bf;',
+		'ti-anchor': '&#xe6c0;',
+		'ti-align-right': '&#xe6c1;',
+		'ti-align-left': '&#xe6c2;',
+		'ti-align-justify': '&#xe6c3;',
+		'ti-align-center': '&#xe6c4;',
+		'ti-alert': '&#xe6c5;',
+		'ti-alarm-clock': '&#xe6c6;',
+		'ti-agenda': '&#xe6c7;',
+		'ti-write': '&#xe6c8;',
+		'ti-window': '&#xe6c9;',
+		'ti-widgetized': '&#xe6ca;',
+		'ti-widget': '&#xe6cb;',
+		'ti-widget-alt': '&#xe6cc;',
+		'ti-wallet': '&#xe6cd;',
+		'ti-video-clapper': '&#xe6ce;',
+		'ti-video-camera': '&#xe6cf;',
+		'ti-vector': '&#xe6d0;',
+		'ti-themify-logo': '&#xe6d1;',
+		'ti-themify-favicon': '&#xe6d2;',
+		'ti-themify-favicon-alt': '&#xe6d3;',
+		'ti-support': '&#xe6d4;',
+		'ti-stamp': '&#xe6d5;',
+		'ti-split-v-alt': '&#xe6d6;',
+		'ti-slice': '&#xe6d7;',
+		'ti-shortcode': '&#xe6d8;',
+		'ti-shift-right-alt': '&#xe6d9;',
+		'ti-shift-left-alt': '&#xe6da;',
+		'ti-ruler-alt-2': '&#xe6db;',
+		'ti-receipt': '&#xe6dc;',
+		'ti-pin2': '&#xe6dd;',
+		'ti-pin-alt': '&#xe6de;',
+		'ti-pencil-alt2': '&#xe6df;',
+		'ti-palette': '&#xe6e0;',
+		'ti-more': '&#xe6e1;',
+		'ti-more-alt': '&#xe6e2;',
+		'ti-microphone-alt': '&#xe6e3;',
+		'ti-magnet': '&#xe6e4;',
+		'ti-line-double': '&#xe6e5;',
+		'ti-line-dotted': '&#xe6e6;',
+		'ti-line-dashed': '&#xe6e7;',
+		'ti-layout-width-full': '&#xe6e8;',
+		'ti-layout-width-default': '&#xe6e9;',
+		'ti-layout-width-default-alt': '&#xe6ea;',
+		'ti-layout-tab': '&#xe6eb;',
+		'ti-layout-tab-window': '&#xe6ec;',
+		'ti-layout-tab-v': '&#xe6ed;',
+		'ti-layout-tab-min': '&#xe6ee;',
+		'ti-layout-slider': '&#xe6ef;',
+		'ti-layout-slider-alt': '&#xe6f0;',
+		'ti-layout-sidebar-right': '&#xe6f1;',
+		'ti-layout-sidebar-none': '&#xe6f2;',
+		'ti-layout-sidebar-left': '&#xe6f3;',
+		'ti-layout-placeholder': '&#xe6f4;',
+		'ti-layout-menu': '&#xe6f5;',
+		'ti-layout-menu-v': '&#xe6f6;',
+		'ti-layout-menu-separated': '&#xe6f7;',
+		'ti-layout-menu-full': '&#xe6f8;',
+		'ti-layout-media-right-alt': '&#xe6f9;',
+		'ti-layout-media-right': '&#xe6fa;',
+		'ti-layout-media-overlay': '&#xe6fb;',
+		'ti-layout-media-overlay-alt': '&#xe6fc;',
+		'ti-layout-media-overlay-alt-2': '&#xe6fd;',
+		'ti-layout-media-left-alt': '&#xe6fe;',
+		'ti-layout-media-left': '&#xe6ff;',
+		'ti-layout-media-center-alt': '&#xe700;',
+		'ti-layout-media-center': '&#xe701;',
+		'ti-layout-list-thumb': '&#xe702;',
+		'ti-layout-list-thumb-alt': '&#xe703;',
+		'ti-layout-list-post': '&#xe704;',
+		'ti-layout-list-large-image': '&#xe705;',
+		'ti-layout-line-solid': '&#xe706;',
+		'ti-layout-grid4': '&#xe707;',
+		'ti-layout-grid3': '&#xe708;',
+		'ti-layout-grid2': '&#xe709;',
+		'ti-layout-grid2-thumb': '&#xe70a;',
+		'ti-layout-cta-right': '&#xe70b;',
+		'ti-layout-cta-left': '&#xe70c;',
+		'ti-layout-cta-center': '&#xe70d;',
+		'ti-layout-cta-btn-right': '&#xe70e;',
+		'ti-layout-cta-btn-left': '&#xe70f;',
+		'ti-layout-column4': '&#xe710;',
+		'ti-layout-column3': '&#xe711;',
+		'ti-layout-column2': '&#xe712;',
+		'ti-layout-accordion-separated': '&#xe713;',
+		'ti-layout-accordion-merged': '&#xe714;',
+		'ti-layout-accordion-list': '&#xe715;',
+		'ti-ink-pen': '&#xe716;',
+		'ti-info-alt': '&#xe717;',
+		'ti-help-alt': '&#xe718;',
+		'ti-headphone-alt': '&#xe719;',
+		'ti-hand-point-up': '&#xe71a;',
+		'ti-hand-point-right': '&#xe71b;',
+		'ti-hand-point-left': '&#xe71c;',
+		'ti-hand-point-down': '&#xe71d;',
+		'ti-gallery': '&#xe71e;',
+		'ti-face-smile': '&#xe71f;',
+		'ti-face-sad': '&#xe720;',
+		'ti-credit-card': '&#xe721;',
+		'ti-control-skip-forward': '&#xe722;',
+		'ti-control-skip-backward': '&#xe723;',
+		'ti-control-record': '&#xe724;',
+		'ti-control-eject': '&#xe725;',
+		'ti-comments-smiley': '&#xe726;',
+		'ti-brush-alt': '&#xe727;',
+		'ti-youtube': '&#xe728;',
+		'ti-vimeo': '&#xe729;',
+		'ti-twitter': '&#xe72a;',
+		'ti-time': '&#xe72b;',
+		'ti-tumblr': '&#xe72c;',
+		'ti-skype': '&#xe72d;',
+		'ti-share': '&#xe72e;',
+		'ti-share-alt': '&#xe72f;',
+		'ti-rocket': '&#xe730;',
+		'ti-pinterest': '&#xe731;',
+		'ti-new-window': '&#xe732;',
+		'ti-microsoft': '&#xe733;',
+		'ti-list-ol': '&#xe734;',
+		'ti-linkedin': '&#xe735;',
+		'ti-layout-sidebar-2': '&#xe736;',
+		'ti-layout-grid4-alt': '&#xe737;',
+		'ti-layout-grid3-alt': '&#xe738;',
+		'ti-layout-grid2-alt': '&#xe739;',
+		'ti-layout-column4-alt': '&#xe73a;',
+		'ti-layout-column3-alt': '&#xe73b;',
+		'ti-layout-column2-alt': '&#xe73c;',
+		'ti-instagram': '&#xe73d;',
+		'ti-google': '&#xe73e;',
+		'ti-github': '&#xe73f;',
+		'ti-flickr': '&#xe740;',
+		'ti-facebook': '&#xe741;',
+		'ti-dropbox': '&#xe742;',
+		'ti-dribbble': '&#xe743;',
+		'ti-apple': '&#xe744;',
+		'ti-android': '&#xe745;',
+		'ti-save': '&#xe746;',
+		'ti-save-alt': '&#xe747;',
+		'ti-yahoo': '&#xe748;',
+		'ti-wordpress': '&#xe749;',
+		'ti-vimeo-alt': '&#xe74a;',
+		'ti-twitter-alt': '&#xe74b;',
+		'ti-tumblr-alt': '&#xe74c;',
+		'ti-trello': '&#xe74d;',
+		'ti-stack-overflow': '&#xe74e;',
+		'ti-soundcloud': '&#xe74f;',
+		'ti-sharethis': '&#xe750;',
+		'ti-sharethis-alt': '&#xe751;',
+		'ti-reddit': '&#xe752;',
+		'ti-pinterest-alt': '&#xe753;',
+		'ti-microsoft-alt': '&#xe754;',
+		'ti-linux': '&#xe755;',
+		'ti-jsfiddle': '&#xe756;',
+		'ti-joomla': '&#xe757;',
+		'ti-html5': '&#xe758;',
+		'ti-flickr-alt': '&#xe759;',
+		'ti-email': '&#xe75a;',
+		'ti-drupal': '&#xe75b;',
+		'ti-dropbox-alt': '&#xe75c;',
+		'ti-css3': '&#xe75d;',
+		'ti-rss': '&#xe75e;',
+		'ti-rss-alt': '&#xe75f;',
+		'0': 0
+		},
+		els = document.getElementsByTagName('*'),
+		i, c, el;
+	for (i = 0; ; i += 1) {
+		el = els[i];
+		if(!el) {
+			break;
+		}
+		c = el.className;
+		c = c.match(/ti-[^\s'"]+/);
+		if (c && icons[c[0]]) {
+			addIcon(el, icons[c[0]]);
+		}
+	}
+}());
+
 /*!
- * Bootstrap Confirmation 2.1.3
+ * Bootstrap Confirmation
  * Copyright 2013 Nimit Suwannagate <ethaizone@hotmail.com>
- * Copyright 2015 Damien "Mistic" Sorel <http://www.strangeplanet.fr>
+ * Copyright 2014 Damien "Mistic" Sorel <http://www.strangeplanet.fr>
  * Licensed under the Apache License, Version 2.0 (the "License")
  */
-!function(a){"use strict";function b(a){for(var b=window,c=a.split("."),d=c.pop(),e=0,f=c.length;f>e;e++)b=b[c[e]];return function(){b[d].call(this)}}if(!a.fn.popover)throw new Error("Confirmation requires popover.js");var c=function(b,c){this.init("confirmation",b,c);var d=this;this.options.selector||(this.$element.attr("href")&&(this.options.href=this.$element.attr("href"),this.$element.removeAttr("href"),this.$element.attr("target")&&(this.options.target=this.$element.attr("target"))),this.$element.on(d.options.trigger,function(a,b){b||(a.preventDefault(),a.stopPropagation(),a.stopImmediatePropagation())}),this.$element.on("confirmed.bs.confirmation",function(b){a(this).trigger(d.options.trigger,[!0])}),this.$element.on("show.bs.confirmation",function(b){d.options.singleton&&a(d.options._selector).not(a(this)).filter(function(){return void 0!==a(this).data("bs.confirmation")}).confirmation("hide")})),this.options._isDelegate||(this.eventBody=!1,this.uid=this.$element[0].id||this.getUID("group_"),this.$element.on("shown.bs.confirmation",function(b){if(d.options.popout&&!d.eventBody){a(this);d.eventBody=a("body").on("click.bs.confirmation."+d.uid,function(b){a(d.options._selector).is(b.target)||(a(d.options._selector).filter(function(){return void 0!==a(this).data("bs.confirmation")}).confirmation("hide"),a("body").off("click.bs."+d.uid),d.eventBody=!1)})}}))};c.DEFAULTS=a.extend({},a.fn.popover.Constructor.DEFAULTS,{placement:"top",title:"Are you sure?",html:!0,href:!1,popout:!1,singleton:!1,target:"_self",onConfirm:a.noop,onCancel:a.noop,btnOkClass:"btn-xs btn-primary",btnOkIcon:"glyphicon glyphicon-ok",btnOkLabel:"Yes",btnCancelClass:"btn-xs btn-default",btnCancelIcon:"glyphicon glyphicon-remove",btnCancelLabel:"No",template:'<div class="popover confirmation"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content text-center"><div class="btn-group"><a class="btn" data-apply="confirmation"></a><a class="btn" data-dismiss="confirmation"></a></div></div></div>'}),c.prototype=a.extend({},a.fn.popover.Constructor.prototype),c.prototype.constructor=c,c.prototype.getDefaults=function(){return c.DEFAULTS},c.prototype.init=function(b,c,d){a.fn.popover.Constructor.prototype.init.call(this,b,c,d),this.options._isDelegate=!1,d.selector?this.options._selector=this._options._selector=d._root_selector+" "+d.selector:d._selector?(this.options._selector=d._selector,this.options._isDelegate=!0):this.options._selector=d._root_selector},c.prototype.setContent=function(){var b=this,c=this.tip(),d=this.options;c.find(".popover-title")[d.html?"html":"text"](this.getTitle()),c.find('[data-apply="confirmation"]').addClass(d.btnOkClass).html(d.btnOkLabel).prepend(a("<i></i>").addClass(d.btnOkIcon)," ").off("click").one("click",function(a){b.getOnConfirm.call(b).call(b.$element),b.$element.trigger("confirmed.bs.confirmation"),b.$element.confirmation("hide")}),d.href&&"#"!=d.href&&c.find('[data-apply="confirmation"]').attr({href:d.href,target:d.target}),c.find('[data-dismiss="confirmation"]').addClass(d.btnCancelClass).html(d.btnCancelLabel).prepend(a("<i></i>").addClass(d.btnCancelIcon)," ").off("click").one("click",function(a){b.getOnCancel.call(b).call(b.$element),b.$element.trigger("canceled.bs.confirmation"),b.$element.confirmation("hide")}),c.removeClass("fade top bottom left right in"),c.find(".popover-title").html()||c.find(".popover-title").hide()},c.prototype.getOnConfirm=function(){return this.$element.attr("data-on-confirm")?b(this.$element.attr("data-on-confirm")):this.options.onConfirm},c.prototype.getOnCancel=function(){return this.$element.attr("data-on-cancel")?b(this.$element.attr("data-on-cancel")):this.options.onCancel};var d=a.fn.confirmation;a.fn.confirmation=function(b){var d="object"==typeof b&&b||{};return d._root_selector=this.selector,this.each(function(){var e=a(this),f=e.data("bs.confirmation");(f||"destroy"!=b)&&(f||e.data("bs.confirmation",f=new c(this,d)),"string"==typeof b&&f[b]())})},a.fn.confirmation.Constructor=c,a.fn.confirmation.noConflict=function(){return a.fn.confirmation=d,this}}(jQuery);
+
+(function ($) {
+  'use strict';
+
+  // Confirmation extends popover.js
+  if (!$.fn.popover) throw new Error('Confirmation requires popover.js');
+
+  // CONFIRMATION PUBLIC CLASS DEFINITION
+  // ===============================
+  var Confirmation = function (element, options) {
+    this.init('confirmation', element, options);
+
+    var that = this;
+
+    if (!this.options.selector) {
+      // get existing href and target
+      if (this.$element.attr('href')) {
+        this.options.href = this.$element.attr('href');
+        this.$element.removeAttr('href');
+        if (this.$element.attr('target')) {
+          this.options.target = this.$element.attr('target');
+        }
+      }
+
+      // cancel original event
+      this.$element.on(that.options.trigger, function(e, ack) {
+        if (!ack) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+        }
+      });
+
+      // trigger original event on confirm
+      this.$element.on('confirmed.bs.confirmation', function(e) {
+        $(this).trigger(that.options.trigger, [true]);
+      });
+
+      // manage singleton
+      this.$element.on('show.bs.confirmation', function(e) {
+        if (that.options.singleton) {
+          // close all other popover already initialized
+          $(that.options._selector).not($(this)).filter(function() {
+            return $(this).data('bs.confirmation') !== undefined;
+          }).confirmation('hide');
+        }
+      });
+    }
+
+    if (!this.options._isDelegate) {
+      // manage popout
+      this.eventBody = false;
+      this.uid = this.$element[0].id || this.getUID('group_');
+
+      this.$element.on('shown.bs.confirmation', function(e) {
+        if (that.options.popout && !that.eventBody) {
+          var $this = $(this);
+          that.eventBody = $('body').on('click.bs.confirmation.'+that.uid, function(e) {
+            if ($(that.options._selector).is(e.target)) {
+              return;
+            }
+  
+            // close all popover already initialized
+            $(that.options._selector).filter(function() {
+              return $(this).data('bs.confirmation') !== undefined;
+            }).confirmation('hide');
+
+            $('body').off('click.bs.'+that.uid);
+            that.eventBody = false;
+          });
+        }
+      });
+    }
+  };
+
+  Confirmation.DEFAULTS = $.extend({}, $.fn.popover.Constructor.DEFAULTS, {
+    placement: 'top',
+    title: 'Are you sure?',
+    html: true,
+    href: false,
+    popout: false,
+    singleton: false,
+    target: '_self',
+    onConfirm: $.noop,
+    onCancel: $.noop,
+    btnOkClass: 'btn-xs btn-primary',
+    btnOkIcon: 'glyphicon glyphicon-ok',
+    btnOkLabel: 'Yes',
+    btnCancelClass: 'btn-xs btn-default',
+    btnCancelIcon: 'glyphicon glyphicon-remove',
+    btnCancelLabel: 'No',
+    template:
+      '<div class="popover confirmation">' +
+        '<div class="arrow"></div>' +
+        '<h3 class="popover-title"></h3>' +
+        '<div class="popover-content text-center">'+
+          '<div class="btn-group">'+
+            '<a class="btn" data-apply="confirmation"></a>'+
+            '<a class="btn" data-dismiss="confirmation"></a>'+
+          '</div>'+
+        '</div>'+
+      '</div>'
+  });
+
+  Confirmation.prototype = $.extend({}, $.fn.popover.Constructor.prototype);
+
+  Confirmation.prototype.constructor = Confirmation;
+
+  Confirmation.prototype.getDefaults = function () {
+    return Confirmation.DEFAULTS;
+  };
+
+  // custom init keeping trace of selectors
+  Confirmation.prototype.init = function(type, element, options) {
+    $.fn.popover.Constructor.prototype.init.call(this, type, element, options);
+
+    this.options._isDelegate = false;
+    if (options.selector) { // container of buttons
+      this.options._selector = this._options._selector = options._root_selector +' '+ options.selector;
+    }
+    else if (options._selector) { // children of container
+      this.options._selector = options._selector;
+      this.options._isDelegate = true;
+    }
+    else { // standalone
+      this.options._selector = options._root_selector;
+    }
+  };
+
+  Confirmation.prototype.setContent = function () {
+    var that = this,
+        $tip = this.tip(),
+        o = this.options;
+
+    $tip.find('.popover-title')[o.html ? 'html' : 'text'](this.getTitle());
+
+    // configure 'ok' button
+    $tip.find('[data-apply="confirmation"]')
+      .addClass(o.btnOkClass)
+      .html(o.btnOkLabel)
+      .prepend($('<i></i>').addClass(o.btnOkIcon), ' ')
+      .off('click')
+      .one('click', function(e) {
+        that.getOnConfirm.call(that).call(that.$element);
+        that.$element.trigger('confirmed.bs.confirmation');
+        that.$element.confirmation('hide');
+      });
+
+    // add href to confirm button if needed
+    if (o.href && o.href != "#") {
+      $tip.find('[data-apply="confirmation"]').attr({
+        href: o.href,
+        target: o.target
+      });
+    }
+
+    // configure 'cancel' button
+    $tip.find('[data-dismiss="confirmation"]')
+      .addClass(o.btnCancelClass)
+      .html(o.btnCancelLabel)
+      .prepend($('<i></i>').addClass(o.btnCancelIcon), ' ')
+      .off('click')
+      .one('click', function(e) {
+        that.getOnCancel.call(that).call(that.$element);
+        that.$element.trigger('canceled.bs.confirmation');
+        that.$element.confirmation('hide');
+      });
+
+    $tip.removeClass('fade top bottom left right in');
+
+    // IE8 doesn't accept hiding via the `:empty` pseudo selector, we have to do
+    // this manually by checking the contents.
+    if (!$tip.find('.popover-title').html()) {
+      $tip.find('.popover-title').hide();
+    }
+  };
+
+  Confirmation.prototype.getOnConfirm = function() {
+    if (this.$element.attr('data-on-confirm')) {
+      return getFunctionFromString(this.$element.attr('data-on-confirm'));
+    }
+    else {
+      return this.options.onConfirm;
+    }
+  };
+
+  Confirmation.prototype.getOnCancel = function() {
+    if (this.$element.attr('data-on-cancel')) {
+      return getFunctionFromString(this.$element.attr('data-on-cancel'));
+    }
+    else {
+      return this.options.onCancel;
+    }
+  };
+
+  /*
+   * Generates an anonymous function from a function name
+   * function name may contain dots (.) to navigate through objects
+   * root context is window
+   */
+  function getFunctionFromString(functionName) {
+    var context = window,
+        namespaces = functionName.split('.'),
+        func = namespaces.pop();
+
+    for (var i=0, l=namespaces.length; i<l; i++) {
+      context = context[namespaces[i]];
+    }
+
+    return function() {
+      context[func].call(this);
+    };
+  }
+
+
+  // CONFIRMATION PLUGIN DEFINITION
+  // =========================
+
+  var old = $.fn.confirmation;
+
+  $.fn.confirmation = function (option) {
+    var options = (typeof option == 'object' && option) || {};
+    options._root_selector = this.selector;
+
+    return this.each(function () {
+      var $this = $(this),
+          data  = $this.data('bs.confirmation');
+
+      if (!data && option == 'destroy') {
+        return;
+      }
+      if (!data) {
+        $this.data('bs.confirmation', (data = new Confirmation(this, options)));
+      }
+      if (typeof option == 'string') {
+        data[option]();
+      }
+    });
+  };
+
+  $.fn.confirmation.Constructor = Confirmation;
+
+
+  // CONFIRMATION NO CONFLICT
+  // ===================
+
+  $.fn.confirmation.noConflict = function () {
+    $.fn.confirmation = old;
+    return this;
+  };
+
+}(jQuery));

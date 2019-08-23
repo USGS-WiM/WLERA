@@ -569,17 +569,9 @@ require([
             map.setScale(parcelsScale);
         });
 
-        $("#IEwarnContinue").click(function () {
-            $('#disclaimerModal').modal({backdrop: 'static'});
-            $('#disclaimerModal').modal('show');
-        });
 
-        if(navigator.userAgent.indexOf('MSIE')!==-1 || navigator.appVersion.indexOf('Trident/') > 0){
-            $("#IEwarningModal").modal('show');
-        } else {
-            $('#disclaimerModal').modal({backdrop: 'static'});
-            $('#disclaimerModal').modal('show');
-        }
+
+
 
         //collapse legend on load if small screen (saves real estate)
         if ( $(window).width() < 767) {
@@ -1128,7 +1120,7 @@ require([
         ////end reference layers////////////////////////////////////////
 
         ///parameters group
-/*         const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "landuse", visible:false, opacity:1} );
+        const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "landuse", visible:false, opacity:1} );
         landuseLayer .setVisibleLayers([13]);
         mapLayers.push(landuseLayer );
         mapLayerIds.push(landuseLayer.id);
@@ -1176,7 +1168,7 @@ require([
         mapLayerIds.push(waterMaskLayer.id);
         waterMaskLayer.inLegendLayers = true;
         legendLayers.push ({layer:waterMaskLayer, title: ""});
- */
+ 
 
         /*LAYER DEFS FOR ADDED SPARROW LAYERS */
         const app = {};
@@ -1232,15 +1224,15 @@ require([
 
             /*PHOSPHORUS CATCHMENTS*/
 
-            app.phosCatLayer = new ArcGISDynamicMapServiceLayer(sparrowServices, { id: "phosCat", visible: false, opacity: 0.75 });
+            /* app.phosCatLayer = new ArcGISDynamicMapServiceLayer(sparrowServices, { id: "phosCat", visible: false, opacity: 0.75 });
             app.phosCatLayer.setLayerDefinitions(layerDefs);
             app.phosCatLayer.setVisibleLayers([0]);
             mapLayers.push(app.phosCatLayer);
             mapLayerIds.push(app.phosCatLayer.id);
             legendLayers.push({ layer: app.phosCatLayer, title: "Phosphorus Catchments, Incremental Yield" });
             var RendererParams = { number: 4, id: "phosCat" };
-            generateRenderer("INCY", 0);
-           /*  var catRenderer = new ClassBreaksRenderer(borderSymbol, "INCY");
+            generateRenderer("INCY", 0); */
+            var catRenderer = new ClassBreaksRenderer(borderSymbol, "INCY");
             catRenderer.addBreak(0, 78, new SimpleFillSymbol("solid", null).setColor(new Color([56, 168, 0, 0.5])));
             catRenderer.addBreak(78, 103, new SimpleFillSymbol("solid", null).setColor(new Color([139, 209, 0, 0.5])));
             catRenderer.addBreak(103, 129, new SimpleFillSymbol("solid", null).setColor(new Color([255, 255, 0, 0.5])));
@@ -1253,7 +1245,7 @@ require([
             phosCatLayer.setRenderer(catRenderer);
             mapLayers.push(phosCatLayer);
             mapLayerIds.push(phosCatLayer.id);
-            //legendLayers.push({ layer: phosCatLayer, title: "Phosphorus Catchments, Incremental Yield" }); */ 
+            //legendLayers.push({ layer: phosCatLayer, title: "Phosphorus Catchments, Incremental Yield" }); 
             /*END PHOSPHORUS CATCHMENTS*/
             
             /*NITROGEN CATCHMENTS*/
@@ -1318,6 +1310,7 @@ require([
             optionsArray[2] = drawingOptions; //must be the same as the relevant service layer ID
             map.getLayer('nitroCat').setLayerDrawingOptions(optionsArray);
             map.getLayer('nitroCat').refresh();
+            
         }
 
         function applyRenderer_phosCat(renderer) {
@@ -1339,6 +1332,8 @@ require([
         /////end parameters group
 
         map.addLayers(mapLayers);
+        /* //NEW TRY ADDING AFTER LAYERS ARE IN THE MAP.
+        legendLayers.push({ layer: phosCatLayer, title: "Phosphorus Catchments, Incremental Yield" });  */
 
         //dojo.keys.copyKey maps to CTRL on windows and Cmd on Mac., but has wrong code for Chrome on Mac
         var snapManager = map.enableSnapping({

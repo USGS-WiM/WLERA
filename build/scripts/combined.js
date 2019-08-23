@@ -374,6 +374,8 @@ require([
     "esri/dijit/Measurement",
     "esri/dijit/Bookmarks",
     'esri/layers/ArcGISTiledMapServiceLayer',
+    'esri/layers/ImageParameters',
+    "esri/layers/LayerDrawingOptions",
     'esri/dijit/Geocoder',
     "esri/dijit/Search",
     "esri/dijit/Popup",
@@ -387,6 +389,10 @@ require([
     "esri/tasks/PrintParameters",
     "esri/tasks/PrintTemplate",
     "esri/tasks/LegendLayer",
+    "esri/tasks/ClassBreaksDefinition",
+    "esri/tasks/AlgorithmicColorRamp",
+    "esri/tasks/GenerateRendererParameters", 
+    "esri/tasks/GenerateRendererTask",
     'esri/SpatialReference',
     'esri/geometry/Extent',
     "esri/config",
@@ -411,6 +417,8 @@ require([
     Measurement,
     Bookmarks,
     ArcGISTiledMapServiceLayer,
+    ImageParameters,
+        LayerDrawingOptions,
     Geocoder,
     Search,
     Popup,
@@ -424,6 +432,10 @@ require([
     PrintParameters,
     PrintTemplate,
     LegendLayer,
+        ClassBreaksDefinition, 
+        AlgorithmicColorRamp,
+        GenerateRendererParameters, 
+        GenerateRendererTask,
     SpatialReference,
     Extent,
     esriConfig,
@@ -453,7 +465,6 @@ require([
         spatialReference: 26917,
         zoom: 10,
         logo: false,
-        minZoom: 9,
         infoWindow: popup
     });
 
@@ -1085,6 +1096,7 @@ require([
         "esri/symbols/SimpleFillSymbol",
         "esri/symbols/SimpleLineSymbol",
         "esri/renderers/SimpleRenderer",
+        "esri/renderers/ClassBreaksRenderer",
         "esri/Color",
         "esri/dijit/Popup",
         "esri/dijit/PopupTemplate",
@@ -1112,6 +1124,7 @@ require([
         SimpleFillSymbol,
         SimpleLineSymbol,
         SimpleRenderer,
+        ClassBreaksRenderer,
         Color,
         Popup,
         PopupTemplate,
@@ -1135,6 +1148,7 @@ require([
 
         const mapServiceRoot= "https://gis.wim.usgs.gov/arcgis/rest/services/GLCWRA/";
         const geomService = new GeometryService("https://gis.wim.usgs.gov/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+        const sparrowServices = "https://sparrowtest.wim.usgs.gov/arcgis/rest/services/LakeErieDemo/LakeErieDemo/MapServer/"
 
         const normRestorationIndexLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "normalized", visible:true, opacity: 1} );
         normRestorationIndexLayer.setVisibleLayers([5]);
@@ -1179,6 +1193,8 @@ require([
         mapLayerIds.push(parcelsFeatLayer.id);
         //legendLayers.push ({layer:parcelsLayer, title: "Parcels"});
         parcelsFeatLayer.inLegendLayers = false;
+
+        
 
         var parcelQuery = new Query();
         parcelQuery.outSpatialReference = map.spatialReference;
@@ -1454,7 +1470,7 @@ require([
         ////end reference layers////////////////////////////////////////
 
         ///parameters group
-        const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "landuse", visible:false, opacity:1} );
+/*         const landuseLayer =  new ArcGISDynamicMapServiceLayer(mapServiceRoot + "WLERA/MapServer", {id: "landuse", visible:false, opacity:1} );
         landuseLayer .setVisibleLayers([13]);
         mapLayers.push(landuseLayer );
         mapLayerIds.push(landuseLayer.id);
@@ -1502,9 +1518,172 @@ require([
         mapLayerIds.push(waterMaskLayer.id);
         waterMaskLayer.inLegendLayers = true;
         legendLayers.push ({layer:waterMaskLayer, title: ""});
+ */
+
+        /*LAYER DEFS FOR ADDED SPARROW LAYERS */
+        const app = {};
+        var layerDefs = [];
+        const definitionString = "GP3 IN ('04100011-Sandusky', '04100010-Cedar-Portage','04100008-Blanchard','04100009-Lower Maumee','04100007-Auglaize','04100005-Upper Maumee','04100004-St Marys','04100003-St Joseph','04100006-Tiffin','04100001-Ottawa-Stony','04100002-Raisin','04110001-Black-Rocky','04100012-Huron-Vermilion')";
+        layerDefs[0] = definitionString;
+        layerDefs[1] = definitionString;
+        layerDefs[2] = definitionString;
+        layerDefs[3] = definitionString;
+        //TODO SET UP YOUR GENERATERENDERER TASK FUNCTION 
+        var borderSymbol = new SimpleFillSymbol(
+            SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(
+                SimpleLineSymbol.STYLE_SOLID,
+                new Color ([168, 168, 168]), 0.1
+
+            )
+        );
+
+        var noBorderSymbol = new SimpleFillSymbol("solid", null, null)
+        //borderSymbol.setColor(new Color([168, 168, 168]), 0.1);
+        /* PHOSPHORUS HUC8*/
+        var hucRenderer = new ClassBreaksRenderer(noBorderSymbol, "GP3_AY");
+        hucRenderer.addBreak(0, 14, new SimpleFillSymbol("solid", null).setColor(new Color([56, 168, 0, 0.5])));
+        hucRenderer.addBreak(14, 75, new SimpleFillSymbol("solid", null).setColor(new Color([139, 209, 0, 0.5])));
+        hucRenderer.addBreak(75, 175, new SimpleFillSymbol("solid", null).setColor(new Color([255, 255, 0, 0.5])));
+        hucRenderer.addBreak(175, 400, new SimpleFillSymbol("solid", null).setColor(new Color([255, 128, 0, 0.5])));
+        hucRenderer.addBreak(400, Infinity, new SimpleFillSymbol("solid", null).setColor(new Color([255, 0, 0, 0.5]))); 
+
+        const phosHuc8Layer = new FeatureLayer(sparrowServices + "1", { id: "phosHuc8", visible: false, mode: FeatureLayer.MODE_SNAPSHOT, outFields:["GP3_AY"] });
+        phosHuc8Layer.setDefinitionExpression(definitionString);
+        phosHuc8Layer.setRenderer(hucRenderer);
+        mapLayers.push(phosHuc8Layer);
+        mapLayerIds.push(phosHuc8Layer.id);
+        legendLayers.push({ layer: phosHuc8Layer, title: "Phosphorus HUC8, Accumulated Yield" }); 
+        /*END PHOSPHORUS HUC8*/
+
+        /* NITRO HUC8*/
+        var nitroHucRenderer = new ClassBreaksRenderer(borderSymbol, "GP3_AY");
+        nitroHucRenderer.addBreak(0, 14, new SimpleFillSymbol("solid", null).setColor(new Color([56, 168, 0, 0.5])));
+        nitroHucRenderer.addBreak(14, 75, new SimpleFillSymbol("solid", null).setColor(new Color([139, 209, 0, 0.5])));
+        nitroHucRenderer.addBreak(75, 175, new SimpleFillSymbol("solid", null).setColor(new Color([255, 255, 0, 0.5])));
+        nitroHucRenderer.addBreak(175, 400, new SimpleFillSymbol("solid", null).setColor(new Color([255, 128, 0, 0.5])));
+        nitroHucRenderer.addBreak(400, Infinity, new SimpleFillSymbol("solid", null).setColor(new Color([255, 0, 0, 0.5])));
+
+        const nitroHuc8Layer = new FeatureLayer(sparrowServices + "3", { id: "nitroHuc8", visible: false, mode: FeatureLayer.MODE_SNAPSHOT, outFields: ["GP3_AY"] });
+        nitroHuc8Layer.setDefinitionExpression(definitionString);
+        nitroHuc8Layer.setRenderer(nitroHucRenderer);
+        mapLayers.push(nitroHuc8Layer);
+        mapLayerIds.push(nitroHuc8Layer.id);
+        legendLayers.push({ layer: nitroHuc8Layer, title: "Nitrogen HUC8, Accumulated Yield" });
+        /*END NITRO  HUC8*/
+
+            /*PHOSPHORUS CATCHMENTS*/
+
+            /* app.phosCatLayer = new ArcGISDynamicMapServiceLayer(sparrowServices, { id: "phosCat", visible: false, opacity: 0.75 });
+            app.phosCatLayer.setLayerDefinitions(layerDefs);
+            app.phosCatLayer.setVisibleLayers([0]);
+            mapLayers.push(app.phosCatLayer);
+            mapLayerIds.push(app.phosCatLayer.id);
+            legendLayers.push({ layer: app.phosCatLayer, title: "Phosphorus Catchments, Incremental Yield" });
+            var RendererParams = { number: 4, id: "phosCat" };
+            generateRenderer("INCY", 0); */
+            var catRenderer = new ClassBreaksRenderer(borderSymbol, "INCY");
+            catRenderer.addBreak(0, 78, new SimpleFillSymbol("solid", null).setColor(new Color([56, 168, 0, 0.5])));
+            catRenderer.addBreak(78, 103, new SimpleFillSymbol("solid", null).setColor(new Color([139, 209, 0, 0.5])));
+            catRenderer.addBreak(103, 129, new SimpleFillSymbol("solid", null).setColor(new Color([255, 255, 0, 0.5])));
+            catRenderer.addBreak(129, 166, new SimpleFillSymbol("solid", null).setColor(new Color([255, 128, 0, 0.5])));
+            catRenderer.addBreak(166, Infinity, new SimpleFillSymbol("solid", null).setColor(new Color([255, 0, 0, 0.5])));
+
+            const phosCatLayer = new FeatureLayer(sparrowServices + "0", { id: "phosCat", visible: false, mode: FeatureLayer.MODE_SNAPSHOT, outFields: ["INCY"] });
+
+            phosCatLayer.setDefinitionExpression(definitionString);
+            phosCatLayer.setRenderer(catRenderer);
+            mapLayers.push(phosCatLayer);
+            mapLayerIds.push(phosCatLayer.id);
+            //legendLayers.push({ layer: phosCatLayer, title: "Phosphorus Catchments, Incremental Yield" }); 
+            /*END PHOSPHORUS CATCHMENTS*/
+            
+            /*NITROGEN CATCHMENTS*/
+            app.nitroCatLayer = new ArcGISDynamicMapServiceLayer(sparrowServices, { id: "nitroCat", visible: false, opacity: 0.75});
+            app.nitroCatLayer.setLayerDefinitions(layerDefs);
+            app.nitroCatLayer.setVisibleLayers([2]);
+            mapLayers.push(app.nitroCatLayer);
+            mapLayerIds.push(app.nitroCatLayer.id);
+            legendLayers.push({ layer: app.nitroCatLayer, title: "Nitrogen Catchments, Incremental Yield" });
+            var RendererParams = {number: 2, id: "nitroCat" };
+            generateRenderer("INCY", 2);
+            /*END NITROGEN CATCHMENTS*/
+
+        
+        function generateRenderer(field, layerIndex){
+            var borderSymbol = new SimpleFillSymbol(
+                SimpleFillSymbol.STYLE_SOLID,
+                new SimpleLineSymbol(
+                    SimpleLineSymbol.STYLE_SOLID,
+                    new Color([168, 168, 168]),
+                    0.3
+                ),
+                null
+            );
+
+            var url = sparrowServices + layerIndex;
+
+            var classDef = new ClassBreaksDefinition();
+            classDef.classificationField = field;
+            classDef.classificationMethod = "quantile";
+            classDef.breakCount = 5;
+            classDef.baseSymbol = borderSymbol; 
+
+            var colorRamp = new AlgorithmicColorRamp();
+            colorRamp.fromColor = new Color.fromHex("#998ec3");
+            colorRamp.toColor = new Color.fromHex("#f1a340");
+            colorRamp.algorithm = "hsv"; // options are:  "cie-lab", "hsv", "lab-lch"
+            classDef.colorRamp = colorRamp; 
+
+            var params = new GenerateRendererParameters();
+            params.classificationDefinition = classDef;
+            // limit the renderer to data being shown by the feature layer
+            params.where = "GP3 IN('04100011-Sandusky', '04100010-Cedar-Portage', '04100008-Blanchard', '04100009-Lower Maumee', '04100007-Auglaize', '04100005-Upper Maumee', '04100004-St Marys', '04100003-St Joseph', '04100006-Tiffin', '04100001-Ottawa-Stony', '04100002-Raisin', '04110001-Black-Rocky', '04100012-Huron-Vermilion')";
+            var generateRenderer = new GenerateRendererTask(url);
+            if (layerIndex == 2 ){
+                generateRenderer.execute(params, applyRenderer_nitroCat, errorHandler);
+            }
+            if (layerIndex == 4) {
+                generateRenderer.execute(params, applyRenderer_phosCat, errorHandler);
+            }
+            
+        }
+
+            function errorHandler(err) {
+                console.log('generateRederer, error: ', err);
+            }
+
+        function applyRenderer_nitroCat(renderer){
+            var optionsArray = [];
+            var drawingOptions = new LayerDrawingOptions();
+            drawingOptions.renderer = renderer;
+            optionsArray[2] = drawingOptions; //must be the same as the relevant service layer ID
+            map.getLayer('nitroCat').setLayerDrawingOptions(optionsArray);
+            map.getLayer('nitroCat').refresh();
+            
+        }
+
+        function applyRenderer_phosCat(renderer) {
+            var optionsArray = [];
+            var drawingOptions = new LayerDrawingOptions();
+            drawingOptions.renderer = renderer;
+            optionsArray[0] = drawingOptions; //must be the same as the relevant service layer ID
+            map.getLayer('phosCat').setLayerDrawingOptions(optionsArray);
+            map.getLayer('phosCat').refresh();
+
+
+        }
+ 
+
+        var phosPopup = new InfoTemplate();
+        phosPopup.setTitle("Phosphorus HUC8, Accumulated Yield");
+        phosPopup.setContent("<div style='text-align: left'><b>Accumulated Yield:</b>  ${ACCY}<br/></div>");
+
         /////end parameters group
 
         map.addLayers(mapLayers);
+        /* //NEW TRY ADDING AFTER LAYERS ARE IN THE MAP.
+        legendLayers.push({ layer: phosCatLayer, title: "Phosphorus Catchments, Incremental Yield" });  */
 
         //dojo.keys.copyKey maps to CTRL on windows and Cmd on Mac., but has wrong code for Chrome on Mac
         var snapManager = map.enableSnapping({
