@@ -1188,76 +1188,58 @@ require([
             )
         );
 
-        var noBorderSymbol = new SimpleFillSymbol("solid", null, null)
-        //borderSymbol.setColor(new Color([168, 168, 168]), 0.1);
-        /* PHOSPHORUS HUC8*/
-        var hucRenderer = new ClassBreaksRenderer(noBorderSymbol, "GP3_AY");
-        hucRenderer.addBreak(0, 14, new SimpleFillSymbol("solid", null).setColor(new Color([56, 168, 0, 0.5])));
-        hucRenderer.addBreak(14, 75, new SimpleFillSymbol("solid", null).setColor(new Color([139, 209, 0, 0.5])));
-        hucRenderer.addBreak(75, 175, new SimpleFillSymbol("solid", null).setColor(new Color([255, 255, 0, 0.5])));
-        hucRenderer.addBreak(175, 400, new SimpleFillSymbol("solid", null).setColor(new Color([255, 128, 0, 0.5])));
-        hucRenderer.addBreak(400, Infinity, new SimpleFillSymbol("solid", null).setColor(new Color([255, 0, 0, 0.5]))); 
+        //stream layers
+        app.reachesLayer = new ArcGISDynamicMapServiceLayer(sparrowServices, { id: "reach", visible: false, opacity: 0.6 });
+        app.reachesLayer.setLayerDefinitions(layerDefs);
+        app.reachesLayer.setVisibleLayers([4]);
+        mapLayers.push(app.reachesLayer);
+        mapLayerIds.push(app.reachesLayer.id);
+        //legendLayers.push({ layer: app.reachesLayer, title: "SPARROW Reaches" });
 
-        const phosHuc8Layer = new FeatureLayer(sparrowServices + "1", { id: "phosHuc8", visible: false, mode: FeatureLayer.MODE_SNAPSHOT, outFields:["GP3_AY"] });
-        phosHuc8Layer.setDefinitionExpression(definitionString);
-        phosHuc8Layer.setRenderer(hucRenderer);
-        mapLayers.push(phosHuc8Layer);
-        mapLayerIds.push(phosHuc8Layer.id);
-        legendLayers.push({ layer: phosHuc8Layer, title: "Phosphorus HUC8, Accumulated Yield" }); 
+        app.reachesLayer = new ArcGISDynamicMapServiceLayer(sparrowServices, { id: "gt150", visible: false, opacity: 0.75 });
+        app.reachesLayer.setLayerDefinitions(layerDefs);
+        app.reachesLayer.setVisibleLayers([5]);
+        mapLayers.push(app.reachesLayer);
+        mapLayerIds.push(app.reachesLayer.id);
+        //legendLayers.push({ layer: app.reachesLayer, title: "SPARROW Reaches > 150 cfs" });
+        
+        /* PHOSPHORUS HUC8*/
+
+        app.phosHuc8Layer = new ArcGISDynamicMapServiceLayer(sparrowServices, { id: "phosHuc8", visible: false, opacity: 0.75 });
+        app.phosHuc8Layer.setLayerDefinitions(layerDefs);
+        app.phosHuc8Layer.setVisibleLayers([1]);
+        mapLayers.push(app.phosHuc8Layer);
+        mapLayerIds.push(app.phosHuc8Layer.id);
+        generateRenderer("GP3_AY", 1);
         /*END PHOSPHORUS HUC8*/
 
         /* NITRO HUC8*/
-        var nitroHucRenderer = new ClassBreaksRenderer(borderSymbol, "GP3_AY");
-        nitroHucRenderer.addBreak(0, 14, new SimpleFillSymbol("solid", null).setColor(new Color([56, 168, 0, 0.5])));
-        nitroHucRenderer.addBreak(14, 75, new SimpleFillSymbol("solid", null).setColor(new Color([139, 209, 0, 0.5])));
-        nitroHucRenderer.addBreak(75, 175, new SimpleFillSymbol("solid", null).setColor(new Color([255, 255, 0, 0.5])));
-        nitroHucRenderer.addBreak(175, 400, new SimpleFillSymbol("solid", null).setColor(new Color([255, 128, 0, 0.5])));
-        nitroHucRenderer.addBreak(400, Infinity, new SimpleFillSymbol("solid", null).setColor(new Color([255, 0, 0, 0.5])));
-
-        const nitroHuc8Layer = new FeatureLayer(sparrowServices + "3", { id: "nitroHuc8", visible: false, mode: FeatureLayer.MODE_SNAPSHOT, outFields: ["GP3_AY"] });
-        nitroHuc8Layer.setDefinitionExpression(definitionString);
-        nitroHuc8Layer.setRenderer(nitroHucRenderer);
-        mapLayers.push(nitroHuc8Layer);
-        mapLayerIds.push(nitroHuc8Layer.id);
-        legendLayers.push({ layer: nitroHuc8Layer, title: "Nitrogen HUC8, Accumulated Yield" });
+        app.nitroHuc8Layer = new ArcGISDynamicMapServiceLayer(sparrowServices, { id: "nitroHuc8", visible: false, opacity: 0.75 });
+        app.nitroHuc8Layer.setLayerDefinitions(layerDefs);
+        app.nitroHuc8Layer.setVisibleLayers([3]);
+        mapLayers.push(app.nitroHuc8Layer);
+        mapLayerIds.push(app.nitroHuc8Layer.id);
+        generateRenderer("GP3_AY", 3);
         /*END NITRO  HUC8*/
 
-            /*PHOSPHORUS CATCHMENTS*/
-
-            /* app.phosCatLayer = new ArcGISDynamicMapServiceLayer(sparrowServices, { id: "phosCat", visible: false, opacity: 0.75 });
-            app.phosCatLayer.setLayerDefinitions(layerDefs);
-            app.phosCatLayer.setVisibleLayers([0]);
-            mapLayers.push(app.phosCatLayer);
-            mapLayerIds.push(app.phosCatLayer.id);
-            legendLayers.push({ layer: app.phosCatLayer, title: "Phosphorus Catchments, Incremental Yield" });
-            var RendererParams = { number: 4, id: "phosCat" };
-            generateRenderer("INCY", 0); */
-            var catRenderer = new ClassBreaksRenderer(borderSymbol, "INCY");
-            catRenderer.addBreak(0, 78, new SimpleFillSymbol("solid", null).setColor(new Color([56, 168, 0, 0.5])));
-            catRenderer.addBreak(78, 103, new SimpleFillSymbol("solid", null).setColor(new Color([139, 209, 0, 0.5])));
-            catRenderer.addBreak(103, 129, new SimpleFillSymbol("solid", null).setColor(new Color([255, 255, 0, 0.5])));
-            catRenderer.addBreak(129, 166, new SimpleFillSymbol("solid", null).setColor(new Color([255, 128, 0, 0.5])));
-            catRenderer.addBreak(166, Infinity, new SimpleFillSymbol("solid", null).setColor(new Color([255, 0, 0, 0.5])));
-
-            const phosCatLayer = new FeatureLayer(sparrowServices + "0", { id: "phosCat", visible: false, mode: FeatureLayer.MODE_SNAPSHOT, outFields: ["INCY"] });
-
-            phosCatLayer.setDefinitionExpression(definitionString);
-            phosCatLayer.setRenderer(catRenderer);
-            mapLayers.push(phosCatLayer);
-            mapLayerIds.push(phosCatLayer.id);
-            //legendLayers.push({ layer: phosCatLayer, title: "Phosphorus Catchments, Incremental Yield" }); 
-            /*END PHOSPHORUS CATCHMENTS*/
-            
-            /*NITROGEN CATCHMENTS*/
-            app.nitroCatLayer = new ArcGISDynamicMapServiceLayer(sparrowServices, { id: "nitroCat", visible: false, opacity: 0.75});
-            app.nitroCatLayer.setLayerDefinitions(layerDefs);
-            app.nitroCatLayer.setVisibleLayers([2]);
-            mapLayers.push(app.nitroCatLayer);
-            mapLayerIds.push(app.nitroCatLayer.id);
-            legendLayers.push({ layer: app.nitroCatLayer, title: "Nitrogen Catchments, Incremental Yield" });
-            var RendererParams = {number: 2, id: "nitroCat" };
-            generateRenderer("INCY", 2);
-            /*END NITROGEN CATCHMENTS*/
+        /*PHOSPHORUS CATCHMENTS*/
+        app.phosCatLayer = new ArcGISDynamicMapServiceLayer(sparrowServices, { id: "phosCat", visible: false, opacity: 0.75 });
+        app.phosCatLayer.setLayerDefinitions(layerDefs);
+        app.phosCatLayer.setVisibleLayers([0]);
+        mapLayers.push(app.phosCatLayer);
+        mapLayerIds.push(app.phosCatLayer.id);
+        generateRenderer("INCY", 0);
+        /*END PHOSPHORUS CATCHMENTS*/
+        
+        /*NITROGEN CATCHMENTS*/
+        app.nitroCatLayer = new ArcGISDynamicMapServiceLayer(sparrowServices, { id: "nitroCat", visible: false, opacity: 0.75});
+        app.nitroCatLayer.setLayerDefinitions(layerDefs);
+        app.nitroCatLayer.setVisibleLayers([2]);
+        mapLayers.push(app.nitroCatLayer);
+        mapLayerIds.push(app.nitroCatLayer.id);
+        var RendererParams = {number: 2, id: "nitroCat" };
+        generateRenderer("INCY", 2);
+        /*END NITROGEN CATCHMENTS*/
 
         
         function generateRenderer(field, layerIndex){
@@ -1290,11 +1272,18 @@ require([
             // limit the renderer to data being shown by the feature layer
             params.where = "GP3 IN('04100011-Sandusky', '04100010-Cedar-Portage', '04100008-Blanchard', '04100009-Lower Maumee', '04100007-Auglaize', '04100005-Upper Maumee', '04100004-St Marys', '04100003-St Joseph', '04100006-Tiffin', '04100001-Ottawa-Stony', '04100002-Raisin', '04110001-Black-Rocky', '04100012-Huron-Vermilion')";
             var generateRenderer = new GenerateRendererTask(url);
-            if (layerIndex == 2 ){
+            
+            if (layerIndex == 0) {
+                generateRenderer.execute(params, applyRenderer_phosCat, errorHandler);
+            }
+            if (layerIndex == 1) {
+                generateRenderer.execute(params, applyRenderer_phosHUC8, errorHandler);
+            }
+            if (layerIndex == 2) {
                 generateRenderer.execute(params, applyRenderer_nitroCat, errorHandler);
             }
-            if (layerIndex == 4) {
-                generateRenderer.execute(params, applyRenderer_phosCat, errorHandler);
+            if (layerIndex == 3) {
+                generateRenderer.execute(params, applyRenderer_nitroHUC8, errorHandler);
             }
             
         }
@@ -1302,28 +1291,43 @@ require([
             function errorHandler(err) {
                 console.log('generateRederer, error: ', err);
             }
-
         function applyRenderer_nitroCat(renderer){
             var optionsArray = [];
             var drawingOptions = new LayerDrawingOptions();
             drawingOptions.renderer = renderer;
             optionsArray[2] = drawingOptions; //must be the same as the relevant service layer ID
+            legendLayers.push({ layer: app.nitroCatLayer, title: "Nitrogen Catchments, Incremental Yield (kg/km2)" });
             map.getLayer('nitroCat').setLayerDrawingOptions(optionsArray);
             map.getLayer('nitroCat').refresh();
             
         }
-
         function applyRenderer_phosCat(renderer) {
             var optionsArray = [];
             var drawingOptions = new LayerDrawingOptions();
             drawingOptions.renderer = renderer;
             optionsArray[0] = drawingOptions; //must be the same as the relevant service layer ID
+            legendLayers.push({ layer: app.phosCatLayer, title: "Phosphorus Catchments, Incremental Yield (kg/km2)" });
             map.getLayer('phosCat').setLayerDrawingOptions(optionsArray);
             map.getLayer('phosCat').refresh();
-
-
         }
- 
+        function applyRenderer_phosHUC8(renderer) {
+            var optionsArray = [];
+            var drawingOptions = new LayerDrawingOptions();
+            drawingOptions.renderer = renderer;
+            optionsArray[1] = drawingOptions; //must be the same as the relevant service layer ID
+            legendLayers.push({ layer: app.phosHuc8Layer, title: "Phosphorus HUC8, Accumulated Yield (kg/km2)" });
+            map.getLayer('phosHuc8').setLayerDrawingOptions(optionsArray);
+            map.getLayer('phosHuc8').refresh();
+        }
+        function applyRenderer_nitroHUC8(renderer) {
+            var optionsArray = [];
+            var drawingOptions = new LayerDrawingOptions();
+            drawingOptions.renderer = renderer;
+            optionsArray[3] = drawingOptions; //must be the same as the relevant service layer ID
+            legendLayers.push({ layer: app.nitroHuc8Layer, title: "Nitrogen HUC8, Accumulated Yield (kg/km2)" });
+            map.getLayer('nitroHuc8').setLayerDrawingOptions(optionsArray);
+            map.getLayer('nitroHuc8').refresh();
+        }
 
         var phosPopup = new InfoTemplate();
         phosPopup.setTitle("Phosphorus HUC8, Accumulated Yield");
