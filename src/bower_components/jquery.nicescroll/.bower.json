@@ -1,8 +1,7 @@
 {
   "name": "jquery.nicescroll",
   "main": [
-    "./jquery.nicescroll.js",
-    "./zoomico.png"
+    "./jquery.nicescroll.min.js"
   ],
   "ignore": [
     "**/.*",
@@ -13,14 +12,14 @@
     "jquery": ">=1.8.3"
   },
   "homepage": "https://github.com/inuyaksa/jquery.nicescroll",
-  "version": "3.6.8",
-  "_release": "3.6.8",
+  "version": "3.7.6",
+  "_release": "3.7.6",
   "_resolution": {
     "type": "version",
-    "tag": "3.6.8",
-    "commit": "050267822f045f59d0b0d0ac5d84c36ff8c98e1e"
+    "tag": "3.7.6",
+    "commit": "54d164e97ac6e3b874481a30a5f816d8ff616233"
   },
   "_source": "https://github.com/inuyaksa/jquery.nicescroll.git",
-  "_target": "~3.6.0",
+  "_target": "~3.7.4",
   "_originalSource": "inuyaksa/jquery.nicescroll"
 }
